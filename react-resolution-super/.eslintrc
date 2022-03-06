@@ -1,8 +1,5 @@
 {
-  "plugins": [
-    "prettier",
-    "@typescript-eslint"
-  ],
+  "plugins": ["prettier", "@typescript-eslint"],
   "extends": [
     "airbnb-typescript",
     "react-app",
@@ -21,16 +18,16 @@
     }
   },
   "rules": {
-    "prettier/prettier": ["error", {
-      "endOfLine": "auto"
-    },
+    "prettier/prettier": [
+      "error",
       {
-      "usePrettierrc": true
-    }],
-    "object-curly-spacing": [
-      "warn",
-      "always"
+        "endOfLine": "auto"
+      },
+      {
+        "usePrettierrc": true
+      }
     ],
+    "object-curly-spacing": ["warn", "always"],
     "no-unused-vars": [
       "warn",
       {
