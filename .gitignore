@@ -80,27 +80,27 @@ fabric.properties
 out
 gen
 
-front/.idea
+react-resolution-super/.idea
 
 # dependencies
-front/node_modules
-front/.pnp
-front/.pnp.js
+react-resolution-super/node_modules
+react-resolution-super/.pnp
+react-resolution-super/.pnp.js
 
 # testing
-front/coverage
+react-resolution-super/coverage
 
 # production
-front/build
+react-resolution-super/build
 
 # misc
-front/.DS_Store
-front/.env.local
-front/.env.development.local
-front/.env.test.local
-front/.env.production.local
+react-resolution-super/.DS_Store
+react-resolution-super/.env.local
+react-resolution-super/.env.development.local
+react-resolution-super/.env.test.local
+react-resolution-super/.env.production.local
 
-front/npm-debug.log*
-front/yarn-debug.log*
-front/yarn-error.log*
+react-resolution-super/npm-debug.log*
+react-resolution-super/yarn-debug.log*
+react-resolution-super/yarn-error.log*
 
