@@ -2,6 +2,7 @@ import { AuthAction, AuthActionTypes, AuthState } from '../../types/authType'
 
 const initialState: AuthState = {
   accessToken: '',
+  user: { email: '', _id: 0, username: '' },
   role: [],
   isAuthorised: false,
 }
@@ -13,6 +14,7 @@ export const authReducer = (state = initialState, action: AuthAction) => {
       return {
         ...state,
         accessToken: payload.accessToken,
+        user: payload.user,
         role: payload.role,
         isAuthorised: true,
       }
@@ -21,6 +23,7 @@ export const authReducer = (state = initialState, action: AuthAction) => {
       return {
         ...state,
         accessToken: '',
+        user: {},
         role: '',
         isAuthorised: false,
       }

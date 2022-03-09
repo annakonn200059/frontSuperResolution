@@ -4,7 +4,7 @@ import { COLORS } from './constants/colors'
 export const GlobalStyle = createGlobalStyle`
   
   *{
-    font-family: Golos, sans-serif;
+    font-family: Averta Demo PE, sans-serif;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
   body {

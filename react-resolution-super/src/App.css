@@ -33,4 +33,18 @@
   src: url('assets/fonts/Golos-Text_VF.ttf');
 }
 
+@font-face {
+  font-family: 'Averta Demo PE';
+  src: url('assets/fonts/AvertaDemoPE-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Averta Demo PE';
+  src: url('assets/fonts/AvertaDemoPE-ExtraboldItalic.ttf');
+  font-weight: 800;
+  font-style: italic;
+}
+
 

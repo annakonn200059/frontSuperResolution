@@ -43,7 +43,7 @@ export const Routing = () => {
         }
       />
       <Route
-        path={'/'}
+        path={'/profile'}
         element={
           <RouterContent
             isPrivate={true}

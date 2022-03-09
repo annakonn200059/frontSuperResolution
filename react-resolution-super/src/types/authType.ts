@@ -3,6 +3,11 @@ export type AuthType = {
   role: string
   isAuthorised: boolean
 }
+export type User = {
+  email: string
+  username: string
+  _id: number
+}
 
 export enum AuthActionTypes {
   LOGIN = 'LOGIN',
@@ -11,13 +16,14 @@ export enum AuthActionTypes {
 
 export type AuthState = {
   accessToken: string
+  user: User
   role: string[]
   isAuthorised: boolean
 }
 
 interface Login {
   type: AuthActionTypes.LOGIN
-  payload: { accessToken: string; role: string[] }
+  payload: { accessToken: string; user: User; role: string[] }
 }
 
 interface Logout {

@@ -1,17 +1,36 @@
 import { apiRequest } from '../request'
 import { handlerError } from 'utils/handlerError'
 
-interface TCodeCheckResponse {
+interface TLoginResponse {
   success: boolean
   token: string
-  user: { id: number; username: string; email: string }
+  user: { _id: number; username: string; email: string }
   // role: string[]
+}
+
+interface TRegisterResponse {
+  msg: string
+  success: boolean
+  userID: number
+}
+
+export const registerAuth = async (
+  email: string,
+  password: string,
+  username: string
+): Promise<TRegisterResponse> => {
+  const resp = await apiRequest().post('/api/users/register', {
+    email,
+    password,
+    username,
+  })
+  return resp.data
 }
 
 export const loginAuth = async (
   email: string,
   password: string
-): Promise<TCodeCheckResponse> => {
+): Promise<TLoginResponse> => {
   const resp = await apiRequest().post('/api/users/login', {
     email,
     password,
