@@ -33,6 +33,10 @@ export const LogoText = styled.div`
 export const TabsContainer = styled.div`
   display: flex;
   align-items: center;
+  position: relative;
+  padding: 8px 55px;
+  background-color: ${COLORS.backgroundGrey};
+  border-radius: 16px;
 `
 
 export interface IIcon {
@@ -49,9 +53,41 @@ export const Photo = styled.div<IIcon>`
   margin-right: 15px;
 `
 
-export const MenuClosed = styled.div``
+export const MenuClosed = styled.div`
+  cursor: pointer;
+`
 
-export const MenuHandler = styled(ChevronDown)``
+interface IChevron {
+  menuOpen: boolean
+}
+
+export const MenuHandler = styled(ChevronDown)<IChevron>`
+  transform: ${(props) => (props.menuOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
+`
+
+export const DropdownMenu = styled.div`
+  position: absolute;
+  bottom: -40px;
+  z-index: -1;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0 0 16px 16px;
+  background-color: ${COLORS.backgroundGrey};
+  padding: 30px 0 10px 0;
+`
+
+export const MenuItem = styled.div`
+  width: 100%;
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  color: ${COLORS.lightGrey};
+`
 
 export const LoginText = styled.div`
   font-weight: 600;

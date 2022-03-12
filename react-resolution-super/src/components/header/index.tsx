@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import * as ST from './styled'
 import IsAuth from 'utils/checkAuth'
 import { NavLink } from 'react-router-dom'
+import { logoutAuth } from 'api/auth'
 
 const Header = () => {
   const [imgUser, setImgUser] = useState<string>('')
+  const [menuOpen, setMenuOpen] = useState<boolean>(false)
   return (
     <>
       <ST.HeaderContainer>
@@ -17,7 +19,15 @@ const Header = () => {
             <>
               <ST.Photo imageSrc={imgUser}></ST.Photo>
               <ST.MenuClosed>
-                <ST.MenuHandler></ST.MenuHandler>
+                <ST.MenuHandler
+                  menuOpen={menuOpen}
+                  onClick={() => setMenuOpen((prevState) => !prevState)}
+                ></ST.MenuHandler>
+                {menuOpen && (
+                  <ST.DropdownMenu>
+                    <ST.MenuItem onClick={logoutAuth}>Logout</ST.MenuItem>
+                  </ST.DropdownMenu>
+                )}
               </ST.MenuClosed>
             </>
           ) : (

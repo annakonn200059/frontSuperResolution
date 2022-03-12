@@ -4,9 +4,17 @@ const API_ENDPOINT = process.env.ENDPOINT
   ? process.env.ENDPOINT
   : ' http://localhost:5000'
 
-export function apiRequest() {
-  const headers = {
-    'Content-Type': 'application/json',
+export function apiRequest(token?: string) {
+  let headers
+  if (token) {
+    headers = {
+      'Content-Type': 'application/json',
+      Authorization: token,
+    }
+  } else {
+    headers = {
+      'Content-Type': 'application/json',
+    }
   }
   return axios.create({
     baseURL: API_ENDPOINT,

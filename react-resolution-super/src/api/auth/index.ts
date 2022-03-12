@@ -1,5 +1,6 @@
 import { apiRequest } from '../request'
-import { handlerError } from 'utils/handlerError'
+import { store } from 'store/store'
+import { AuthState } from '../../types/authType'
 
 interface TLoginResponse {
   success: boolean
@@ -39,7 +40,13 @@ export const loginAuth = async (
 }
 
 export const logoutAuth = async () => {
-  const resp = await apiRequest().post('/api/users/logout', {})
+  const jsonUserData = localStorage.getItem('auth')
+  let userData
+  if (jsonUserData) {
+    userData = JSON.parse(jsonUserData)
+  }
+  const reqToken = userData.accessToken ? userData.accessToken : ''
+  const resp = await apiRequest(reqToken).post('/api/users/logout', {})
   localStorage.clear()
   sessionStorage.clear()
   window.location.reload()
