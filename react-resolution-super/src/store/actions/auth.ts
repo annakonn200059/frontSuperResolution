@@ -17,5 +17,6 @@ export const login = (
 export const logout = (): ((dispatch: Dispatch<AuthAction>) => void) => {
   return (dispatch: Dispatch<AuthAction>) => {
     dispatch({ type: AuthActionTypes.LOGOUT })
+    localStorage.removeItem('auth')
   }
 }
