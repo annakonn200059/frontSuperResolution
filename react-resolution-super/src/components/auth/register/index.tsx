@@ -43,7 +43,7 @@ export const Register = ({ setIsAdmin, setStep }: PropsRegisterStep) => {
         })
         .catch((e) => {
           handleIsDisabled()
-          setErrorText(e.response.data.message)
+          setErrorText(e.response.data.msg)
         })
     },
     validationSchema: Yup.object().shape({

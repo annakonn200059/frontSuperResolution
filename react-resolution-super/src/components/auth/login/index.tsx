@@ -36,7 +36,6 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
       handleIsDisabled()
       loginAuth(values.email, values.password)
         .then((resp) => {
-          console.log('resp', resp)
           const roleArr = isAdmin ? ['ADMIN'] : ['USER']
           dispatch(login(resp.token, resp.user, roleArr))
           handleIsDisabled()
@@ -44,7 +43,7 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
         })
         .catch((e) => {
           handleIsDisabled()
-          setErrorText(e.response.data.message)
+          setErrorText(e.response.data.msg)
         })
     },
     validationSchema: Yup.object().shape({
