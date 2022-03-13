@@ -1,9 +1,10 @@
 import React, { FC, useEffect } from 'react'
 import './App.css'
 import { useDispatch } from 'react-redux'
-import { login } from 'store/actions/auth'
+import { login, logout } from 'store/actions/auth'
 import { AuthState, User } from 'types/authType'
 import { Routing } from 'routing'
+import { checkAuth } from './api/auth'
 
 const App: FC = () => {
   const dispatch = useDispatch()
@@ -15,7 +16,17 @@ const App: FC = () => {
     if (jsonUserData) {
       const userData: AuthState = JSON.parse(jsonUserData)
       if (userData.accessToken) {
-        loginHandler(userData.accessToken, userData.user, userData.role)
+        try {
+          checkAuth(userData.accessToken).then((resp) => {
+            if (resp.success) {
+              loginHandler(userData.accessToken, userData.user, userData.role)
+            } else {
+              dispatch(logout())
+            }
+          })
+        } catch (err) {
+          dispatch(logout())
+        }
       }
     }
   }, [])

@@ -39,16 +39,19 @@ export const loginAuth = async (
   return resp.data
 }
 
-export const logoutAuth = async () => {
+export const logoutAuth = async (accessToken?: string) => {
   const jsonUserData = localStorage.getItem('auth')
   let userData
   if (jsonUserData) {
     userData = JSON.parse(jsonUserData)
   }
-  const reqToken = userData.accessToken ? userData.accessToken : ''
+  const reqToken = accessToken || userData.accessToken || ''
   const resp = await apiRequest(reqToken).post('/api/users/logout', {})
-  localStorage.clear()
-  sessionStorage.clear()
-  window.location.reload()
+
+  return resp.data
+}
+
+export const checkAuth = async (accessToken: string) => {
+  const resp = await apiRequest(accessToken).post('/api/users/checkToken', {})
   return resp.data
 }

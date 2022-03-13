@@ -3,10 +3,17 @@ import * as ST from './styled'
 import IsAuth from 'utils/checkAuth'
 import { NavLink } from 'react-router-dom'
 import { logoutAuth } from 'api/auth'
+import { logout } from 'store/actions/auth'
+import { useDispatch } from 'react-redux'
 
 const Header = () => {
   const [imgUser, setImgUser] = useState<string>('')
   const [menuOpen, setMenuOpen] = useState<boolean>(false)
+  const dispatch = useDispatch()
+
+  const handleLogout = () => {
+    logoutAuth().then(dispatch(logout()))
+  }
   return (
     <>
       <ST.HeaderContainer>
@@ -17,15 +24,15 @@ const Header = () => {
         <ST.TabsContainer>
           {IsAuth() ? (
             <>
-              <ST.Photo imageSrc={imgUser}></ST.Photo>
+              <ST.Photo imageSrc={imgUser} />
               <ST.MenuClosed>
                 <ST.MenuHandler
                   menuOpen={menuOpen}
                   onClick={() => setMenuOpen((prevState) => !prevState)}
-                ></ST.MenuHandler>
+                />
                 {menuOpen && (
                   <ST.DropdownMenu>
-                    <ST.MenuItem onClick={logoutAuth}>Logout</ST.MenuItem>
+                    <ST.MenuItem onClick={handleLogout}>Logout</ST.MenuItem>
                   </ST.DropdownMenu>
                 )}
               </ST.MenuClosed>
