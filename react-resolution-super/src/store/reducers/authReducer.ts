@@ -3,7 +3,7 @@ import { AuthAction, AuthActionTypes, AuthState } from '../../types/authType'
 const initialState: AuthState = {
   accessToken: '',
   user: { email: '', _id: 0, username: '' },
-  role: [],
+  role: '',
   isAuthorised: false,
 }
 

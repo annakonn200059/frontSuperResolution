@@ -8,7 +8,7 @@ import { checkAuth } from './api/auth'
 
 const App: FC = () => {
   const dispatch = useDispatch()
-  const loginHandler = (token: string, user: User, role: string[]) => {
+  const loginHandler = (token: string, user: User, role: string) => {
     dispatch(login(token, user, role))
   }
   useEffect(() => {

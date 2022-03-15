@@ -5,11 +5,13 @@ import { NavLink } from 'react-router-dom'
 import { logoutAuth } from 'api/auth'
 import { logout } from 'store/actions/auth'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
   const [imgUser, setImgUser] = useState<string>('')
   const [menuOpen, setMenuOpen] = useState<boolean>(false)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleLogout = () => {
     logoutAuth().then(dispatch(logout()))
@@ -32,6 +34,9 @@ const Header = () => {
                 />
                 {menuOpen && (
                   <ST.DropdownMenu>
+                    <ST.MenuItem onClick={() => navigate('/profile')}>
+                      Profile
+                    </ST.MenuItem>
                     <ST.MenuItem onClick={handleLogout}>Logout</ST.MenuItem>
                   </ST.DropdownMenu>
                 )}

@@ -67,7 +67,7 @@ export const MenuHandler = styled(ChevronDown)<IChevron>`
 
 export const DropdownMenu = styled.div`
   position: absolute;
-  bottom: -40px;
+  bottom: -80px;
   z-index: -1;
   left: 0;
   width: 100%;
@@ -87,6 +87,7 @@ export const MenuItem = styled.div`
   align-items: center;
   font-weight: 600;
   color: ${COLORS.lightGrey};
+  margin-bottom: 10px;
 `
 
 export const LoginText = styled.div`

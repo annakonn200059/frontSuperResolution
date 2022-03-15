@@ -17,13 +17,13 @@ export enum AuthActionTypes {
 export type AuthState = {
   accessToken: string
   user: User
-  role: string[]
+  role: string
   isAuthorised: boolean
 }
 
 interface Login {
   type: AuthActionTypes.LOGIN
-  payload: { accessToken: string; user: User; role: string[] }
+  payload: { accessToken: string; user: User; role: string }
 }
 
 interface Logout {
