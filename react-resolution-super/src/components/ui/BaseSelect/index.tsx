@@ -1,8 +1,7 @@
 import React, { FC, useEffect, useState } from 'react'
 import * as ST from './styled'
 import { useDispatch } from 'react-redux'
-
-//export type IItem<T> = boolean | number | string
+import InformModal from '../Modals/InfromModal'
 
 interface Props {
   placeHolder: string
@@ -33,6 +32,11 @@ const BaseSelect: FC<Props> = ({
   const [valueSelect, setValueSelect] = useState<string>('')
   const [visibleValues, setVisibleValues] = useState<boolean>(false)
   const [visibleItem, setVisibleItem] = useState<number>(-1)
+  const [showModal, setShowModal] = useState<boolean>(false)
+
+  const handleModal = (): void => {
+    setShowModal(!showModal)
+  }
 
   const dispatch = useDispatch()
   const handleClickSelect = (): void => {
@@ -65,50 +69,57 @@ const BaseSelect: FC<Props> = ({
         passValue!(type, value)
       }
     } else {
-      alert('NOT ACTIVE')
+      handleModal()
     }
     setVisibleValues(true)
     setTimeout(() => setOpen(!open), 150)
   }
   return (
-    <ST.SelectBlock>
-      <ST.Select
-        onClick={handleClickSelect}
-        isOpen={open}
-        readOnly={true}
-        placeholder={visibleValues ? '' : placeHolder}
-        value={visibleValues ? valueSelect : ''}
-        isSmallSelect={isSmallSelect}
+    <>
+      <ST.SelectBlock>
+        <ST.Select
+          onClick={handleClickSelect}
+          isOpen={open}
+          readOnly={true}
+          placeholder={visibleValues ? '' : placeHolder}
+          value={visibleValues ? valueSelect : ''}
+          isSmallSelect={isSmallSelect}
+        />
+        <ST.DropDownList isOpen={open} isSmallSelect={isSmallSelect}>
+          {open
+            ? listItems!.map((item, index) => {
+                let activeEl = true
+                if (activeElements) {
+                  activeEl = activeElements.indexOf(item) !== -1
+                }
+                return (
+                  <ST.ListItem
+                    active={activeEl}
+                    key={index}
+                    onClick={() =>
+                      handleClick(
+                        item,
+                        index,
+                        typeSelect!,
+                        listItems![index],
+                        activeEl
+                      )
+                    }
+                    className={visibleItem === index ? 'active' : ''}
+                  >
+                    {item}
+                  </ST.ListItem>
+                )
+              })
+            : null}
+        </ST.DropDownList>
+      </ST.SelectBlock>
+      <InformModal
+        text={'This coefficient is available only for authorized users'}
+        show={showModal}
+        onClose={handleModal}
       />
-      <ST.DropDownList isOpen={open} isSmallSelect={isSmallSelect}>
-        {open
-          ? listItems!.map((item, index) => {
-              let activeEl = true
-              if (activeElements) {
-                activeEl = activeElements.indexOf(item) !== -1
-              }
-              return (
-                <ST.ListItem
-                  active={activeEl}
-                  key={index}
-                  onClick={() =>
-                    handleClick(
-                      item,
-                      index,
-                      typeSelect!,
-                      listItems![index],
-                      activeEl
-                    )
-                  }
-                  className={visibleItem === index ? 'active' : ''}
-                >
-                  {item}
-                </ST.ListItem>
-              )
-            })
-          : null}
-      </ST.DropDownList>
-    </ST.SelectBlock>
+    </>
   )
 }
 

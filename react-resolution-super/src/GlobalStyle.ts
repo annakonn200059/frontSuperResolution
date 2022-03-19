@@ -11,6 +11,8 @@ export const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     position: relative;
+    height: 100%;
+    width: 100%;
     background: ${COLORS.white};
   }
   ol, ul {

@@ -6,7 +6,7 @@ import ImageEmployee from 'assets/images/employee.jpg'
 
 export const HeaderContainer = styled.div`
   display: flex;
-  height: 65px;
+  height: 10vh;
   padding: 20px 80px;
   align-items: center;
   justify-content: space-between;

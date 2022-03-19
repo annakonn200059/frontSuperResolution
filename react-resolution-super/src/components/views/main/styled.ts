@@ -3,7 +3,7 @@ import { COLORS } from '../../../constants/colors'
 
 export const MainWrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
   border-radius: 30px 30px 0 0;
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@ export const MainWrapper = styled.div`
 
 export const IntroContainer = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 65vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,8 +25,7 @@ export const DropBoxContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 50vh;
-  padding-bottom: 50vh;
+  padding-top: 25vh;
 `
 
 export const MainHeader = styled.div`
