@@ -13,9 +13,6 @@ const DefaultPopup: FC<ISelectProps> = ({
   show,
   onClose,
 }: ISelectProps) => {
-  //const modalRoot = document.createElement('div')
-  //modalRoot.setAttribute('id', 'modal-root')
-
   return (
     <>
       {show ? (

@@ -9,9 +9,16 @@ import BoxContent from './boxContent'
 interface IDropField {
   handleOnDrop: (newImageFile: File[]) => void
   files: File[]
+  resetForm: () => void
+  value: File[]
 }
 
-const DropZoneField = ({ handleOnDrop, files }: IDropField) => {
+const DropZoneField = ({
+  handleOnDrop,
+  files,
+  resetForm,
+  value,
+}: IDropField) => {
   const {
     getRootProps,
     getInputProps,
@@ -24,10 +31,12 @@ const DropZoneField = ({ handleOnDrop, files }: IDropField) => {
     accept: 'image/jpeg, image/png, image/gif, image/bmp',
   })
 
+  const fileUploaded: boolean = files.length > 0
+
   const filesArr = files.map((file) => (
-    <li key={file.name}>
+    <ST.FileItem key={file.name}>
       {file.name} - {file.size} bytes
-    </li>
+    </ST.FileItem>
   ))
 
   useEffect(() => {
@@ -35,20 +44,21 @@ const DropZoneField = ({ handleOnDrop, files }: IDropField) => {
   }, [acceptedFiles])
 
   return (
-    <ST.ContainerDropBox>
+    <ST.ContainerDropBox active={fileUploaded}>
       <ST.DropeZone {...getRootProps({ className: 'dropzone' })}>
         <input {...getInputProps()} />
         <ST.ImageBox />
         <ST.HeaderBox>
-          Drag and drop some files here, or click to select files
+          Drag and drop image here, or click to select from folder
         </ST.HeaderBox>
       </ST.DropeZone>
-      {files.length > 0 && (
+      {fileUploaded && (
         <ST.FileNamesContainer>
-          <ST.FileNameHeader>Files List:</ST.FileNameHeader>
+          <ST.FileNameHeader>Image was uploaded!</ST.FileNameHeader>
           <ST.FileName>{filesArr}</ST.FileName>
         </ST.FileNamesContainer>
       )}
+      {fileUploaded && <ST.DeleteButton onClick={resetForm} />}
     </ST.ContainerDropBox>
   )
 }

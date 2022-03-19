@@ -21,12 +21,14 @@ export const Modal = styled.div`
   width: 840px;
   background: ${COLORS.white};
   border-radius: 15px;
-  backdropfilter: blur(8px);
 `
 
 export const ModalContent = styled.div`
   padding: 40px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 export const Close = styled.div`
   position: absolute;

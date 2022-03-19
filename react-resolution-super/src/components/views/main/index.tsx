@@ -1,10 +1,4 @@
-import React, {
-  MutableRefObject,
-  ReactEventHandler,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
 import * as ST from './styled'
 import DropBox from 'components/dropbox'
 import { AuthState } from '../../../types/authType'
@@ -20,13 +14,10 @@ export const Main = () => {
   const [coefficients, setCoefficients] = useState<number[]>([])
 
   useEffect(() => {
-    //TODO добавить условие что у пользователя нет подписки
-    if (!stateUser || !stateUser.accessToken) {
-      getCoefficients().then((resp) => {
-        setCoefficients(resp.coefficients)
-      })
-    }
-  }, [coefficients])
+    getCoefficients().then((resp) => {
+      setCoefficients(resp.coefficients)
+    })
+  }, [])
 
   const onSectionDropBox = (ref: MutableRefObject<HTMLDivElement | null>) => {
     ref &&

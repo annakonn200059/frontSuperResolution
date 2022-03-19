@@ -1,7 +1,8 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, ReactElement, useEffect, useState } from 'react'
 import * as ST from './styled'
 import { useDispatch } from 'react-redux'
 import InformModal from '../Modals/InfromModal'
+import { useNavigate } from 'react-router-dom'
 
 interface Props {
   placeHolder: string
@@ -10,11 +11,12 @@ interface Props {
   passValue?: (type: string, currentValue: string) => void
   typeSelect?: string
   name?: string
-  value?: string
+  value?: any
   setActive?: (str: string) => void
   activeSelect?: string | null
   setChosen?: (any: number) => void
   activeElements?: any[]
+  modalText?: string | ReactElement
 }
 
 const BaseSelect: FC<Props> = ({
@@ -27,6 +29,7 @@ const BaseSelect: FC<Props> = ({
   activeSelect,
   setChosen,
   activeElements,
+  modalText,
 }) => {
   const [open, setOpen] = useState<boolean>(false)
   const [valueSelect, setValueSelect] = useState<string>('')
@@ -38,7 +41,6 @@ const BaseSelect: FC<Props> = ({
     setShowModal(!showModal)
   }
 
-  const dispatch = useDispatch()
   const handleClickSelect = (): void => {
     setOpen(!open)
     if (setActive) {
@@ -68,12 +70,13 @@ const BaseSelect: FC<Props> = ({
       if (passValue) {
         passValue!(type, value)
       }
+      setVisibleValues(true)
     } else {
       handleModal()
     }
-    setVisibleValues(true)
     setTimeout(() => setOpen(!open), 150)
   }
+
   return (
     <>
       <ST.SelectBlock>
@@ -114,11 +117,7 @@ const BaseSelect: FC<Props> = ({
             : null}
         </ST.DropDownList>
       </ST.SelectBlock>
-      <InformModal
-        text={'This coefficient is available only for authorized users'}
-        show={showModal}
-        onClose={handleModal}
-      />
+      <InformModal text={modalText} show={showModal} onClose={handleModal} />
     </>
   )
 }

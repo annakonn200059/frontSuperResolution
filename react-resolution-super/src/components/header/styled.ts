@@ -15,6 +15,7 @@ export const HeaderContainer = styled.div`
 export const LogoContainer = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
 `
 
 export const Logo = styled(LogoImg)`
@@ -51,6 +52,7 @@ export const Photo = styled.div<IIcon>`
   border-radius: 50%;
   background-size: 81px 45px;
   margin-right: 15px;
+  margin-bottom: 10px;
 `
 
 export const MenuClosed = styled.div`
@@ -58,17 +60,17 @@ export const MenuClosed = styled.div`
 `
 
 interface IChevron {
-  menuOpen: boolean
+  menuopen: boolean
 }
 
 export const MenuHandler = styled(ChevronDown)<IChevron>`
-  transform: ${(props) => (props.menuOpen ? 'rotate(180deg)' : 'rotate(0deg)')};
+  transform: ${(props) => (props.menuopen ? 'rotate(180deg)' : 'rotate(0deg)')};
 `
 
 export const DropdownMenu = styled.div`
   position: absolute;
-  bottom: -80px;
-  z-index: -1;
+  bottom: -70px;
+  z-index: 999;
   left: 0;
   width: 100%;
   display: flex;
@@ -76,7 +78,8 @@ export const DropdownMenu = styled.div`
   align-items: center;
   border-radius: 0 0 16px 16px;
   background-color: ${COLORS.backgroundGrey};
-  padding: 30px 0 10px 0;
+  padding: 10px 0 10px 0;
+  box-shadow: 0 10px 4px -4px rgba(184, 203, 222, 0.6);
 `
 
 export const MenuItem = styled.div`

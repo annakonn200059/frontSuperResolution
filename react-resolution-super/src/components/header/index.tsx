@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
   const [imgUser, setImgUser] = useState<string>('')
-  const [menuOpen, setMenuOpen] = useState<boolean>(false)
+  const [menuopen, setMenuOpen] = useState<boolean>(false)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -19,7 +19,7 @@ const Header = () => {
   return (
     <>
       <ST.HeaderContainer>
-        <ST.LogoContainer>
+        <ST.LogoContainer onClick={() => navigate('/')}>
           <ST.Logo />
           <ST.LogoText>Logo</ST.LogoText>
         </ST.LogoContainer>
@@ -29,10 +29,10 @@ const Header = () => {
               <ST.Photo imageSrc={imgUser} />
               <ST.MenuClosed>
                 <ST.MenuHandler
-                  menuOpen={menuOpen}
+                  menuopen={menuopen}
                   onClick={() => setMenuOpen((prevState) => !prevState)}
                 />
-                {menuOpen && (
+                {menuopen && (
                   <ST.DropdownMenu>
                     <ST.MenuItem onClick={() => navigate('/profile')}>
                       Profile
