@@ -4,6 +4,12 @@ import UploadImage from 'assets/images/Upload_Illustration.svg'
 import { ReactComponent as Trash } from 'assets/icons/delete.svg'
 import Zip from 'assets/icons/file_zip.svg'
 
+export const DropArea = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
 export const DropeZone = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -113,8 +119,9 @@ export const SubmitButton = styled.button`
 `
 
 export const ErrorText = styled.div`
-  font-size: 14px;
+  margin-top: 20px;
   line-height: 140%;
   color: ${COLORS.errorRed};
   margin-bottom: 15px;
+  font-size: 16px;
 `

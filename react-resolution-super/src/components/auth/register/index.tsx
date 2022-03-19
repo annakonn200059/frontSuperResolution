@@ -17,7 +17,6 @@ interface PropsRegisterStep {
 
 export const Register = ({ setIsAdmin, setStep }: PropsRegisterStep) => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const stateUser = useSelector<RootState, AuthState>((state) => state.auth)
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
@@ -36,8 +35,8 @@ export const Register = ({ setIsAdmin, setStep }: PropsRegisterStep) => {
       handleIsDisabled()
       registerAuth(values.email, values.password, values.username)
         .then((resp) => {
-          console.log('resp', resp)
-          setIsAdmin(true)
+          //console.log('resp', resp)
+          //setIsAdmin(true)
           handleIsDisabled()
           setStep(2)
         })

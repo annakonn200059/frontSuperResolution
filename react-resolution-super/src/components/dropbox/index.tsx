@@ -5,9 +5,8 @@ import DropZoneField from './dropField'
 import BaseSelect from 'components/ui/BaseSelect'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
-import { loginAuth } from '../../api/auth'
-import { login } from '../../store/actions/auth'
-import * as Yup from 'yup'
+import { checkUploadsAmount } from '../../api/subscription'
+import InformModal from '../ui/Modals/InfromModal'
 
 interface IDropBox {
   stateUser: AuthState
@@ -17,8 +16,14 @@ interface IDropBox {
 const DropBox = ({ stateUser, coefficients }: IDropBox) => {
   const [files, setFiles] = useState<File[]>([])
   const navigate = useNavigate()
+  const [showModal, setShowModal] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
   const [chosenCoefficient, setChosenCoefficient] = useState<number>(-1)
+
+  const handleModal = (): void => {
+    setShowModal(!showModal)
+  }
+
   const handleFormSubmit = (formProps: any) => {
     const fd = new FormData()
     fd.append('imageFile', formProps.imageToUpload[0])
@@ -43,6 +48,17 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
       const submit: boolean = checkFilledData()
       if (submit) {
         setErrorText('')
+        checkUploadsAmount()
+          .then((resp) => {
+            if (resp.success) {
+              alert('you can upload')
+            } else {
+              handleModal()
+            }
+          })
+          .catch((e) => {
+            setErrorText('Server error')
+          })
       }
     },
   })
@@ -69,6 +85,13 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
     </ST.ModalHeader>
   )
 
+  const uploadsEndedText = (
+    <ST.ModalHeader>
+      You have no possible uploads left.{' '}
+      <ST.LoginLink onClick={redirectLogin}> Login</ST.LoginLink> to access more
+    </ST.ModalHeader>
+  )
+
   const activeElements = (): number[] => {
     let allowedCoeffs: number[]
     if (!stateUser.accessToken) {
@@ -81,7 +104,7 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
 
   const resetForm = (): void => setFiles([])
   return (
-    <section>
+    <ST.DropArea>
       <DropZoneField
         handleOnDrop={handleOnDrop}
         files={files}
@@ -110,7 +133,12 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
         </ST.SubmitButton>
       </ST.ButtonContainer>
       <ST.ErrorText>{errorText ? errorText : ''}</ST.ErrorText>
-    </section>
+      <InformModal
+        text={uploadsEndedText}
+        show={showModal}
+        onClose={handleModal}
+      />
+    </ST.DropArea>
   )
 }
 
