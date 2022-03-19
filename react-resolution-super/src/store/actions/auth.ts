@@ -6,17 +6,24 @@ export const login = (
   user: { email: string; username: string; _id: number },
   role: string
 ): ((dispatch: Dispatch<AuthAction>) => void) => {
+  //TODO сделать метод получения коэффициентов залогиненного юзера
+  const coefficients: number[] = []
   return (dispatch: Dispatch<AuthAction>) => {
     dispatch({
       type: AuthActionTypes.LOGIN,
-      payload: { accessToken: token, user: user, role: role },
+      payload: {
+        accessToken: token,
+        user: user,
+        role: role,
+        coefficients: coefficients,
+      },
     })
   }
 }
 
 export const logout = (): ((dispatch: Dispatch<AuthAction>) => void) => {
+  localStorage.removeItem('auth')
   return (dispatch: Dispatch<AuthAction>) => {
     dispatch({ type: AuthActionTypes.LOGOUT })
-    localStorage.removeItem('auth')
   }
 }

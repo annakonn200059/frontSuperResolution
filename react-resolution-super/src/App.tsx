@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useCallback, useEffect } from 'react'
 import './App.css'
 import { useDispatch } from 'react-redux'
 import { login, logout } from 'store/actions/auth'
@@ -11,19 +11,23 @@ const App: FC = () => {
   const loginHandler = (token: string, user: User, role: string) => {
     dispatch(login(token, user, role))
   }
+
   useEffect(() => {
     const jsonUserData = localStorage.getItem('auth')
     if (jsonUserData) {
       const userData: AuthState = JSON.parse(jsonUserData)
       if (userData.accessToken) {
         try {
-          checkAuth(userData.accessToken).then((resp) => {
-            if (resp.success) {
-              loginHandler(userData.accessToken, userData.user, userData.role)
-            } else {
-              dispatch(logout())
-            }
-          })
+          const fetchMyAPI = async () => {
+            checkAuth(userData.accessToken).then((resp) => {
+              if (resp.success) {
+                loginHandler(userData.accessToken, userData.user, userData.role)
+              } else {
+                dispatch(logout())
+              }
+            })
+          }
+          fetchMyAPI()
         } catch (err) {
           dispatch(logout())
         }

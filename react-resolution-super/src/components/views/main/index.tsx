@@ -1,17 +1,34 @@
-import React, { MutableRefObject, ReactEventHandler, useRef } from 'react'
+import React, {
+  MutableRefObject,
+  ReactEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import * as ST from './styled'
 import DropBox from 'components/dropbox'
 import { AuthState } from '../../../types/authType'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../store/store'
+import { getCoefficients } from 'api/subscription'
 
 export const Main = () => {
   const stateUser: AuthState = useSelector<RootState, AuthState>(
     (state) => state.auth
   )
   const chooseRef = useRef<HTMLDivElement | null>(null)
+  const [coefficients, setCoefficients] = useState<number[]>([])
+
+  useEffect(() => {
+    //TODO добавить условие что у пользователя нет подписки
+    if (!stateUser || !stateUser.accessToken) {
+      getCoefficients().then((resp) => {
+        setCoefficients(resp.coefficients)
+      })
+    }
+  }, [coefficients])
+
   const onSectionDropBox = (ref: MutableRefObject<HTMLDivElement | null>) => {
-    console.log(ref)
     ref &&
       ref.current?.scrollIntoView({
         block: 'center',
@@ -31,7 +48,7 @@ export const Main = () => {
       </ST.IntroContainer>
       <ST.DropBoxContainer ref={chooseRef}>
         <ST.DropHeader>Upload your image below:</ST.DropHeader>
-        <DropBox stateUser={stateUser} />
+        <DropBox stateUser={stateUser} coefficients={coefficients} />
       </ST.DropBoxContainer>
     </ST.MainWrapper>
   )

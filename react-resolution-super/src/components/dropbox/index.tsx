@@ -2,14 +2,16 @@ import React, { useCallback, useState } from 'react'
 import * as ST from './styled'
 import { AuthState } from '../../types/authType'
 import DropZoneField from './dropField'
+import BaseSelect from 'components/ui/BaseSelect'
 
 interface IDropBox {
   stateUser: AuthState
+  coefficients: number[]
 }
 
-const DropBox = (props: IDropBox) => {
+const DropBox = ({ stateUser, coefficients }: IDropBox) => {
   const [files, setFiles] = useState<File[]>([])
-
+  const [chosenCoefficient, setChosenCoefficient] = useState<number>(-1)
   const handleFormSubmit = (formProps: any) => {
     const fd = new FormData()
     fd.append('imageFile', formProps.imageToUpload[0])
@@ -21,11 +23,27 @@ const DropBox = (props: IDropBox) => {
     },
     [files]
   )
-  const resetForm = () => setFiles([])
+  const handleAddBlockInstitution = useCallback(
+    (num: number) => {
+      setChosenCoefficient(num)
+    },
+    [chosenCoefficient]
+  )
 
+  const resetForm = () => setFiles([])
   return (
     <section>
       <DropZoneField handleOnDrop={handleOnDrop} files={files} />
+      <BaseSelect
+        isSmallSelect={true}
+        placeHolder={'Coefficients'}
+        listItems={coefficients}
+        name={'departmentHead'}
+        value={'sdsdf'}
+        typeSelect={'departmentHead'}
+        setChosen={handleAddBlockInstitution}
+        activeElements={[coefficients[0]]}
+      />
       <button
         type="submit"
         //disabled={this.props.submitting}

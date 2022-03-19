@@ -2,6 +2,7 @@ export type AuthType = {
   accessToken: string
   role: string
   isAuthorised: boolean
+  coefficients: number[]
 }
 export type User = {
   email: string
@@ -19,11 +20,17 @@ export type AuthState = {
   user: User
   role: string
   isAuthorised: boolean
+  coefficients: number[]
 }
 
 interface Login {
   type: AuthActionTypes.LOGIN
-  payload: { accessToken: string; user: User; role: string }
+  payload: {
+    accessToken: string
+    user: User
+    role: string
+    coefficients: number[]
+  }
 }
 
 interface Logout {
