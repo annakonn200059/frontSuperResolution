@@ -5,7 +5,7 @@ import DropZoneField from './dropField'
 import BaseSelect from 'components/ui/BaseSelect'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
-import { checkUploadsAmount } from '../../api/subscription'
+import { checkUploadsAmount, sendImageData } from '../../api/subscription'
 import InformModal from '../ui/Modals/InfromModal'
 
 interface IDropBox {
@@ -24,10 +24,17 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
     setShowModal(!showModal)
   }
 
-  const handleFormSubmit = (formProps: any) => {
+  const handleFormSubmit = async (formProps: any) => {
     const fd = new FormData()
-    fd.append('imageFile', formProps.imageToUpload[0])
-    alert(JSON.stringify(formProps, null, 4))
+    //console.log(formProps)
+    fd.append('imageFile', formProps)
+    fd.append('coefficient', '' + chosenCoefficient)
+    try {
+      const resp = await sendImageData(fd)
+      console.log('resp', resp)
+    } catch (err) {
+      setErrorText('Error')
+    }
   }
   const handleOnDrop = useCallback(
     (newImageFile: File[]) => {
@@ -51,13 +58,13 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
         checkUploadsAmount()
           .then((resp) => {
             if (resp.success) {
-              alert('you can upload')
+              handleFormSubmit(files[0])
             } else {
               handleModal()
             }
           })
-          .catch((e) => {
-            setErrorText('Server error')
+          .catch((err) => {
+            setErrorText('Error')
           })
       }
     },

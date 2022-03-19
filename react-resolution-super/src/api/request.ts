@@ -21,3 +21,21 @@ export function apiRequest(token?: string) {
     headers: headers,
   })
 }
+
+export function apiRequestFile(token?: string) {
+  let headers
+  if (token) {
+    headers = {
+      'Content-Type': 'multipart/form-data',
+      apiKey: token,
+    }
+  } else {
+    headers = {
+      'Content-Type': 'multipart/form-data',
+    }
+  }
+  return axios.create({
+    baseURL: API_ENDPOINT,
+    headers: headers,
+  })
+}

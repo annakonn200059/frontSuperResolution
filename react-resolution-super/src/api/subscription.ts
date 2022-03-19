@@ -1,4 +1,4 @@
-import { apiRequest } from './request'
+import { apiRequest, apiRequestFile } from './request'
 
 interface IGetCoeffs {
   coefficients: number[]
@@ -16,5 +16,10 @@ export const getCoefficients = async (): Promise<IGetCoeffs> => {
 
 export const checkUploadsAmount = async (): Promise<ICheckUploadsAmount> => {
   const resp = await apiRequest().get('/api/checkUploadsAmount')
+  return resp.data
+}
+
+export const sendImageData = async (fd: any): Promise<any> => {
+  const resp = await apiRequestFile().post('/api/uploadImage', fd)
   return resp.data
 }
