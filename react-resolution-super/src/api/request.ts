@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_ENDPOINT = process.env.ENDPOINT
+export const API_ENDPOINT = process.env.ENDPOINT
   ? process.env.ENDPOINT
   : ' http://localhost:5000'
 

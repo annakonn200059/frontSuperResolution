@@ -118,6 +118,12 @@ export const SubmitButton = styled.button`
   }
 `
 
+export const DownloadPhotoLink = styled.p`
+  color: ${COLORS.blue};
+  text-decoration: underline;
+  margin-top: 20px;
+`
+
 export const ErrorText = styled.div`
   margin-top: 20px;
   line-height: 140%;

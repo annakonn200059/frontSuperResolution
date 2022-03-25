@@ -5,8 +5,10 @@ import DropZoneField from './dropField'
 import BaseSelect from 'components/ui/BaseSelect'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
+import { API_ENDPOINT } from '../../api/request'
 import { checkUploadsAmount, sendImageData } from '../../api/subscription'
 import InformModal from '../ui/Modals/InfromModal'
+import { saveAs } from 'file-saver'
 
 interface IDropBox {
   stateUser: AuthState
@@ -19,19 +21,32 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
   const [showModal, setShowModal] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
   const [chosenCoefficient, setChosenCoefficient] = useState<number>(-1)
+  const [downloadItem, setDownloadItem] = useState<string>('')
+  const [availableUploads, setAvailableUploads] = useState<number | undefined>(
+    0
+  )
 
   const handleModal = (): void => {
     setShowModal(!showModal)
   }
 
   const handleFormSubmit = async (formProps: any) => {
+    if (formProps.name.split('.').length > 2) {
+      setErrorText('File name includes more than one dots')
+      return false
+    }
     const fd = new FormData()
-    //console.log(formProps)
     fd.append('imageFile', formProps)
     fd.append('coefficient', '' + chosenCoefficient)
     try {
-      const resp = await sendImageData(fd)
-      console.log('resp', resp)
+      sendImageData(fd)
+        .then((resp) => {
+          setErrorText('')
+          setDownloadItem(resp.msg)
+        })
+        .catch((e) => {
+          setErrorText(e.response.data.msg)
+        })
     } catch (err) {
       setErrorText('Error')
     }
@@ -42,6 +57,11 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
     },
     [files]
   )
+
+  const downloadFile = () => {
+    saveAs(`${API_ENDPOINT}/api/downloadImage?image=${downloadItem}`)
+  }
+
   const handleSetCoefficient = useCallback(
     (num: number) => {
       setChosenCoefficient(num)
@@ -60,6 +80,7 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
             if (resp.success) {
               handleFormSubmit(files[0])
             } else {
+              setAvailableUploads(resp.availableAmount)
               handleModal()
             }
           })
@@ -94,8 +115,9 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
 
   const uploadsEndedText = (
     <ST.ModalHeader>
-      You have no possible uploads left.{' '}
+      Sorry, You have no possible uploads left.{' '}
       <ST.LoginLink onClick={redirectLogin}> Login</ST.LoginLink> to access more
+      than {availableUploads} uploads
     </ST.ModalHeader>
   )
 
@@ -139,6 +161,12 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
           Submit
         </ST.SubmitButton>
       </ST.ButtonContainer>
+      {downloadItem && (
+        <ST.DownloadPhotoLink onClick={downloadFile}>
+          {' '}
+          DOWNLOAD YOUR SUPER IMAGE
+        </ST.DownloadPhotoLink>
+      )}
       <ST.ErrorText>{errorText ? errorText : ''}</ST.ErrorText>
       <InformModal
         text={uploadsEndedText}

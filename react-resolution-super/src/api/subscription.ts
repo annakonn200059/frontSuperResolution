@@ -7,6 +7,7 @@ interface IGetCoeffs {
 interface ICheckUploadsAmount {
   success: boolean
   msg: string
+  availableAmount?: number
 }
 
 export const getCoefficients = async (): Promise<IGetCoeffs> => {
