@@ -1,6 +1,5 @@
 export type AuthType = {
   accessToken: string
-  role: string
   isAuthorised: boolean
   coefficients: number[]
 }
@@ -8,6 +7,7 @@ export type User = {
   email: string
   username: string
   _id: number
+  role: string
 }
 
 export enum AuthActionTypes {
@@ -18,7 +18,6 @@ export enum AuthActionTypes {
 export type AuthState = {
   accessToken: string
   user: User
-  role: string
   isAuthorised: boolean
   coefficients: number[]
 }
@@ -28,7 +27,6 @@ interface Login {
   payload: {
     accessToken: string
     user: User
-    role: string
     coefficients: number[]
   }
 }

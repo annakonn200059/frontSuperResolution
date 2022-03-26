@@ -8,8 +8,8 @@ import { checkAuth } from './api/auth'
 
 const App: FC = () => {
   const dispatch = useDispatch()
-  const loginHandler = (token: string, user: User, role: string) => {
-    dispatch(login(token, user, role))
+  const loginHandler = (token: string, user: User) => {
+    dispatch(login(token, user))
   }
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const App: FC = () => {
           const fetchMyAPI = async () => {
             checkAuth(userData.accessToken).then((resp) => {
               if (resp.success) {
-                loginHandler(userData.accessToken, userData.user, userData.role)
+                loginHandler(userData.accessToken, userData.user)
               } else {
                 dispatch(logout())
               }

@@ -14,4 +14,6 @@ export enum COLORS {
   yellowActiveButton = '#FECE3C',
   overlay = '#00000080',
   lightGrey = '#6D7580',
+  darkBlue = '#1B2559',
+  neutral3 = '#545D69',
 }

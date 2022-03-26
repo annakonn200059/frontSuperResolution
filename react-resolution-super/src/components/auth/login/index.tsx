@@ -36,7 +36,7 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
       handleIsDisabled()
       loginAuth(values.email, values.password)
         .then((resp) => {
-          dispatch(login(resp.token, resp.user, resp.role))
+          dispatch(login(resp.token, resp.user))
           handleIsDisabled()
           navigate('/profile')
         })

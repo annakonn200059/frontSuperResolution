@@ -5,8 +5,7 @@ import { AuthState } from '../../types/authType'
 interface TLoginResponse {
   success: boolean
   token: string
-  user: { _id: number; username: string; email: string }
-  role: string
+  user: { _id: number; username: string; email: string; role: string }
 }
 
 interface TRegisterResponse {
