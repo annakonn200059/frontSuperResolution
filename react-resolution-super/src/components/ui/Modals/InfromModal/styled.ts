@@ -5,9 +5,12 @@ export const PopupContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  white-space: pre-line;
 `
 
-export const HeaderText = styled.div``
+export const HeaderText = styled.div`
+  text-align: center;
+`
 
 export const PopupCloseButton = styled.button`
   margin-top: 20px;

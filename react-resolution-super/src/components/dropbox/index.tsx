@@ -116,8 +116,12 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
   const uploadsEndedText = (
     <ST.ModalHeader>
       Sorry, You have no possible uploads left.{' '}
-      <ST.LoginLink onClick={redirectLogin}> Login</ST.LoginLink> to access more
-      than {availableUploads} uploads
+      {stateUser.accessToken ? (
+        '\nPurchase the subscription'
+      ) : (
+        <ST.LoginLink onClick={redirectLogin}> Login</ST.LoginLink>
+      )}{' '}
+      to access more than {availableUploads} uploads
     </ST.ModalHeader>
   )
 

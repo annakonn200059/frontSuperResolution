@@ -122,6 +122,7 @@ export const DownloadPhotoLink = styled.p`
   color: ${COLORS.blue};
   text-decoration: underline;
   margin-top: 20px;
+  cursor: pointer;
 `
 
 export const ErrorText = styled.div`
