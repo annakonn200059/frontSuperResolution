@@ -1,8 +1,6 @@
 import React, { FC, ReactElement, useEffect, useState } from 'react'
 import * as ST from './styled'
-import { useDispatch } from 'react-redux'
 import InformModal from '../Modals/InfromModal'
-import { useNavigate } from 'react-router-dom'
 
 interface Props {
   placeHolder: string
@@ -15,6 +13,7 @@ interface Props {
   setActive?: (str: string) => void
   activeSelect?: string | null
   setChosen?: (any: number) => void
+  setIndex?: (any: number) => void
   activeElements?: any[]
   modalText?: string | ReactElement
 }
@@ -29,6 +28,7 @@ const BaseSelect: FC<Props> = ({
   activeSelect,
   setChosen,
   activeElements,
+  setIndex,
   modalText,
 }) => {
   const [open, setOpen] = useState<boolean>(false)
@@ -66,6 +66,9 @@ const BaseSelect: FC<Props> = ({
       setValueSelect(item)
       if (setChosen) {
         setChosen(item)
+      }
+      if (setIndex) {
+        setIndex(index)
       }
       if (passValue) {
         passValue!(type, value)
@@ -117,7 +120,9 @@ const BaseSelect: FC<Props> = ({
             : null}
         </ST.DropDownList>
       </ST.SelectBlock>
-      <InformModal text={modalText} show={showModal} onClose={handleModal} />
+      {modalText && (
+        <InformModal text={modalText} show={showModal} onClose={handleModal} />
+      )}
     </>
   )
 }

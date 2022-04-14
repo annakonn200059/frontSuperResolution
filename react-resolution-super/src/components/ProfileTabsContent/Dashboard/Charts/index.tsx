@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 import * as ST from './styled'
 import {
   Chart as ChartJS,
@@ -14,12 +14,12 @@ import {
 } from 'chart.js'
 import DatePicker, { registerLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import * as zoom from 'chartjs-plugin-zoom'
-import { Chart, Pie, Line } from 'react-chartjs-2'
+import { Line } from 'react-chartjs-2'
 import enGB from 'date-fns/locale/en-GB'
 import { getChartsData } from 'api/dashboard'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import { DateTime } from 'luxon'
+import BaseSelect from '../../../ui/BaseSelect'
 
 ChartJS.register(zoomPlugin)
 ChartJS.register(...registerablesJS)
@@ -34,88 +34,31 @@ ChartJS.register(
   Tooltip
 )
 
-function range(start: any, end: any) {
-  return (
-    Array(end - start + 1)
-      //.fill()
-      .map((_, idx) => start + idx)
-  )
-}
 interface ICharts {
   loginChart: any[]
   registerChart: any[]
 }
 
-export const Charts = () => {
+interface IChartModel {
+  chartData: any[]
+  labelOption: string
+}
+
+const ChartModel: FC<IChartModel> = ({
+  chartData,
+  labelOption,
+}: IChartModel) => {
+  const chartRef = useRef<any | null>(null)
   const [startDate, setStartDate] = useState<Date | null>(() => {
     let date = new Date()
     return new Date(date.setDate(date.getDate() - 3))
   })
   const [endDate, setEndDate] = useState<Date | null>(new Date())
-  const [chartData, setChartData] = useState<ICharts>({
-    loginChart: [],
-    registerChart: [],
-  })
-
-  const onChangeDashboard = useCallback(() => {
-    getChartsData().then((data) => setChartData(data))
-  }, [chartData])
 
   useEffect(() => {
     registerLocale('en-GB', enGB)
   }, [])
 
-  useEffect(() => {
-    onChangeDashboard()
-  }, [])
-
-  const zoomOptions = {
-    pan: {
-      enabled: true,
-      mode: 'xy',
-    },
-    zoom: {
-      wheel: {
-        enabled: true,
-      },
-      pinch: {
-        enabled: true,
-      },
-      mode: 'xy',
-      /*onZoomComplete({ chart }) {
-        // This update is needed to display up to date zoom level in the title.
-        // Without this, previous zoom level is displayed.
-        // The reason is: title uses the same beforeUpdate hook, and is evaluated before zoom.
-        chart.update('none')
-      },*/
-    },
-  }
-  /* const options = {
-    responsive: true,
-    scales: {
-      x: {
-        //type: 'time',
-        //min: startDate?.toDateString(),
-        //max: endDate?.toDateString(),
-      },
-    },
-    pan: {
-      enabled: true,
-      mode: 'xy',
-    },
-    zoom: {
-      enabled: true,
-      mode: 'xy',
-    },
-    title: {
-      display: false,
-    },
-
-    legend: {
-      display: false,
-    },
-    plugins: {},
-  }*/
   const getDateTime = (curDate: Date) => {
     return DateTime.fromJSDate(curDate)
   }
@@ -153,9 +96,7 @@ export const Charts = () => {
 
   const findDateElements = (labels: string[]) => {
     return labels.map((date: String) => {
-      const item = chartData.loginChart.find(
-        (element: any) => element.x === date
-      )
+      const item = chartData.find((element: any) => element.x === date)
       return item ? item.y : 0
     })
   }
@@ -170,16 +111,62 @@ export const Charts = () => {
     labels: labels,
     datasets: [
       {
-        //label: labels,
+        label: labelOption,
         data: findDateElements(labels),
         fill: false,
-        borderColor: 'rgb(75, 192, 192)',
+        borderColor: '#5561FF',
         tension: 0.1,
       },
     ],
   }
 
-  const options = {}
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      zoom: {
+        limits: {
+          y: { min: -10 },
+        },
+        pan: {
+          enabled: true,
+        },
+        zoom: {
+          wheel: { enabled: true, speed: 0.05, mode: 'xy' },
+          drag: { enabled: true },
+          onZoomComplete({ chart }: any) {
+            chart.update('none')
+          },
+        },
+      },
+    },
+    scales: {
+      x: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Time period',
+        },
+      },
+      y: {
+        display: true,
+        title: {
+          display: true,
+          text: `Amount of ${labelOption}`,
+        },
+      },
+    },
+  }
+
+  const resetZoom = () => {
+    chartRef.current.resetZoom()
+  }
+  const zoomIn = () => {
+    chartRef.current.zoom(1.3)
+  }
+  const zoomOut = () => {
+    chartRef.current.zoom(0.7)
+  }
 
   return (
     <ST.Container>
@@ -205,8 +192,45 @@ export const Charts = () => {
         dateFormat="dd/MM/yyyy"
       />
       <ST.Chart>
-        <Line data={data2} options={options} />
+        <button onClick={resetZoom}>Reset Zoom </button>
+        <button onClick={zoomIn}>Zoom in</button>
+        <button onClick={zoomOut}>Zoom out</button>
+        <Line data={data2} options={options} ref={chartRef} />
       </ST.Chart>
     </ST.Container>
+  )
+}
+
+export const ChartControl = () => {
+  const [chartData, setChartData] = useState<ICharts>({
+    loginChart: [],
+    registerChart: [],
+  })
+  const [chosenChart, setChosenChart] = useState<number>(0)
+  const labels: string[] = ['logins', 'registers']
+  const chosenChartData = Object.values(chartData)[chosenChart]
+
+  const onChangeDashboard = useCallback(() => {
+    getChartsData().then((data) => setChartData(data))
+  }, [chartData])
+
+  useEffect(() => {
+    onChangeDashboard()
+  }, [])
+  return (
+    <>
+      <BaseSelect
+        isSmallSelect={true}
+        placeHolder={'Chose the chart'}
+        listItems={labels}
+        name={'chart'}
+        setIndex={setChosenChart}
+      />
+      <br />
+      <ChartModel
+        chartData={chosenChartData}
+        labelOption={labels[chosenChart]}
+      />
+    </>
   )
 }
