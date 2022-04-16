@@ -1,5 +1,7 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 import * as ST from './styled'
+import 'react-datepicker/dist/react-datepicker.css'
+import './styled.css'
 import {
   Chart as ChartJS,
   ArcElement,
@@ -13,13 +15,15 @@ import {
   registerables as registerablesJS,
 } from 'chart.js'
 import DatePicker, { registerLocale } from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
 import { Line } from 'react-chartjs-2'
 import enGB from 'date-fns/locale/en-GB'
 import { getChartsData } from 'api/dashboard'
 import zoomPlugin from 'chartjs-plugin-zoom'
 import { DateTime } from 'luxon'
 import BaseSelect from '../../../ui/BaseSelect'
+import { COLORS } from 'constants/colors'
+import ZoomIn from 'assets/icons/Chart/zoom-in.svg'
+import ZoomOut from 'assets/icons/Chart/zoom-out.svg'
 
 ChartJS.register(zoomPlugin)
 ChartJS.register(...registerablesJS)
@@ -54,7 +58,20 @@ const ChartModel: FC<IChartModel> = ({
     return new Date(date.setDate(date.getDate() - 3))
   })
   const [endDate, setEndDate] = useState<Date | null>(new Date())
-
+  const months = [
+    'Январь',
+    'Февраль',
+    'Март',
+    'Апрель',
+    'Май',
+    'Июнь',
+    'Июль',
+    'Август',
+    'Сентябрь',
+    'Октябрь',
+    'Ноябрь',
+    'Декабрь',
+  ]
   useEffect(() => {
     registerLocale('en-GB', enGB)
   }, [])
@@ -170,31 +187,144 @@ const ChartModel: FC<IChartModel> = ({
 
   return (
     <ST.Container>
-      <DatePicker
-        className="datepicker"
-        locale={'en-GB'}
-        selected={startDate}
-        onChange={(date) => setStartDate(date)}
-        selectsStart
-        dateFormat="dd/MM/yyyy"
-        startDate={startDate}
-        endDate={endDate}
-      />
-      <DatePicker
-        className="datepicker"
-        locale={'en-GB'}
-        selected={endDate}
-        onChange={(date) => setEndDate(date)}
-        selectsEnd
-        startDate={startDate}
-        endDate={endDate}
-        minDate={startDate}
-        dateFormat="dd/MM/yyyy"
-      />
+      <ST.DatePickerContainer>
+        <DatePicker
+          className="datepicker"
+          locale={'en-GB'}
+          selected={startDate}
+          onChange={(date) => setStartDate(date)}
+          selectsStart
+          dateFormat="dd.MM.yyyy"
+          customInput={<ST.Input />}
+          startDate={startDate}
+          endDate={endDate}
+          renderCustomHeader={({
+            date,
+            decreaseMonth,
+            increaseMonth,
+            increaseYear,
+            decreaseYear,
+            prevMonthButtonDisabled,
+          }) => (
+            <div
+              style={{
+                margin: 5,
+                marginBottom: 10,
+                display: 'flex',
+                justifyContent: 'space-between',
+                backgroundColor: `${COLORS.white}`,
+              }}
+            >
+              <ST.ButtonCalendarContainer>
+                <ST.ButtonBack
+                  style={{
+                    backgroundColor: `${COLORS.white}`,
+                  }}
+                  onClick={decreaseMonth}
+                  disabled={prevMonthButtonDisabled}
+                />
+                <ST.HeaderText>{months[date.getMonth()]}</ST.HeaderText>
+                <ST.ButtonForward
+                  onClick={increaseMonth}
+                  style={{
+                    backgroundColor: `${COLORS.white}`,
+                  }}
+                />
+              </ST.ButtonCalendarContainer>
+              <ST.ButtonCalendarContainer>
+                <ST.ButtonBack
+                  onClick={decreaseYear}
+                  style={{
+                    backgroundColor: `${COLORS.white}`,
+                  }}
+                />
+                <ST.HeaderText>{date.getFullYear()}</ST.HeaderText>
+                <ST.ButtonForward
+                  onClick={increaseYear}
+                  style={{
+                    backgroundColor: `${COLORS.white}`,
+                  }}
+                />
+              </ST.ButtonCalendarContainer>
+            </div>
+          )}
+        />
+        {'-'}
+        <DatePicker
+          className="datepicker"
+          locale={'en-GB'}
+          selected={endDate}
+          customInput={<ST.Input />}
+          onChange={(date) => setEndDate(date)}
+          selectsEnd
+          startDate={startDate}
+          endDate={endDate}
+          minDate={startDate}
+          dateFormat="dd.MM.yyyy"
+          renderCustomHeader={({
+            date,
+            decreaseMonth,
+            increaseMonth,
+            increaseYear,
+            decreaseYear,
+          }) => (
+            <div
+              style={{
+                margin: 5,
+                marginBottom: 10,
+                display: 'flex',
+                justifyContent: 'space-between',
+                backgroundColor: `${COLORS.white}`,
+              }}
+            >
+              <ST.ButtonCalendarContainer>
+                <ST.ButtonBack
+                  style={{
+                    backgroundColor: `${COLORS.white}`,
+                  }}
+                  onClick={decreaseMonth}
+                />
+                <ST.HeaderText>{months[date.getMonth()]}</ST.HeaderText>
+                <ST.ButtonForward
+                  onClick={increaseMonth}
+                  style={{
+                    backgroundColor: `${COLORS.white}`,
+                  }}
+                />
+              </ST.ButtonCalendarContainer>
+              <ST.ButtonCalendarContainer>
+                <ST.ButtonBack
+                  onClick={decreaseYear}
+                  style={{
+                    backgroundColor: `${COLORS.white}`,
+                  }}
+                />
+                <ST.HeaderText>{date.getFullYear()}</ST.HeaderText>
+                <ST.ButtonForward
+                  onClick={increaseYear}
+                  style={{
+                    backgroundColor: `${COLORS.white}`,
+                  }}
+                />
+              </ST.ButtonCalendarContainer>
+            </div>
+          )}
+        />
+      </ST.DatePickerContainer>
+      <ST.ButtonContainer>
+        <ST.ResetZoomButton onClick={resetZoom}>Reset Zoom </ST.ResetZoomButton>
+        <ST.ZoomInButton
+          src={ZoomIn}
+          alt={'zoom in'}
+          onClick={() => zoomIn()}
+        />
+        <ST.ZoomOutButton
+          onClick={() => zoomOut()}
+          alt={'zoom out'}
+          src={ZoomOut}
+        />
+      </ST.ButtonContainer>
       <ST.Chart>
-        <button onClick={resetZoom}>Reset Zoom </button>
-        <button onClick={zoomIn}>Zoom in</button>
-        <button onClick={zoomOut}>Zoom out</button>
         <Line data={data2} options={options} ref={chartRef} />
       </ST.Chart>
     </ST.Container>
@@ -218,19 +348,18 @@ export const ChartControl = () => {
     onChangeDashboard()
   }, [])
   return (
-    <>
+    <ST.ChartControlContainer>
       <BaseSelect
         isSmallSelect={true}
-        placeHolder={'Chose the chart'}
+        placeHolder={labels[chosenChart]}
         listItems={labels}
         name={'chart'}
         setIndex={setChosenChart}
       />
-      <br />
       <ChartModel
         chartData={chosenChartData}
         labelOption={labels[chosenChart]}
       />
-    </>
+    </ST.ChartControlContainer>
   )
 }
