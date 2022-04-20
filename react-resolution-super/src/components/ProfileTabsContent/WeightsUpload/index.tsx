@@ -1,22 +1,29 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import * as ST from './styled'
 import { checkUploadsAmount } from 'api/subscription'
 import { DropField } from './DropField'
 import BaseSelect from '../../ui/BaseSelect'
 import { useFormik } from 'formik'
 import { sendWeightFile } from 'api/dashboard'
-
-//TODO коэффициенты в стейт
+import { CoefficientsState } from 'types/coefficients'
+import { useSelector } from 'react-redux'
+import { RootState } from 'store/store'
 
 export const WeightsUpload = () => {
-  const [coefficients, setCoefficients] = useState<number[]>([])
   const [files, setFiles] = useState<File[]>([])
   const [chosenWeight, setChosenWeight] = useState<number>(-1)
   const [errorText, setErrorText] = useState<string>('')
+  const [isLoading, setLoading] = useState(false)
+  const availableExtensions = ['pth', 'pt']
+
+  const coefficients: CoefficientsState = useSelector<
+    RootState,
+    CoefficientsState
+  >((state) => state.coeffs)
 
   const handleOnDrop = useCallback(
-    (newImageFile: File[]) => {
-      setFiles(newImageFile)
+    (newWeightFile: File[]) => {
+      setFiles(newWeightFile)
     },
     [files]
   )
@@ -35,6 +42,11 @@ export const WeightsUpload = () => {
   const handleDataSubmit = async (formProps: any) => {
     if (formProps.name.split('.').length > 2) {
       setErrorText('File name includes more than one dots')
+      return false
+    }
+
+    if (!availableExtensions.includes(formProps.name.split('.')[1])) {
+      setErrorText('File extension must be .pth or .pt')
       return false
     }
     const fd = new FormData()
@@ -59,17 +71,14 @@ export const WeightsUpload = () => {
       const submit: boolean = checkFilledFields()
       if (submit) {
         setErrorText('')
-        checkUploadsAmount()
-          .then((resp) => {
-            if (resp.success) {
-              handleDataSubmit(files[0])
-            } else {
-              setErrorText('Error')
-            }
-          })
-          .catch((err) => {
-            setErrorText('Error')
-          })
+        setLoading(true)
+        try {
+          handleDataSubmit(files[0])
+          setLoading(false)
+        } catch (err) {
+          setLoading(false)
+          setErrorText('Error in uploading')
+        }
       }
     },
   })
@@ -92,12 +101,14 @@ export const WeightsUpload = () => {
             files={files}
             resetForm={resetForm}
             value={values.file}
+            setError={setErrorText}
+            isLoading={isLoading}
           />
           <ST.ButtonContainer>
             <BaseSelect
               isSmallSelect={true}
               placeHolder={'Coefficients'}
-              listItems={coefficients}
+              listItems={coefficients.coefficients}
               name={'Coefficients'}
               value={values.weightValue}
               typeSelect={'Coefficients'}

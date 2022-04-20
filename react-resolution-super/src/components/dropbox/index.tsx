@@ -15,7 +15,6 @@ interface IDropBox {
   coefficients: number[]
 }
 //TODO вынести dropbox с селектом в отдельную компоненту и использовать тут и в профиле админа
-//TODO коэффициенты в стейт
 const DropBox = ({ stateUser, coefficients }: IDropBox) => {
   const [files, setFiles] = useState<File[]>([])
   const navigate = useNavigate()

@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useEffect, useRef, useState } from 'react'
+import React, { MutableRefObject, useRef } from 'react'
 import * as ST from './styled'
 import DropBox from 'components/dropbox'
 import { AuthState } from 'types/authType'

@@ -1,12 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import * as ST from 'components/dropbox/styled'
 import { useDropzone } from 'react-dropzone'
+import { Preloader } from '../../../preloader'
 
 interface IDropZone {
   handleOnDrop: (newImageFile: File[]) => void
   files: File[]
   resetForm: () => void
   value: File[]
+  setError: React.Dispatch<React.SetStateAction<string>>
+  isLoading: boolean
 }
 
 export const DropField = ({
@@ -14,6 +17,8 @@ export const DropField = ({
   files,
   resetForm,
   value,
+  setError,
+  isLoading,
 }: IDropZone) => {
   const {
     getRootProps,
@@ -24,7 +29,6 @@ export const DropField = ({
     acceptedFiles,
   } = useDropzone({
     onDrop: handleOnDrop,
-    accept: '.pth, .pt',
   })
 
   const fileUploaded: boolean = files.length > 0
@@ -39,12 +43,24 @@ export const DropField = ({
     handleOnDrop(acceptedFiles)
   }, [acceptedFiles])
 
+  useEffect(() => {
+    if (isDragReject) setError('Choose correct file format')
+  }, [isDragReject])
+
   return (
     <ST.ContainerDropBox active={fileUploaded}>
       <ST.DropeZone {...getRootProps({ className: 'dropzone' })}>
-        <input {...getInputProps()} />
-        <ST.ImageBox />
-        <ST.HeaderBox>Select weight and upload .pth or .pt file</ST.HeaderBox>
+        {!isLoading ? (
+          <>
+            <input {...getInputProps()} />
+            <ST.ImageBox />
+            <ST.HeaderBox>
+              Select weight and upload .pth or .pt file
+            </ST.HeaderBox>
+          </>
+        ) : (
+          <Preloader />
+        )}
       </ST.DropeZone>
       {fileUploaded && (
         <ST.FileNamesContainer>
