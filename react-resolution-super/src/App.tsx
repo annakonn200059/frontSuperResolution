@@ -1,16 +1,23 @@
-import React, { FC, useCallback, useEffect } from 'react'
+import React, { FC, useEffect } from 'react'
 import './App.css'
 import { useDispatch } from 'react-redux'
 import { login, logout } from 'store/actions/auth'
+import { setCoefficients } from './store/actions/coefficient'
 import { AuthState, User } from 'types/authType'
 import { Routing } from 'routing'
 import { checkAuth } from './api/auth'
+import { getCoefficients } from './api/subscription'
 
 const App: FC = () => {
   const dispatch = useDispatch()
   const loginHandler = (token: string, user: User) => {
     dispatch(login(token, user))
   }
+  useEffect(() => {
+    getCoefficients().then((resp) =>
+      dispatch(setCoefficients(resp.coefficients))
+    )
+  }, [])
 
   useEffect(() => {
     const jsonUserData = localStorage.getItem('auth')

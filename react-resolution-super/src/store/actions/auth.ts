@@ -5,15 +5,12 @@ export const login = (
   token: string,
   user: { email: string; username: string; _id: number; role: string }
 ): ((dispatch: Dispatch<AuthAction>) => void) => {
-  //TODO сделать метод получения коэффициентов залогиненного юзера
-  const coefficients: number[] = []
   return (dispatch: Dispatch<AuthAction>) => {
     dispatch({
       type: AuthActionTypes.LOGIN,
       payload: {
         accessToken: token,
         user: user,
-        coefficients: coefficients,
       },
     })
   }
