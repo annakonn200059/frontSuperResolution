@@ -5,8 +5,8 @@ import DropZoneField from './dropField'
 import BaseSelect from 'components/ui/BaseSelect'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
-import { API_ENDPOINT } from '../../api/request'
-import { checkUploadsAmount, sendImageData } from '../../api/subscription'
+import { API_ENDPOINT } from 'api/request'
+import { checkUploadsAmount, sendImageData } from 'api/subscription'
 import InformModal from '../ui/Modals/InfromModal'
 import { saveAs } from 'file-saver'
 
@@ -14,7 +14,7 @@ interface IDropBox {
   stateUser: AuthState
   coefficients: number[]
 }
-
+//TODO вынести dropbox с селектом в отдельную компоненту и использовать тут и в профиле админа
 const DropBox = ({ stateUser, coefficients }: IDropBox) => {
   const [files, setFiles] = useState<File[]>([])
   const navigate = useNavigate()
@@ -116,8 +116,12 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
   const uploadsEndedText = (
     <ST.ModalHeader>
       Sorry, You have no possible uploads left.{' '}
-      <ST.LoginLink onClick={redirectLogin}> Login</ST.LoginLink> to access more
-      than {availableUploads} uploads
+      {stateUser.accessToken ? (
+        '\nPurchase the subscription'
+      ) : (
+        <ST.LoginLink onClick={redirectLogin}> Login</ST.LoginLink>
+      )}{' '}
+      to access more than {availableUploads} uploads
     </ST.ModalHeader>
   )
 

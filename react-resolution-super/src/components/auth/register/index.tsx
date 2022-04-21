@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import * as ST from './styled'
 import { useNavigate } from 'react-router-dom'
-// import IsAuth from 'utils/checkAuth'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { login } from 'store/actions/auth'
 import { registerAuth } from 'api/auth'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
 import { AuthState } from 'types/authType'
 
@@ -35,8 +33,6 @@ export const Register = ({ setIsAdmin, setStep }: PropsRegisterStep) => {
       handleIsDisabled()
       registerAuth(values.email, values.password, values.username)
         .then((resp) => {
-          //console.log('resp', resp)
-          //setIsAdmin(true)
           handleIsDisabled()
           setStep(2)
         })
@@ -89,6 +85,13 @@ export const Register = ({ setIsAdmin, setStep }: PropsRegisterStep) => {
           disabled={isDisabled}
           id={'password'}
           name={'password'}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              e.stopPropagation()
+              handleSubmit()
+            }
+          }}
         />
         <ST.ErrorText>{errorText ? errorText : errors.email}</ST.ErrorText>
       </ST.InputsContainer>

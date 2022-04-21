@@ -1,13 +1,8 @@
-export type AuthType = {
-  accessToken: string
-  role: string
-  isAuthorised: boolean
-  coefficients: number[]
-}
 export type User = {
   email: string
   username: string
   _id: number
+  role: string
 }
 
 export enum AuthActionTypes {
@@ -18,9 +13,7 @@ export enum AuthActionTypes {
 export type AuthState = {
   accessToken: string
   user: User
-  role: string
   isAuthorised: boolean
-  coefficients: number[]
 }
 
 interface Login {
@@ -28,8 +21,6 @@ interface Login {
   payload: {
     accessToken: string
     user: User
-    role: string
-    coefficients: number[]
   }
 }
 
@@ -38,27 +29,3 @@ interface Logout {
 }
 
 export type AuthAction = Login | Logout
-
-export type UserIdType = {
-  userId: string
-}
-
-export enum UserIdActionTypes {
-  SETUSER = 'SETUSER',
-  RESETUSER = 'RESETUSER',
-}
-
-export type UserIdState = {
-  userId: string
-}
-
-interface SetUser {
-  type: UserIdActionTypes.SETUSER
-  payload: { userId?: string }
-}
-
-interface ResetUser {
-  type: UserIdActionTypes.RESETUSER
-}
-
-export type UserIdAction = SetUser | ResetUser

@@ -89,7 +89,7 @@ export const MenuItem = styled.div`
   justify-content: center;
   align-items: center;
   font-weight: 600;
-  color: ${COLORS.lightGrey};
+  color: ${COLORS.darkBlue};
   margin-bottom: 10px;
 `
 

@@ -48,7 +48,7 @@ export const Routing = () => {
           <RouterContent
             isPrivate={true}
             children={<Layout children={<Profile />} />}
-            path={'/'}
+            path={'/profile'}
           />
         }
       />

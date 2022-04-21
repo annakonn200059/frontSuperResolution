@@ -45,6 +45,7 @@ export const ScrollButton = styled.button`
   font-weight: 600;
   margin-bottom: 40vh;
   font-size: 16px;
+  cursor: pointer;
 `
 
 export const DropHeader = styled.div`

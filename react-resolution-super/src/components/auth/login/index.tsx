@@ -36,7 +36,7 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
       handleIsDisabled()
       loginAuth(values.email, values.password)
         .then((resp) => {
-          dispatch(login(resp.token, resp.user, resp.role))
+          dispatch(login(resp.token, resp.user))
           handleIsDisabled()
           navigate('/profile')
         })
@@ -78,6 +78,13 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
           disabled={isDisabled}
           id={'password'}
           name={'password'}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              e.stopPropagation()
+              handleSubmit()
+            }
+          }}
         />
         <ST.ErrorText>{errorText ? errorText : errors.email}</ST.ErrorText>
       </ST.InputsContainer>
