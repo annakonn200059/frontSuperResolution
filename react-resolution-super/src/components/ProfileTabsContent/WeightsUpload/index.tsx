@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react'
 import * as ST from './styled'
-import { checkUploadsAmount } from 'api/subscription'
 import { DropField } from './DropField'
 import BaseSelect from '../../ui/BaseSelect'
 import { useFormik } from 'formik'
@@ -60,6 +59,9 @@ export const WeightsUpload = () => {
         .catch((e) => {
           setErrorText(e.response.data.msg)
         })
+        .finally(() => {
+          setLoading(false)
+        })
     } catch (err) {
       setErrorText('Error')
     }
@@ -73,8 +75,7 @@ export const WeightsUpload = () => {
         setErrorText('')
         setLoading(true)
         try {
-          handleDataSubmit(files[0])
-          setLoading(false)
+          await handleDataSubmit(files[0])
         } catch (err) {
           setLoading(false)
           setErrorText('Error in uploading')
