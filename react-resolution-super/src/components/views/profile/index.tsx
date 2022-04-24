@@ -11,11 +11,10 @@ import { Subscriptions } from '../../ProfileTabsContent/Subscriptions'
 import { PromoCodes } from '../../ProfileTabsContent/PromoCodes'
 import { UserInfo } from '../../ProfileTabsContent/UserInfo'
 import { UserSubscriptions } from '../../ProfileTabsContent/UserSubscriptions'
+import { auth } from 'store/selectors'
 
 export const Profile = () => {
-  const stateUser: AuthState = useSelector<RootState, AuthState>(
-    (state) => state.auth
-  )
+  const stateUser: AuthState = useSelector<RootState, AuthState>(auth)
   const isAdmin = stateUser.user.role === 'admin'
   const [tool, setTool] = useState<number>(0)
 

@@ -5,16 +5,15 @@ import { AuthState } from 'types/authType'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
 import { CoefficientsState } from 'types/coefficients'
+import { auth, coeffs } from 'store/selectors'
 
 export const Main = () => {
-  const stateUser: AuthState = useSelector<RootState, AuthState>(
-    (state) => state.auth
-  )
+  const stateUser: AuthState = useSelector<RootState, AuthState>(auth)
   const chooseRef = useRef<HTMLDivElement | null>(null)
   const coefficients: CoefficientsState = useSelector<
     RootState,
     CoefficientsState
-  >((state) => state.coeffs)
+  >(coeffs)
 
   const onSectionDropBox = (ref: MutableRefObject<HTMLDivElement | null>) => {
     ref &&

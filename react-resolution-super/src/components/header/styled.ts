@@ -40,6 +40,11 @@ export const TabsContainer = styled.div`
   border-radius: 16px;
 `
 
+export const Menu = styled.div`
+  display: flex;
+  align-items: center;
+`
+
 export interface IIcon {
   imageSrc?: string
 }
@@ -60,7 +65,7 @@ export const MenuClosed = styled.div`
 `
 
 interface IChevron {
-  menuopen: boolean
+  menuopen: number
 }
 
 export const MenuHandler = styled(ChevronDown)<IChevron>`

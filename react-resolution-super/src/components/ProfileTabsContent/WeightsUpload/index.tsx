@@ -7,6 +7,7 @@ import { sendWeightFile } from 'api/dashboard'
 import { CoefficientsState } from 'types/coefficients'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
+import { coeffs } from 'store/selectors'
 
 export const WeightsUpload = () => {
   const [files, setFiles] = useState<File[]>([])
@@ -18,7 +19,7 @@ export const WeightsUpload = () => {
   const coefficients: CoefficientsState = useSelector<
     RootState,
     CoefficientsState
-  >((state) => state.coeffs)
+  >(coeffs)
 
   const handleOnDrop = useCallback(
     (newWeightFile: File[]) => {
