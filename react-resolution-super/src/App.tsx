@@ -26,13 +26,16 @@ const App: FC = () => {
       if (userData.accessToken) {
         try {
           const fetchMyAPI = async () => {
-            checkAuth(userData.accessToken).then((resp) => {
-              if (resp.success) {
-                loginHandler(userData.accessToken, userData.user)
-              } else {
-                dispatch(logout())
-              }
-            })
+            checkAuth(userData.accessToken)
+              .then((resp) => {
+                if (resp.success) {
+                  loginHandler(userData.accessToken, userData.user)
+                } else {
+                  //console.log('logout')
+                  dispatch(logout())
+                }
+              })
+              .catch((err) => dispatch(logout()))
           }
           fetchMyAPI()
         } catch (err) {

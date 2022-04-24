@@ -14,6 +14,7 @@ const Header = () => {
   const navigate = useNavigate()
 
   const handleLogout = () => {
+    navigate('/')
     logoutAuth().then(dispatch(logout()))
   }
   return (
