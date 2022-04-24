@@ -13,7 +13,7 @@ export const SubscriptionCard = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 295px;
+  width: 295px;
 `
 
 export const CardHeader = styled.h4`

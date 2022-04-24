@@ -4,6 +4,7 @@ import { BreakPoints } from 'constants/breakPoints'
 
 export const AddContactContainer = styled.div``
 
+//TODO create button ui component
 export const AddContactButton = styled.button`
   cursor: pointer;
   background-color: ${COLORS.blue};
@@ -11,8 +12,8 @@ export const AddContactButton = styled.button`
   border-radius: 10px;
   color: ${COLORS.white};
   font-weight: 600;
-  margin-bottom: 20px;
   font-size: 16px;
+  margin-bottom: 50px;
   @media (max-width: ${BreakPoints.PHONE320}) {
     font-size: 14px;
   }
@@ -23,9 +24,18 @@ export const InputsContainer = styled.div`
 `
 export const InputWrapper = styled.div``
 
+export const SelectWrapper = styled.div`
+  margin-bottom: 15px;
+`
+
+export const InputLabel = styled.div`
+  margin-bottom: 10px;
+  display: inline-block;
+`
+
 export const Input = styled.input`
-  padding: 0 0 3px 20px;
-  width: calc(100% - 20px);
+  padding: 0 20px 3px 20px;
+  width: calc(100% - 40px);
   max-width: 480px;
   min-width: 220px;
   height: 47px;
@@ -38,6 +48,10 @@ export const Input = styled.input`
   margin-bottom: 30px;
   &:last-of-type {
     margin-bottom: 15px;
+  }
+  &:disabled {
+    background-color: ${COLORS.lightGreyBackground};
+    border: 1px solid ${COLORS.lightGrey};
   }
 `
 

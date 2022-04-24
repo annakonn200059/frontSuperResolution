@@ -79,9 +79,11 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
       <ST.ModalText>Edit this subscription</ST.ModalText>
       <ST.InputsContainer>
         <ST.InputWrapper>
-          <label htmlFor="subscription_name">Subscription name</label>
+          <ST.InputLabel>
+            <label htmlFor="subscription_name">Subscription name</label>
+          </ST.InputLabel>
           <ST.Input
-            placeholder={'X15'}
+            placeholder={''}
             value={values.subscription_name}
             onChange={handleChange}
             id={'subscription_name'}
@@ -90,9 +92,11 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
         </ST.InputWrapper>
 
         <ST.InputWrapper>
-          <label htmlFor="cost">Cost</label>
+          <ST.InputLabel>
+            <label htmlFor="cost">Cost</label>
+          </ST.InputLabel>
           <ST.Input
-            placeholder={'100'}
+            placeholder={''}
             value={values.cost}
             onChange={handleChange}
             id={'cost'}
@@ -101,9 +105,11 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
         </ST.InputWrapper>
 
         <ST.InputWrapper>
-          <label htmlFor="downloads_amount">Downloads amount</label>
+          <ST.InputLabel>
+            <label htmlFor="downloads_amount">Downloads amount</label>
+          </ST.InputLabel>
           <ST.Input
-            placeholder={'15'}
+            placeholder={''}
             value={values.downloads_amount}
             onChange={handleChange}
             id={'downloads_amount'}
@@ -112,9 +118,11 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
         </ST.InputWrapper>
 
         <ST.InputWrapper>
-          <label htmlFor="description">Description</label>
+          <ST.InputLabel>
+            <label htmlFor="description">Description</label>
+          </ST.InputLabel>
           <ST.Input
-            placeholder={'100'}
+            placeholder={''}
             value={values.description}
             onChange={handleChange}
             id={'description'}

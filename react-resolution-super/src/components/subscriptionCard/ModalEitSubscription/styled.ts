@@ -20,8 +20,8 @@ export const InputsContainer = styled.div`
 `
 
 export const Input = styled.input`
-  padding: 0 0 3px 20px;
-  width: calc(100% - 20px);
+  padding: 0 20px 3px 20px;
+  width: calc(100% - 40px);
   max-width: 480px;
   min-width: 220px;
   height: 47px;
@@ -38,6 +38,11 @@ export const Input = styled.input`
 `
 
 export const InputWrapper = styled.div``
+
+export const InputLabel = styled.div`
+  margin-bottom: 8px;
+  display: inline-block;
+`
 
 export const SubmitButton = styled.button`
   display: flex;

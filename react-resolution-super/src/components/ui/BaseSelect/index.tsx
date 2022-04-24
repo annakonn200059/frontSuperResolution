@@ -16,6 +16,7 @@ interface Props {
   setIndex?: (any: number) => void
   activeElements?: any[]
   modalText?: string | ReactElement
+  onChange?: () => void
 }
 
 const BaseSelect: FC<Props> = ({
@@ -30,6 +31,7 @@ const BaseSelect: FC<Props> = ({
   activeElements,
   setIndex,
   modalText,
+  onChange,
 }) => {
   const [open, setOpen] = useState<boolean>(false)
   const [valueSelect, setValueSelect] = useState<string>('')
@@ -64,6 +66,9 @@ const BaseSelect: FC<Props> = ({
     if (active) {
       setVisibleItem(index)
       setValueSelect(item)
+      if (onChange) {
+        onChange()
+      }
       if (setChosen) {
         setChosen(item)
       }

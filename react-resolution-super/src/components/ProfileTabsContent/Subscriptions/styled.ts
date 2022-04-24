@@ -7,5 +7,6 @@ export const CardsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   column-gap: 30px;
+  row-gap: 30px;
   justify-content: flex-start;
 `
