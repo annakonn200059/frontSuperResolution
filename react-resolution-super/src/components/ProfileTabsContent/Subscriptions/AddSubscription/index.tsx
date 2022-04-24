@@ -10,7 +10,7 @@ import {
   IAddSubscription,
   IAddSubscriptionsInputs,
 } from 'types/subscription'
-import { yupErrorHandler } from '../../../../utils/yupErrorHandler'
+import { yupErrorHandler } from 'utils/yupErrorHandler'
 import BaseSelect from '../../../ui/BaseSelect'
 
 const AddContactInputs: FC<IAddSubscriptionsInputs> = ({

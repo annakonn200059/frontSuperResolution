@@ -35,6 +35,10 @@ export const Input = styled.input`
   &:last-of-type {
     margin-bottom: 15px;
   }
+  &:disabled {
+    background-color: ${COLORS.lightGreyBackground};
+    border: 1px solid ${COLORS.lightGrey};
+  }
 `
 
 export const InputWrapper = styled.div``
@@ -42,6 +46,10 @@ export const InputWrapper = styled.div``
 export const InputLabel = styled.div`
   margin-bottom: 8px;
   display: inline-block;
+`
+
+export const SelectWrapper = styled.div`
+  margin-bottom: 15px;
 `
 
 export const SubmitButton = styled.button`

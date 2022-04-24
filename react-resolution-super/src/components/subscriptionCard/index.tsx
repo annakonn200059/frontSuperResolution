@@ -50,7 +50,11 @@ export const SubscriptionCard = ({
           </ST.Price>
           <ST.SubscriptionInfoList>
             <ST.InfoItem>
-              <ST.AmountSpan>{props.downloads_amount}</ST.AmountSpan>
+              <ST.AmountSpan>
+                {props.subsription_type === 0
+                  ? props.downloads_amount
+                  : 'Infinite'}
+              </ST.AmountSpan>
               {' uploads a day'}
             </ST.InfoItem>
             <ST.InfoItem>{'All coefficients are available'}</ST.InfoItem>

@@ -4,6 +4,7 @@ import { useFormik } from 'formik'
 import { patchSubscription } from 'api/subscription'
 import { onEnterSubmit } from 'utils/onEnterSubmit'
 import { IPatchSubscription, ISubscription } from 'types/subscription'
+import BaseSelect from '../../ui/BaseSelect'
 
 interface IConfirmDelete {
   onDelete: () => void
@@ -45,13 +46,18 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
   updateSubscriptionList,
 }: IEditSubscription) => {
   const [errorText, setErrorText] = useState<string>('')
+  const [, setInfiniteType] = useState(false)
+  const isFiniteDownloadsAmountList = ['Finite', 'Infinite']
 
   const { handleChange, handleSubmit, values } = useFormik({
     initialValues: { ...subscriptionInfo },
     onSubmit: async () => {
       const changedFields: ISubscription = {}
       Object.keys(subscriptionInfo).forEach((subscriptionField) => {
-        if (values[subscriptionField])
+        if (
+          values[subscriptionField] ||
+          subscriptionField === 'subsription_type'
+        )
           changedFields[subscriptionField] = values[subscriptionField]
         else
           changedFields[subscriptionField] = subscriptionInfo[subscriptionField]
@@ -105,11 +111,40 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
         </ST.InputWrapper>
 
         <ST.InputWrapper>
+          <ST.SelectWrapper>
+            <ST.InputLabel>
+              <label htmlFor="subsription_type">
+                Is infinite downloads amount
+              </label>
+            </ST.InputLabel>
+            <BaseSelect
+              isSmallSelect={true}
+              placeHolder={
+                values.subsription_type || values.subsription_type === 0
+                  ? isFiniteDownloadsAmountList[values.subsription_type]
+                  : ''
+              }
+              listItems={isFiniteDownloadsAmountList}
+              name={'subsription_type'}
+              value={values.subsription_type}
+              typeSelect={'subsription_type'}
+              setChosen={(num) =>
+                (values.subsription_type = isFiniteDownloadsAmountList.indexOf(
+                  num + ''
+                ))
+              }
+              onChange={() => setInfiniteType((prevState) => !prevState)}
+            />
+          </ST.SelectWrapper>
+        </ST.InputWrapper>
+
+        <ST.InputWrapper>
           <ST.InputLabel>
             <label htmlFor="downloads_amount">Downloads amount</label>
           </ST.InputLabel>
           <ST.Input
             placeholder={''}
+            disabled={values.subsription_type === 1}
             value={values.downloads_amount}
             onChange={handleChange}
             id={'downloads_amount'}
