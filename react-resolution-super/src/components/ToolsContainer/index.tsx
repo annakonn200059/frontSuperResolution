@@ -15,7 +15,7 @@ export const ToolsContainer = ({ isAdmin, setTool, tool }: ITools) => {
       {dataToolsItems.map((toolEl) => (
         <ST.ToolItem
           key={toolEl.id}
-          isActive={tool == toolEl.id}
+          isActive={tool === toolEl.id}
           onClick={() => setTool(toolEl.id)}
         >
           <ST.ToolIcon
