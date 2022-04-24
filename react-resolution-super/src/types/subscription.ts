@@ -19,3 +19,11 @@ export interface IPatchSubscription {
 export interface IGetSubscriptions {
   subscriptions: ISubscriptionWithId[]
 }
+
+export interface IAddSubscription {
+  setSubscriptionList: (res: ISubscriptionWithId) => void
+}
+
+export interface IAddSubscriptionsInputs extends IAddSubscription {
+  closeModal: () => void
+}

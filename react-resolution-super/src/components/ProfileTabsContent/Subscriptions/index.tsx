@@ -4,9 +4,11 @@ import { getAllSubscriptions } from 'api/subscription'
 import {
   IGetSubscriptions,
   IPatchSubscription,
+  ISubscription,
   ISubscriptionWithId,
 } from 'types/subscription'
 import { SubscriptionCard } from '../../subscriptionCard'
+import { AddSubscription } from './AddSubscription'
 
 export const Subscriptions = () => {
   const [allSubscriptions, setAllSubscriptions] = useState<IGetSubscriptions>({
@@ -16,6 +18,15 @@ export const Subscriptions = () => {
   const onChangeSubscriptions = useCallback(() => {
     getAllSubscriptions().then((data) => setAllSubscriptions(data))
   }, [allSubscriptions])
+
+  const addToSubscriptionList = useCallback(
+    (res: ISubscriptionWithId) => {
+      const copyArr = allSubscriptions.subscriptions.slice()
+      copyArr.push(res)
+      setAllSubscriptions({ subscriptions: copyArr })
+    },
+    [allSubscriptions]
+  )
 
   const deleteSubscriptionFromList = useCallback(
     (idSubscription: number) => {
@@ -50,6 +61,7 @@ export const Subscriptions = () => {
 
   return (
     <ST.Container>
+      <AddSubscription setSubscriptionList={addToSubscriptionList} />
       <ST.CardsContainer>
         {allSubscriptions.subscriptions.map((subscription) => (
           <SubscriptionCard

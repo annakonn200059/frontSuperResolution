@@ -10,12 +10,15 @@ interface IGetCoeffs {
   coefficients: number[]
 }
 
-interface IPostResponse {
+interface IDeleteResponse {
   success: boolean
   msg: string
 }
+interface IPostResponse extends IDeleteResponse {
+  id_subscription: number
+}
 
-interface ICheckUploadsAmount extends IPostResponse {
+interface ICheckUploadsAmount extends IDeleteResponse {
   availableAmount?: number
 }
 
@@ -39,16 +42,16 @@ export const getAllSubscriptions = async (): Promise<IGetSubscriptions> => {
   return resp.data
 }
 
-export const postSubscription = async ({
-  ...args
-}: ISubscription): Promise<IPostResponse> => {
-  const resp = await apiRequest().post('/api/createSubscription', { args })
+export const postSubscription = async (
+  args: ISubscription
+): Promise<IPostResponse> => {
+  const resp = await apiRequest().post('/api/createSubscription', args)
   return resp.data
 }
 
 export const deleteSubscription = async (
   idSubscription: number
-): Promise<IPostResponse> => {
+): Promise<IDeleteResponse> => {
   const resp = await apiRequest().delete(
     `/api/deleteSubscription/${idSubscription}`
   )
@@ -57,7 +60,7 @@ export const deleteSubscription = async (
 
 export const patchSubscription = async (
   props: IPatchSubscription
-): Promise<IPostResponse> => {
+): Promise<IDeleteResponse> => {
   const resp = await apiRequest().patch(
     `/api/editSubscription/${props.idSubscription}`,
     { ...props.args }

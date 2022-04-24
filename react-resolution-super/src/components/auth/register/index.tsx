@@ -93,7 +93,17 @@ export const Register = ({ setIsAdmin, setStep }: PropsRegisterStep) => {
             }
           }}
         />
-        <ST.ErrorText>{errorText ? errorText : errors.email}</ST.ErrorText>
+        <ST.ErrorText>
+          {errorText
+            ? errorText
+            : errors.email
+            ? errors.email
+            : errors.password
+            ? errors.password
+            : errors.username
+            ? errors.username
+            : ''}
+        </ST.ErrorText>
       </ST.InputsContainer>
       <ST.SubmitButton
         type={'submit'}

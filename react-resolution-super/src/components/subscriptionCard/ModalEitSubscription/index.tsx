@@ -102,7 +102,7 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
         </ST.InputWrapper>
 
         <ST.InputWrapper>
-          <label htmlFor="downloads_amount">Downloads_amount</label>
+          <label htmlFor="downloads_amount">Downloads amount</label>
           <ST.Input
             placeholder={'15'}
             value={values.downloads_amount}
