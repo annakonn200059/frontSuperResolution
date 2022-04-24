@@ -1,22 +1,27 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import * as ST from './styled'
 import { getAllSubscriptions } from 'api/subscription'
 import {
   IGetSubscriptions,
   IPatchSubscription,
-  ISubscription,
   ISubscriptionWithId,
 } from 'types/subscription'
 import { SubscriptionCard } from '../../subscriptionCard'
 import { AddSubscription } from './AddSubscription'
+import { Preloader } from '../../preloader'
 
 export const Subscriptions = () => {
   const [allSubscriptions, setAllSubscriptions] = useState<IGetSubscriptions>({
     subscriptions: [],
   })
+  const [isLoading, setLoading] = useState(false)
 
   const onChangeSubscriptions = useCallback(() => {
-    getAllSubscriptions().then((data) => setAllSubscriptions(data))
+    getAllSubscriptions()
+      .then((data) => setAllSubscriptions(data))
+      .finally(() => {
+        setLoading(false)
+      })
   }, [allSubscriptions])
 
   const addToSubscriptionList = useCallback(
@@ -56,23 +61,30 @@ export const Subscriptions = () => {
   )
 
   useEffect(() => {
+    setLoading(true)
     onChangeSubscriptions()
   }, [])
 
   return (
     <ST.Container>
-      <AddSubscription setSubscriptionList={addToSubscriptionList} />
-      <ST.CardsContainer>
-        {allSubscriptions.subscriptions.map((subscription) => (
-          <SubscriptionCard
-            key={subscription.id_subscription}
-            props={subscription}
-            isAdmin={true}
-            deleteSubscriptionFromList={deleteSubscriptionFromList}
-            updateSubscriptionList={updateSubscriptionList}
-          />
-        ))}
-      </ST.CardsContainer>
+      {!isLoading ? (
+        <>
+          <AddSubscription setSubscriptionList={addToSubscriptionList} />
+          <ST.CardsContainer>
+            {allSubscriptions.subscriptions.map((subscription) => (
+              <SubscriptionCard
+                key={subscription.id_subscription}
+                props={subscription}
+                isAdmin={true}
+                deleteSubscriptionFromList={deleteSubscriptionFromList}
+                updateSubscriptionList={updateSubscriptionList}
+              />
+            ))}
+          </ST.CardsContainer>
+        </>
+      ) : (
+        <Preloader />
+      )}
     </ST.Container>
   )
 }

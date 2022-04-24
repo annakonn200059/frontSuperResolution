@@ -59,7 +59,9 @@ export const DropField = ({
             </ST.HeaderBox>
           </>
         ) : (
-          <Preloader />
+          <ST.LoaderWrapper>
+            <Preloader />
+          </ST.LoaderWrapper>
         )}
       </ST.DropeZone>
       {fileUploaded && (

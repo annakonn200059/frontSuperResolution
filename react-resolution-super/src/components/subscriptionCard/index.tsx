@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import * as ST from './styled'
 import { IPatchSubscription, ISubscriptionWithId } from 'types/subscription'
 import { deleteSubscription } from 'api/subscription'
@@ -39,8 +39,8 @@ export const SubscriptionCard = ({
       <ST.SubscriptionCard>
         <ST.CardHeader>
           <ST.SubscriptionName>{props.subscription_name}</ST.SubscriptionName>
-          <ST.EditContact onClick={() => handleEditModal()} />
-          <ST.DeleteContact onClick={() => handleDeleteModal()} />
+          {isAdmin && <ST.EditContact onClick={() => handleEditModal()} />}
+          {isAdmin && <ST.DeleteContact onClick={() => handleDeleteModal()} />}
         </ST.CardHeader>
         <ST.CardBody>
           <ST.Price>
@@ -58,29 +58,33 @@ export const SubscriptionCard = ({
           </ST.SubscriptionInfoList>
         </ST.CardBody>
       </ST.SubscriptionCard>
-      <DefaultPopup
-        children={
-          <ModalEditSubscription
-            idSubscription={props.id_subscription}
-            subscriptionInfo={props}
-            updateSubscriptionList={updateSubscriptionList}
-            closeModal={() => handleEditModal()}
-          />
-        }
-        show={showEditModal}
-        onClose={handleEditModal}
-      />
+      {isAdmin && (
+        <DefaultPopup
+          children={
+            <ModalEditSubscription
+              idSubscription={props.id_subscription}
+              subscriptionInfo={props}
+              updateSubscriptionList={updateSubscriptionList}
+              closeModal={() => handleEditModal()}
+            />
+          }
+          show={showEditModal}
+          onClose={handleEditModal}
+        />
+      )}
 
-      <DefaultPopup
-        children={
-          <ConfirmDelete
-            onDelete={() => deleteContactItem(props.id_subscription)}
-            closeModal={() => handleDeleteModal()}
-          />
-        }
-        show={showDeleteModal}
-        onClose={handleDeleteModal}
-      />
+      {isAdmin && (
+        <DefaultPopup
+          children={
+            <ConfirmDelete
+              onDelete={() => deleteContactItem(props.id_subscription)}
+              closeModal={() => handleDeleteModal()}
+            />
+          }
+          show={showDeleteModal}
+          onClose={handleDeleteModal}
+        />
+      )}
     </>
   )
 }
