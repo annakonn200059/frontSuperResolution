@@ -7,6 +7,7 @@ import { registerAuth } from 'api/auth'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
 import { AuthState } from 'types/authType'
+import { yupErrorHandler } from '../../../utils/yupErrorHandler'
 
 interface PropsRegisterStep {
   setIsAdmin: (isAdmin: boolean) => void
@@ -94,15 +95,7 @@ export const Register = ({ setIsAdmin, setStep }: PropsRegisterStep) => {
           }}
         />
         <ST.ErrorText>
-          {errorText
-            ? errorText
-            : errors.email
-            ? errors.email
-            : errors.password
-            ? errors.password
-            : errors.username
-            ? errors.username
-            : ''}
+          {errorText ? errorText : yupErrorHandler(errors)}
         </ST.ErrorText>
       </ST.InputsContainer>
       <ST.SubmitButton

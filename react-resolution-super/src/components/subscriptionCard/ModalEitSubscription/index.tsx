@@ -3,7 +3,6 @@ import * as ST from './styled'
 import { useFormik } from 'formik'
 import { patchSubscription } from 'api/subscription'
 import { onEnterSubmit } from 'utils/onEnterSubmit'
-import NumberFormat from 'react-number-format'
 import { IPatchSubscription, ISubscription } from 'types/subscription'
 
 interface IConfirmDelete {

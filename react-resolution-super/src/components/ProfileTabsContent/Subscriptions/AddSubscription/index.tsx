@@ -10,6 +10,7 @@ import {
   IAddSubscription,
   IAddSubscriptionsInputs,
 } from 'types/subscription'
+import { yupErrorHandler } from '../../../../utils/yupErrorHandler'
 
 const AddContactInputs: FC<IAddSubscriptionsInputs> = ({
   setSubscriptionList,
@@ -48,12 +49,15 @@ const AddContactInputs: FC<IAddSubscriptionsInputs> = ({
     },
     validationSchema: Yup.object().shape({
       subscription_name: Yup.string().required('Name field missed'),
-      cost: Yup.number().required('Cost field missed'),
-      downloads_amount: Yup.number().required('Downloads amount field missed'),
+      cost: Yup.number().min(0).required('Cost field missed'),
+      downloads_amount: Yup.number()
+        .min(0)
+        .required('Downloads amount field missed'),
       description: Yup.string().required('Description field missed'),
     }),
   })
   //TODO вынести input в ui
+  console.log(errors)
   return (
     <>
       <h3>Add new subscription</h3>
@@ -105,17 +109,7 @@ const AddContactInputs: FC<IAddSubscriptionsInputs> = ({
           />
         </ST.InputWrapper>
         <ST.ErrorText>
-          {errorText
-            ? errorText
-            : errors.subscription_name
-            ? errors.subscription_name
-            : errors.cost
-            ? errors.cost
-            : errors.downloads_amount
-            ? errors.downloads_amount
-            : errors.description
-            ? errors.description
-            : ''}
+          {errorText ? errorText : yupErrorHandler(errors)}
         </ST.ErrorText>
       </ST.InputsContainer>
       <ST.SubmitButton
