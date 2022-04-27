@@ -1,7 +1,8 @@
-import React, { lazy } from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { RouterContent } from './RouterContent'
+import { PrivateRouter } from './RouterContent'
 import Layout from '../components/layouts'
+import { Preloader } from '../components/preloader'
 
 const Error = lazy(() =>
   import('pages/errorPage').then((module) => ({ default: module.ErrorPage }))
@@ -29,33 +30,30 @@ export const Routing = () => {
       <Route
         path={'/'}
         element={
-          <RouterContent
-            isPrivate={false}
-            children={<Layout children={<Main />} />}
-            path={'/'}
-          />
+          <Suspense fallback={<Preloader />}>
+            <Layout children={<Main />} />
+          </Suspense>
         }
       />
       <Route
         path={'/auth'}
         element={
-          <RouterContent isPrivate={false} children={<Auth />} path={'/auth'} />
+          <Suspense fallback={<Preloader />}>
+            <Auth />
+          </Suspense>
         }
       />
       <Route
         path={'/profile'}
-        element={
-          <RouterContent
-            isPrivate={true}
-            children={<Layout children={<Profile />} />}
-            path={'/profile'}
-          />
-        }
+        element={<PrivateRouter children={<Layout children={<Profile />} />} />}
       />
+
       <Route
         path={'*'}
         element={
-          <RouterContent isPrivate={false} children={<Error />} path={'*'} />
+          <Suspense fallback={<Preloader />}>
+            <Error />
+          </Suspense>
         }
       />
     </Routes>

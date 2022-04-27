@@ -7,6 +7,8 @@ import { registerAuth } from 'api/auth'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
 import { AuthState } from 'types/authType'
+import { yupErrorHandler } from 'utils/yupErrorHandler'
+import { auth } from '../../../store/selectors'
 
 interface PropsRegisterStep {
   setIsAdmin: (isAdmin: boolean) => void
@@ -15,7 +17,7 @@ interface PropsRegisterStep {
 
 export const Register = ({ setIsAdmin, setStep }: PropsRegisterStep) => {
   const navigate = useNavigate()
-  const stateUser = useSelector<RootState, AuthState>((state) => state.auth)
+  const stateUser = useSelector<RootState, AuthState>(auth)
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
   const handleIsDisabled = (): void => {
@@ -93,7 +95,9 @@ export const Register = ({ setIsAdmin, setStep }: PropsRegisterStep) => {
             }
           }}
         />
-        <ST.ErrorText>{errorText ? errorText : errors.email}</ST.ErrorText>
+        <ST.ErrorText>
+          {errorText ? errorText : yupErrorHandler(errors)}
+        </ST.ErrorText>
       </ST.InputsContainer>
       <ST.SubmitButton
         type={'submit'}

@@ -132,3 +132,7 @@ export const ErrorText = styled.div`
   margin-bottom: 15px;
   font-size: 16px;
 `
+
+export const LoaderWrapper = styled.div`
+  margin-top: 10%;
+`

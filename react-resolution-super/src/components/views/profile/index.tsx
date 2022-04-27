@@ -11,13 +11,16 @@ import { Subscriptions } from '../../ProfileTabsContent/Subscriptions'
 import { PromoCodes } from '../../ProfileTabsContent/PromoCodes'
 import { UserInfo } from '../../ProfileTabsContent/UserInfo'
 import { UserSubscriptions } from '../../ProfileTabsContent/UserSubscriptions'
+import { auth } from 'store/selectors'
 
 export const Profile = () => {
-  const stateUser: AuthState = useSelector<RootState, AuthState>(
-    (state) => state.auth
-  )
+  const stateUser: AuthState = useSelector<RootState, AuthState>(auth)
   const isAdmin = stateUser.user.role === 'admin'
-  const [tool, setTool] = useState<number>(0)
+  const [tool, setTool] = useState<number>(-1)
+
+  const roleTool = () => {
+    return tool === -1 ? (isAdmin ? 0 : 4) : tool
+  }
 
   const handleSwitchToolItem = (toolId: number): JSX.Element => {
     switch (toolId) {
@@ -45,7 +48,7 @@ export const Profile = () => {
           <ST.LeftPannelHeader>Your tools</ST.LeftPannelHeader>
           <ToolsContainer isAdmin={isAdmin} setTool={setTool} tool={tool} />
         </ST.LeftPannel>
-        <ST.RightPannel>{handleSwitchToolItem(tool)}</ST.RightPannel>
+        <ST.RightPannel>{handleSwitchToolItem(roleTool())}</ST.RightPannel>
       </ST.MainContainer>
     </Container>
   )

@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/store'
 import { AuthState } from 'types/authType'
 import { useNavigate } from 'react-router-dom'
+import { yupErrorHandler } from 'utils/yupErrorHandler'
+import { auth } from 'store/selectors'
 
 interface PropsRegisterStep {
   setStep: (stepId: number) => void
@@ -18,9 +20,7 @@ interface PropsRegisterStep {
 export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const stateUser: AuthState = useSelector<RootState, AuthState>(
-    (state) => state.auth
-  )
+  const stateUser: AuthState = useSelector<RootState, AuthState>(auth)
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
   const handleIsDisabled = (): void => {
@@ -86,7 +86,9 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
             }
           }}
         />
-        <ST.ErrorText>{errorText ? errorText : errors.email}</ST.ErrorText>
+        <ST.ErrorText>
+          {errorText ? errorText : yupErrorHandler(errors)}
+        </ST.ErrorText>
       </ST.InputsContainer>
       <ST.SubmitButton
         type={'submit'}

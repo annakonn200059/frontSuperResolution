@@ -1,32 +1,19 @@
-import React, { ReactNode, Suspense, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import React, { ReactNode, Suspense } from 'react'
+import { Navigate } from 'react-router-dom'
 import { Preloader } from 'components/preloader'
-import { useSelector } from 'react-redux'
-import { RootState } from '../store/store'
+import { AuthState } from '../types/authType'
 
 interface RouterContentProps {
   children: ReactNode
-  isPrivate: boolean
-  path?: string
 }
 
-export const RouterContent = ({
-  children,
-  isPrivate,
-  path,
-}: RouterContentProps) => {
-  const auth = useSelector((state: RootState) => state.auth)
-  const { isAuthorised } = auth
-  const navigate = useNavigate()
+export const PrivateRouter = ({ children }: RouterContentProps) => {
+  const jsonUserData = localStorage.getItem('auth')
+  const userData: AuthState = jsonUserData ? JSON.parse(jsonUserData) : null
 
-  useEffect(() => {
-    if (!isAuthorised && isPrivate) {
-      navigate('/')
-    }
-  }, [navigate, isPrivate, isAuthorised])
-  return (
-    <>
-      <Suspense fallback={<Preloader />}>{children}</Suspense>
-    </>
+  return userData && userData.accessToken ? (
+    <Suspense fallback={<Preloader />}>{children}</Suspense>
+  ) : (
+    <Navigate to={'/'} />
   )
 }
