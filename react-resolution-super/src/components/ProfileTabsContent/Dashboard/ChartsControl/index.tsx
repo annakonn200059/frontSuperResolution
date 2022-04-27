@@ -7,15 +7,17 @@ import { ChartModel } from './ChartModel'
 interface ICharts {
   loginChart: any[]
   registerChart: any[]
+  subscriptionsChart: any[]
 }
 
 export const ChartControl = () => {
   const [chartData, setChartData] = useState<ICharts>({
     loginChart: [],
     registerChart: [],
+    subscriptionsChart: [],
   })
   const [chosenChart, setChosenChart] = useState<number>(0)
-  const labels = ['logins', 'registers']
+  const labels = ['logins', 'registers', 'subscriptions purchases']
   const chosenChartData = Object.values(chartData)[chosenChart]
 
   const onChangeDashboard = useCallback(() => {

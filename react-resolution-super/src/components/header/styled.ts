@@ -98,6 +98,11 @@ export const MenuItem = styled.div`
   margin-bottom: 10px;
 `
 
+export const SignUpButton = styled(TabsContainer)`
+  cursor: pointer;
+  padding: 8px 35px;
+`
+
 export const LoginText = styled.div`
   font-weight: 600;
   font-size: 24px;

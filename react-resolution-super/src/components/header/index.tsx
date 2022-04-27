@@ -28,8 +28,8 @@ const Header = () => {
           <ST.Logo />
           <ST.LogoText>Logo</ST.LogoText>
         </ST.LogoContainer>
-        <ST.TabsContainer>
-          {isAuth ? (
+        {isAuth ? (
+          <ST.TabsContainer>
             <ST.Menu ref={wrapperRef}>
               <ST.Photo imageSrc={imgUser} />
               <ST.MenuClosed>
@@ -47,12 +47,14 @@ const Header = () => {
                 )}
               </ST.MenuClosed>
             </ST.Menu>
-          ) : (
-            <NavLink to={'/auth'}>
+          </ST.TabsContainer>
+        ) : (
+          <NavLink to={'/auth'}>
+            <ST.SignUpButton>
               <ST.LoginText>Sign UP</ST.LoginText>
-            </NavLink>
-          )}
-        </ST.TabsContainer>
+            </ST.SignUpButton>
+          </NavLink>
+        )}
       </ST.HeaderContainer>
     </>
   )
