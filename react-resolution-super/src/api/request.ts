@@ -9,7 +9,7 @@ export function apiRequest(token?: string) {
   if (token) {
     headers = {
       'Content-Type': 'application/json',
-      Authorization: token,
+      authorization: token,
     }
   } else {
     headers = {
@@ -27,7 +27,7 @@ export function apiRequestFile(token?: string) {
   if (token) {
     headers = {
       'Content-Type': 'multipart/form-data',
-      apiKey: token,
+      authorization: token,
     }
   } else {
     headers = {

@@ -27,8 +27,10 @@ export const getCoefficients = async (): Promise<IGetCoeffs> => {
   return resp.data
 }
 
-export const checkUploadsAmount = async (): Promise<ICheckUploadsAmount> => {
-  const resp = await apiRequest().get('/api/checkUploadsAmount')
+export const checkUploadsAmount = async (
+  token: string
+): Promise<ICheckUploadsAmount> => {
+  const resp = await apiRequest(token).get('/api/checkUploadsAmount')
   return resp.data
 }
 

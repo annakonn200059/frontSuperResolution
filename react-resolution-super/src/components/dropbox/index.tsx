@@ -75,7 +75,7 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
       const submit: boolean = checkFilledData()
       if (submit) {
         setErrorText('')
-        checkUploadsAmount()
+        checkUploadsAmount(stateUser.accessToken)
           .then((resp) => {
             if (resp.success) {
               handleFormSubmit(files[0])
