@@ -85,7 +85,7 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
             }
           })
           .catch((err) => {
-            setErrorText('Error')
+            setErrorText(err.response.data.msg)
           })
       }
     },
@@ -135,7 +135,11 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
     return allowedCoeffs
   }
 
-  const resetForm = (): void => setFiles([])
+  const resetForm = (): void => {
+    setErrorText('')
+    setDownloadItem('')
+    setFiles([])
+  }
   return (
     <ST.DropArea>
       <DropZoneField
