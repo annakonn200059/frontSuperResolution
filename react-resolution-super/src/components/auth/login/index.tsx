@@ -11,6 +11,7 @@ import { AuthState } from 'types/authType'
 import { useNavigate } from 'react-router-dom'
 import { yupErrorHandler } from 'utils/yupErrorHandler'
 import { auth } from 'store/selectors'
+import { NavLink } from 'react-router-dom'
 
 interface PropsRegisterStep {
   setStep: (stepId: number) => void
@@ -58,7 +59,9 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
         <ST.LogoText>SIGN IN</ST.LogoText>
         <ST.LogoWrapper>
           <ST.Logo />
-          <ST.LogoText>Logo</ST.LogoText>
+          <NavLink to={'/'}>
+            <ST.LogoText>Logo</ST.LogoText>
+          </NavLink>
         </ST.LogoWrapper>
       </ST.Header>
       <ST.DescrBlock>Login now to continue uploading photos!</ST.DescrBlock>

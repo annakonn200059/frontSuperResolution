@@ -3,6 +3,7 @@ import { apiRequest, apiRequestFile } from '../request'
 interface IGetCharts {
   loginChart: any[]
   registerChart: any[]
+  subscriptionsChart: any[]
 }
 
 export const getChartsData = async (): Promise<IGetCharts> => {

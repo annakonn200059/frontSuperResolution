@@ -8,7 +8,8 @@ import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
 import { AuthState } from 'types/authType'
 import { yupErrorHandler } from 'utils/yupErrorHandler'
-import { auth } from '../../../store/selectors'
+import { auth } from 'store/selectors'
+import { NavLink } from 'react-router-dom'
 
 interface PropsRegisterStep {
   setIsAdmin: (isAdmin: boolean) => void
@@ -57,7 +58,9 @@ export const Register = ({ setIsAdmin, setStep }: PropsRegisterStep) => {
         <ST.LogoText>SIGN UP</ST.LogoText>
         <ST.LogoWrapper>
           <ST.Logo />
-          <ST.LogoText>Logo</ST.LogoText>
+          <NavLink to={'/'}>
+            <ST.LogoText>Logo</ST.LogoText>
+          </NavLink>
         </ST.LogoWrapper>
       </ST.Header>
       <ST.DescrBlock>

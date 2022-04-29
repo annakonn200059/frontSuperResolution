@@ -66,12 +66,12 @@ export const Select = styled.input<ISelect>`
     95% 50% no-repeat;
   box-shadow: ${(props) =>
     props.isOpen ? '0 -1px 8px rgba(0, 0, 0, 0.1)' : 'null'};
-  padding: 10px 20px;
+  padding: 10px 30px 10px 20px;
   height: 20px;
   font-weight: 400;
   font-size: 16px;
   line-height: 110%;
-  width: ${(props) => (props.isSmallSelect ? '100px' : 'calc(100% - 40px)')};
+  width: ${(props) => (props.isSmallSelect ? '90px' : 'calc(100% - 40px)')};
   color: ${COLORS.lightGrey};
 
   ::placeholder {
