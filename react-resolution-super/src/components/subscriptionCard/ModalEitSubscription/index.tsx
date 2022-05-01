@@ -11,6 +11,16 @@ interface IConfirmDelete {
   closeModal: () => void
 }
 
+interface IConfirmUnsubscribe {
+  onUnsubscribe: () => void
+  closeModal: () => void
+}
+
+interface IResulModal {
+  responseModalText?: string
+  closeModal: () => void
+}
+
 interface IEditSubscription {
   idSubscription: number
   closeModal: () => void
@@ -34,6 +44,43 @@ export const ConfirmDelete: FC<IConfirmDelete> = ({
         }}
       >
         Yes
+      </ST.ConfirmButton>
+    </>
+  )
+}
+
+export const ConfirmUnsubscribe: FC<IConfirmUnsubscribe> = ({
+  onUnsubscribe,
+  closeModal,
+}: IConfirmUnsubscribe) => {
+  return (
+    <>
+      <ST.ModalText>Do you really want to unsubscribe?</ST.ModalText>
+      <ST.ConfirmButton
+        onClick={() => {
+          onUnsubscribe()
+          closeModal()
+        }}
+      >
+        Yes
+      </ST.ConfirmButton>
+    </>
+  )
+}
+
+export const ResultUnsubscribe: FC<IResulModal> = ({
+  responseModalText,
+  closeModal,
+}: IResulModal) => {
+  return (
+    <>
+      <ST.ModalText>{responseModalText}</ST.ModalText>
+      <ST.ConfirmButton
+        onClick={() => {
+          closeModal()
+        }}
+      >
+        OK
       </ST.ConfirmButton>
     </>
   )

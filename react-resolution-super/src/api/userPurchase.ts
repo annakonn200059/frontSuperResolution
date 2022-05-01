@@ -10,3 +10,8 @@ export const getUserSubscription = async (
   })
   return resp.data
 }
+
+export const getUnsubscribed = async (token: string) => {
+  const resp = await apiRequest(token).get('/api/unsubscribeSubscription')
+  return resp.data
+}

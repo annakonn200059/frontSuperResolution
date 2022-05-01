@@ -1,9 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as ST from './styled'
 import { IPatchSubscription, ISubscriptionWithId } from 'types/subscription'
 import { deleteSubscription } from 'api/subscription'
 import DefaultPopup from '../ui/Modals/defaultModal'
-import { ConfirmDelete, ModalEditSubscription } from './ModalEitSubscription'
+import {
+  ConfirmDelete,
+  ModalEditSubscription,
+  ConfirmUnsubscribe,
+  ResultUnsubscribe,
+} from './ModalEitSubscription'
 
 interface ICard {
   key?: number
@@ -11,6 +16,10 @@ interface ICard {
   isAdmin: boolean
   deleteSubscriptionFromList?: (idSubscription: number) => void
   updateSubscriptionList?: (updatedSubscr: IPatchSubscription) => void
+  unsubscribe?: () => void
+  responseModalText?: string
+  showResponse?: boolean
+  setResponseModalText?: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const SubscriptionCard = ({
@@ -18,11 +27,29 @@ export const SubscriptionCard = ({
   isAdmin,
   deleteSubscriptionFromList,
   updateSubscriptionList,
+  unsubscribe,
+  responseModalText,
+  showResponse,
+  setResponseModalText,
 }: ICard) => {
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
   const [showEditModal, setShowEditModal] = useState<boolean>(false)
+  const [showUnsubscribeModal, setUnsubscribeModal] = useState<boolean>(false)
+  const [showResultModal, setResultModal] = useState<boolean | undefined>(false)
+
+  useEffect(() => {
+    setResultModal(showResponse)
+  }, [showResponse])
+
   const handleDeleteModal = (): void => {
     setShowDeleteModal(!showDeleteModal)
+  }
+
+  const handleResultModal = (): void => {
+    setResultModal(false)
+    if (setResponseModalText) {
+      setResponseModalText('')
+    }
   }
 
   const deleteContactItem = (idSubscription: number): void => {
@@ -34,6 +61,10 @@ export const SubscriptionCard = ({
   }
   const handleEditModal = (): void => {
     setShowEditModal(!showEditModal)
+  }
+
+  const handleUnsubscribeModal = (): void => {
+    setUnsubscribeModal(!showUnsubscribeModal)
   }
 
   return (
@@ -62,7 +93,11 @@ export const SubscriptionCard = ({
             <ST.InfoItem>{'All coefficients are available'}</ST.InfoItem>
             <ST.InfoItem>{props.description}</ST.InfoItem>
           </ST.SubscriptionInfoList>
-          {!isAdmin && <ST.UnsubscribeButton>Unsubscribe</ST.UnsubscribeButton>}
+          {!isAdmin && (
+            <ST.UnsubscribeButton onClick={() => handleUnsubscribeModal()}>
+              Unsubscribe
+            </ST.UnsubscribeButton>
+          )}
         </ST.CardBody>
       </ST.SubscriptionCard>
       {isAdmin && (
@@ -90,6 +125,31 @@ export const SubscriptionCard = ({
           }
           show={showDeleteModal}
           onClose={handleDeleteModal}
+        />
+      )}
+
+      {unsubscribe && (
+        <DefaultPopup
+          children={
+            <ConfirmUnsubscribe
+              onUnsubscribe={() => unsubscribe()}
+              closeModal={() => handleUnsubscribeModal()}
+            />
+          }
+          show={showUnsubscribeModal}
+          onClose={handleUnsubscribeModal}
+        />
+      )}
+      {showResultModal && (
+        <DefaultPopup
+          children={
+            <ResultUnsubscribe
+              responseModalText={responseModalText}
+              closeModal={() => handleResultModal()}
+            />
+          }
+          show={showResultModal}
+          onClose={handleResultModal}
         />
       )}
     </>

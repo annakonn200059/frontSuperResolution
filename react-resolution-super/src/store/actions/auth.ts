@@ -22,10 +22,10 @@ const setUserInfo = (user: User, token: string): Login => ({
 
 type LogoutAction = AuthAction | PurchaseAction
 
-export const logout = (): ((dispatch: Dispatch<LogoutAction>) => void) => {
+export const logout = (): ((dispatch: Dispatch<any>) => void) => {
   localStorage.removeItem('auth')
   localStorage.removeItem('purchase')
-  return (dispatch: Dispatch<LogoutAction>) => {
+  return (dispatch: Dispatch<any>) => {
     dispatch({ type: AuthActionTypes.LOGOUT })
     dispatch(resetPurchase())
   }

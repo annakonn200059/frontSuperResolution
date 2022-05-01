@@ -29,6 +29,15 @@ export const setUserPurchase = (data: IPurchase) => ({
   },
 })
 
-export const resetPurchase = (): ResetPurchase => ({
+export const resetPurchase = (): ((
+  dispatch: Dispatch<ResetPurchase>
+) => void) => {
+  localStorage.removeItem('purchase')
+  return (dispatch: Dispatch<ResetPurchase>) => {
+    dispatch(removePurchase())
+  }
+}
+
+export const removePurchase = (): ResetPurchase => ({
   type: PurchaseActionTypes.RESETPURCHASE,
 })
