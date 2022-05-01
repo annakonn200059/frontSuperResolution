@@ -14,6 +14,7 @@ interface IDropBox {
   isSubscription: boolean
   coefficients: number[]
 }
+
 //TODO вынести dropbox с селектом в отдельную компоненту и использовать тут и в профиле админа
 const DropBox = ({ token, coefficients, isSubscription }: IDropBox) => {
   const [files, setFiles] = useState<File[]>([])

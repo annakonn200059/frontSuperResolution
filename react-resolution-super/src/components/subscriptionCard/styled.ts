@@ -5,7 +5,7 @@ import { ReactComponent as DeleteButton } from 'assets/icons/subscriptions/delet
 
 export const SubscriptionCard = styled.div`
   //padding: 20px;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  box-shadow: 0 5px 15px 0 rgb(0 0 0 / 8%);
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 8px;
   position: relative;
@@ -14,6 +14,17 @@ export const SubscriptionCard = styled.div`
   align-items: center;
   justify-content: center;
   width: 295px;
+  background-color: white;
+  background-opacity: 0.8;
+
+  &:hover {
+    transition: transform 0.3s ease;
+    transform: scale(1.1);
+  }
+
+  &:not(:hover) {
+    transition: transform 0.3s ease;
+  }
 `
 
 export const CardHeader = styled.h4`
@@ -70,4 +81,18 @@ export const InfoItem = styled.div`
 
 export const AmountSpan = styled.span`
   font-weight: bold;
+`
+
+export const UnsubscribeButton = styled.button`
+  padding: 8px 20px 10px 20px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: transparent;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
 `

@@ -17,9 +17,9 @@ export const LeftPannel = styled.div`
 `
 
 export const RightPannel = styled.div`
-  padding: 50px 60px 0 60px;
   display: flex;
   flex-direction: column;
+  //position: relative;
 `
 
 export const LeftPannelHeader = styled.div`

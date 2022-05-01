@@ -1,7 +1,6 @@
 import { apiRequest, apiRequestFile } from './request'
 import {
   IPatchSubscription,
-  ISubscriptionWithId,
   ISubscription,
   IGetSubscriptions,
 } from 'types/subscription'

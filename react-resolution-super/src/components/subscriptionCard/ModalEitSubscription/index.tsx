@@ -15,7 +15,7 @@ interface IEditSubscription {
   idSubscription: number
   closeModal: () => void
   subscriptionInfo: ISubscription
-  updateSubscriptionList: (updatedSubscr: IPatchSubscription) => void
+  updateSubscriptionList?: (updatedSubscr: IPatchSubscription) => void
 }
 
 export const ConfirmDelete: FC<IConfirmDelete> = ({
@@ -64,10 +64,12 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
       })
       patchSubscription({ idSubscription: idSubscription, args: changedFields })
         .then((resp) => {
-          updateSubscriptionList({
-            idSubscription: idSubscription,
-            args: changedFields,
-          })
+          if (updateSubscriptionList) {
+            updateSubscriptionList({
+              idSubscription: idSubscription,
+              args: changedFields,
+            })
+          }
           closeModal()
         })
         .catch((e) => {

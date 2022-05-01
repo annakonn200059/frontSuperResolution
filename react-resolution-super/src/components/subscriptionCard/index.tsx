@@ -6,11 +6,11 @@ import DefaultPopup from '../ui/Modals/defaultModal'
 import { ConfirmDelete, ModalEditSubscription } from './ModalEitSubscription'
 
 interface ICard {
-  key: number
+  key?: number
   props: ISubscriptionWithId
   isAdmin: boolean
-  deleteSubscriptionFromList: (idSubscription: number) => void
-  updateSubscriptionList: (updatedSubscr: IPatchSubscription) => void
+  deleteSubscriptionFromList?: (idSubscription: number) => void
+  updateSubscriptionList?: (updatedSubscr: IPatchSubscription) => void
 }
 
 export const SubscriptionCard = ({
@@ -26,9 +26,11 @@ export const SubscriptionCard = ({
   }
 
   const deleteContactItem = (idSubscription: number): void => {
-    deleteSubscription(idSubscription).then((resp) =>
-      deleteSubscriptionFromList(idSubscription)
-    )
+    if (deleteSubscriptionFromList) {
+      deleteSubscription(idSubscription).then((resp) =>
+        deleteSubscriptionFromList(idSubscription)
+      )
+    }
   }
   const handleEditModal = (): void => {
     setShowEditModal(!showEditModal)
@@ -60,6 +62,7 @@ export const SubscriptionCard = ({
             <ST.InfoItem>{'All coefficients are available'}</ST.InfoItem>
             <ST.InfoItem>{props.description}</ST.InfoItem>
           </ST.SubscriptionInfoList>
+          {!isAdmin && <ST.UnsubscribeButton>Unsubscribe</ST.UnsubscribeButton>}
         </ST.CardBody>
       </ST.SubscriptionCard>
       {isAdmin && (
