@@ -1,14 +1,14 @@
 import React, { MutableRefObject, useRef } from 'react'
 import * as ST from './styled'
 import DropBox from 'components/dropbox'
-import { AuthState } from 'types/authType'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
 import { CoefficientsState } from 'types/coefficients'
-import { auth, coeffs } from 'store/selectors'
+import { accessToken, coeffs, isPurchase } from 'store/selectors'
 
 export const Main = () => {
-  const stateUser: AuthState = useSelector<RootState, AuthState>(auth)
+  const token: string = useSelector<RootState, string>(accessToken)
+  const isSubscription: boolean = useSelector<RootState, boolean>(isPurchase)
   const chooseRef = useRef<HTMLDivElement | null>(null)
   const coefficients: CoefficientsState = useSelector<
     RootState,
@@ -36,7 +36,8 @@ export const Main = () => {
       <ST.DropBoxContainer ref={chooseRef}>
         <ST.DropHeader>Upload your image below:</ST.DropHeader>
         <DropBox
-          stateUser={stateUser}
+          token={token}
+          isSubscription={isSubscription}
           coefficients={coefficients.coefficients}
         />
       </ST.DropBoxContainer>

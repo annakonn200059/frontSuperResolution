@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react'
 import * as ST from './styled'
-import { AuthState } from '../../types/authType'
 import DropZoneField from './dropField'
 import BaseSelect from 'components/ui/BaseSelect'
 import { useNavigate } from 'react-router-dom'
@@ -11,11 +10,12 @@ import InformModal from '../ui/Modals/InfromModal'
 import { saveAs } from 'file-saver'
 
 interface IDropBox {
-  stateUser: AuthState
+  token: string
+  isSubscription: boolean
   coefficients: number[]
 }
 //TODO вынести dropbox с селектом в отдельную компоненту и использовать тут и в профиле админа
-const DropBox = ({ stateUser, coefficients }: IDropBox) => {
+const DropBox = ({ token, coefficients, isSubscription }: IDropBox) => {
   const [files, setFiles] = useState<File[]>([])
   const navigate = useNavigate()
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -75,7 +75,7 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
       const submit: boolean = checkFilledData()
       if (submit) {
         setErrorText('')
-        checkUploadsAmount(stateUser.accessToken)
+        checkUploadsAmount(token)
           .then((resp) => {
             if (resp.success) {
               handleFormSubmit(files[0])
@@ -108,34 +108,48 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
 
   const modalText = (
     <ST.ModalHeader>
-      <ST.LoginLink onClick={redirectLogin}>Login</ST.LoginLink> to access this
-      coefficient
+      {token ? (
+        '\nPurchase a subscription'
+      ) : (
+        <ST.LoginLink onClick={redirectLogin}>Login</ST.LoginLink>
+      )}{' '}
+      to access this coefficient
     </ST.ModalHeader>
   )
 
   const uploadsEndedText = (
     <ST.ModalHeader>
-      Sorry, You have no possible uploads left.{' '}
-      {stateUser.accessToken ? (
-        '\nPurchase the subscription'
-      ) : (
-        <ST.LoginLink onClick={redirectLogin}> Login</ST.LoginLink>
-      )}{' '}
-      to access more than {availableUploads} uploads
+      Sorry, You have no possible uploads left.
+      {!isSubscription &&
+        (token ? (
+          `\nPurchase a subscription to access more than ${availableUploads} uploads`
+        ) : (
+          <ST.LoginLink onClick={redirectLogin}>
+            Login to access more than {availableUploads} uploads
+          </ST.LoginLink>
+        ))}
+      {isSubscription &&
+        `\nAvailable amount of uploads a day: ${availableUploads}`}
     </ST.ModalHeader>
   )
 
   const activeElements = (): number[] => {
     let allowedCoeffs: number[]
-    if (!stateUser.accessToken) {
+    if (!token) {
       allowedCoeffs = [coefficients[0]]
+    } else if (!isSubscription) {
+      allowedCoeffs = [coefficients[0], coefficients[1]]
     } else {
       allowedCoeffs = coefficients
     }
     return allowedCoeffs
   }
 
-  const resetForm = (): void => setFiles([])
+  const resetForm = (): void => {
+    setFiles([])
+    setDownloadItem('')
+    setErrorText('')
+  }
   return (
     <ST.DropArea>
       <DropZoneField
