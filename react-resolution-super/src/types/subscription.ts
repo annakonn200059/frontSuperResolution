@@ -1,3 +1,5 @@
+import { AuthActionTypes, User } from './authType'
+
 export interface ISubscription {
   [key: string]: string | number | undefined
   subscription_name?: string

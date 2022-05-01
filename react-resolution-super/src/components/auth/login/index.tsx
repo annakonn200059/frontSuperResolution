@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom'
 import { yupErrorHandler } from 'utils/yupErrorHandler'
 import { auth } from 'store/selectors'
 import { NavLink } from 'react-router-dom'
+import { getPurchase } from 'store/actions/purchase'
 
 interface PropsRegisterStep {
   setStep: (stepId: number) => void
@@ -38,6 +39,7 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
       loginAuth(values.email, values.password)
         .then((resp) => {
           dispatch(login(resp.token, resp.user))
+          dispatch(getPurchase(resp.token))
           handleIsDisabled()
           navigate('/profile')
         })
