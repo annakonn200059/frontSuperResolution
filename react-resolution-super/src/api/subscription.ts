@@ -19,6 +19,7 @@ interface IPostResponse extends IDeleteResponse {
 
 interface ICheckUploadsAmount extends IDeleteResponse {
   availableAmount?: number
+  notPaid?: boolean
 }
 
 export const getCoefficients = async (): Promise<IGetCoeffs> => {

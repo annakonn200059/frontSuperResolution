@@ -28,6 +28,12 @@ export const purchaseReducer = (
         purchase: action.payload.purchase,
       }
     }
+    case PurchaseActionTypes.SETPURCHASEINACTIVE: {
+      return {
+        ...state,
+        purchase: { ...state.purchase, is_paid: false },
+      }
+    }
     case PurchaseActionTypes.RESETPURCHASE: {
       return {
         ...state,

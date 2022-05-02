@@ -4,11 +4,19 @@ import DropBox from 'components/dropbox'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
 import { CoefficientsState } from 'types/coefficients'
-import { accessToken, coeffs, isPurchase } from 'store/selectors'
+import {
+  accessToken,
+  coeffs,
+  isPaidPurchase,
+  isPurchase,
+} from 'store/selectors'
 
 export const Main = () => {
   const token: string = useSelector<RootState, string>(accessToken)
   const isSubscription: boolean = useSelector<RootState, boolean>(isPurchase)
+  const isPaidSubscription: boolean = useSelector<RootState, boolean>(
+    isPaidPurchase
+  )
   const chooseRef = useRef<HTMLDivElement | null>(null)
   const coefficients: CoefficientsState = useSelector<
     RootState,
@@ -39,6 +47,7 @@ export const Main = () => {
           token={token}
           isSubscription={isSubscription}
           coefficients={coefficients.coefficients}
+          isPaidSubscription={isPaidSubscription}
         />
       </ST.DropBoxContainer>
     </ST.MainWrapper>

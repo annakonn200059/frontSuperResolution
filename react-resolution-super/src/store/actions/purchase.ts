@@ -5,6 +5,7 @@ import {
   PurchaseAction,
   PurchaseActionTypes,
   ResetPurchase,
+  SetInactivePurchase,
 } from 'types/purchaseSubscription'
 
 export const getPurchase = (
@@ -40,4 +41,22 @@ export const resetPurchase = (): ((
 
 export const removePurchase = (): ResetPurchase => ({
   type: PurchaseActionTypes.RESETPURCHASE,
+})
+
+export const setInactivePurchase = (): ((
+  dispatch: Dispatch<SetInactivePurchase>
+) => void) => {
+  const jsonPurchaseData = localStorage.getItem('purchase')
+  if (jsonPurchaseData) {
+    const purchaseData: IPurchase = JSON.parse(jsonPurchaseData)
+    const newPurchaseData: IPurchase = { ...purchaseData, is_paid: false }
+    localStorage.setItem('purchase', JSON.stringify(newPurchaseData))
+  }
+  return (dispatch: Dispatch<SetInactivePurchase>) => {
+    dispatch(setInactive())
+  }
+}
+
+export const setInactive = (): SetInactivePurchase => ({
+  type: PurchaseActionTypes.SETPURCHASEINACTIVE,
 })

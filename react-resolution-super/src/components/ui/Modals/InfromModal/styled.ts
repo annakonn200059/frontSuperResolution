@@ -10,6 +10,7 @@ export const PopupContent = styled.div`
 
 export const HeaderText = styled.div`
   text-align: center;
+  white-space: pre-wrap;
 `
 
 export const PopupCloseButton = styled.button`

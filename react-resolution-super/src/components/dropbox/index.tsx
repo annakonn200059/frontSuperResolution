@@ -8,16 +8,26 @@ import { API_ENDPOINT } from 'api/request'
 import { checkUploadsAmount, sendImageData } from 'api/subscription'
 import InformModal from '../ui/Modals/InfromModal'
 import { saveAs } from 'file-saver'
+import { useDispatch } from 'react-redux'
+import { setInactivePurchase } from 'store/actions/purchase'
 
 interface IDropBox {
   token: string
   isSubscription: boolean
+  isPaidSubscription: boolean
   coefficients: number[]
 }
 
 //TODO вынести dropbox с селектом в отдельную компоненту и использовать тут и в профиле админа
-const DropBox = ({ token, coefficients, isSubscription }: IDropBox) => {
+const DropBox = ({
+  token,
+  coefficients,
+  isSubscription,
+  isPaidSubscription,
+}: IDropBox) => {
+  const dispatch = useDispatch()
   const [files, setFiles] = useState<File[]>([])
+  const [responseText, setResponseText] = useState<string>('')
   const navigate = useNavigate()
   const [showModal, setShowModal] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
@@ -82,7 +92,11 @@ const DropBox = ({ token, coefficients, isSubscription }: IDropBox) => {
               handleFormSubmit(files[0])
             } else {
               setAvailableUploads(resp.availableAmount)
+              setResponseText(resp.msg)
               handleModal()
+              if (resp.notPaid) {
+                dispatch(setInactivePurchase())
+              }
             }
           })
           .catch((err) => {
@@ -115,22 +129,6 @@ const DropBox = ({ token, coefficients, isSubscription }: IDropBox) => {
         <ST.LoginLink onClick={redirectLogin}>Login</ST.LoginLink>
       )}{' '}
       to access this coefficient
-    </ST.ModalHeader>
-  )
-
-  const uploadsEndedText = (
-    <ST.ModalHeader>
-      Sorry, You have no possible uploads left.
-      {!isSubscription &&
-        (token ? (
-          `\nPurchase a subscription to access more than ${availableUploads} uploads`
-        ) : (
-          <ST.LoginLink onClick={redirectLogin}>
-            Login to access more than {availableUploads} uploads
-          </ST.LoginLink>
-        ))}
-      {isSubscription &&
-        `\nAvailable amount of uploads a day: ${availableUploads}`}
     </ST.ModalHeader>
   )
 
@@ -187,11 +185,7 @@ const DropBox = ({ token, coefficients, isSubscription }: IDropBox) => {
         </ST.DownloadPhotoLink>
       )}
       <ST.ErrorText>{errorText ? errorText : ''}</ST.ErrorText>
-      <InformModal
-        text={uploadsEndedText}
-        show={showModal}
-        onClose={handleModal}
-      />
+      <InformModal text={responseText} show={showModal} onClose={handleModal} />
     </ST.DropArea>
   )
 }
