@@ -9,6 +9,7 @@ import {
   ConfirmUnsubscribe,
   ResultUnsubscribe,
 } from './ModalEitSubscription'
+import { ActionsButtonsContainer } from './styled'
 
 interface ICard {
   key?: number
@@ -20,6 +21,7 @@ interface ICard {
   responseModalText?: string
   showResponse?: boolean
   setResponseModalText?: React.Dispatch<React.SetStateAction<string>>
+  isPaid?: boolean
 }
 
 export const SubscriptionCard = ({
@@ -31,6 +33,7 @@ export const SubscriptionCard = ({
   responseModalText,
   showResponse,
   setResponseModalText,
+  isPaid,
 }: ICard) => {
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
   const [showEditModal, setShowEditModal] = useState<boolean>(false)
@@ -93,11 +96,18 @@ export const SubscriptionCard = ({
             <ST.InfoItem>{'All coefficients are available'}</ST.InfoItem>
             <ST.InfoItem>{props.description}</ST.InfoItem>
           </ST.SubscriptionInfoList>
-          {!isAdmin && (
-            <ST.UnsubscribeButton onClick={() => handleUnsubscribeModal()}>
-              Unsubscribe
-            </ST.UnsubscribeButton>
-          )}
+          <ST.ActionsButtonsContainer>
+            {!isPaid && (
+              <ST.ProlongButton onClick={() => {}}>
+                Pay to prolong
+              </ST.ProlongButton>
+            )}
+            {!isAdmin && (
+              <ST.UnsubscribeButton onClick={() => handleUnsubscribeModal()}>
+                Unsubscribe
+              </ST.UnsubscribeButton>
+            )}
+          </ST.ActionsButtonsContainer>
         </ST.CardBody>
       </ST.SubscriptionCard>
       {isAdmin && (

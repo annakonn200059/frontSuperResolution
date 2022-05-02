@@ -5,7 +5,7 @@ import { getUnsubscribed, getUserSubscription } from 'api/userPurchase'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/store'
 import { PurchaseState } from 'types/purchaseSubscription'
-import { accessToken, purchase } from 'store/selectors'
+import { accessToken, isPaidPurchase, purchase } from 'store/selectors'
 import { getAllSubscriptions } from 'api/subscription'
 import { SubscriptionCard } from '../../subscriptionCard'
 import { SubscriptionOffers } from './SubscriptionOffers'
@@ -29,6 +29,7 @@ export const UserSubscriptions = () => {
     purchase
   )
   const token: string = useSelector<RootState, string>(accessToken)
+  const isPaid: boolean = useSelector<RootState, boolean>(isPaidPurchase)
 
   const loadSubscription = useCallback(
     (idSubscr, userToken) => {
@@ -82,6 +83,7 @@ export const UserSubscriptions = () => {
               responseModalText={responseModalText}
               showResponse={!!responseModalText}
               setResponseModalText={setResponseModalText}
+              isPaid={isPaid}
             />
           </ST.CardContainer>
         ) : (

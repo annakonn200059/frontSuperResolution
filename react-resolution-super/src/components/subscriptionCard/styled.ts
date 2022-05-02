@@ -83,6 +83,13 @@ export const AmountSpan = styled.span`
   font-weight: bold;
 `
 
+export const ActionsButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+  align-items: center;
+`
+
 export const UnsubscribeButton = styled.button`
   padding: 8px 20px 10px 20px;
   border-radius: 5px;
@@ -91,8 +98,24 @@ export const UnsubscribeButton = styled.button`
   text-align: center;
   font-size: 14px;
   font-weight: 400;
+  min-width: 140px;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.03);
+  }
+`
+
+export const ProlongButton = styled.button`
+  padding: 8px 20px 10px 20px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #ddd;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  min-width: 140px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.09);
   }
 `
