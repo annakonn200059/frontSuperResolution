@@ -1,7 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import * as ST from './styled'
 import { IGetSubscriptions, ISubscriptionWithId } from 'types/subscription'
-import { getUnsubscribed, getUserSubscription } from 'api/userPurchase'
+import {
+  getProlongSubscription,
+  getUnsubscribed,
+  getUserSubscription,
+} from 'api/userPurchase'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/store'
 import { PurchaseState } from 'types/purchaseSubscription'
@@ -10,7 +14,7 @@ import { getAllSubscriptions } from 'api/subscription'
 import { SubscriptionCard } from '../../subscriptionCard'
 import { SubscriptionOffers } from './SubscriptionOffers'
 import { Preloader } from '../../preloader'
-import { resetPurchase } from 'store/actions/purchase'
+import { resetPurchase, setActivePurchase } from 'store/actions/purchase'
 
 export const UserSubscriptions = () => {
   const dispatch = useDispatch()
@@ -24,10 +28,11 @@ export const UserSubscriptions = () => {
   })
   const [isLoading, setLoading] = useState<boolean>(false)
   const [responseModalText, setResponseModalText] = useState<string>('')
-
+  const [errorText, setErrorText] = useState<string>('')
   const userPurchase: PurchaseState = useSelector<RootState, PurchaseState>(
     purchase
   )
+  const [, update] = useState('')
   const token: string = useSelector<RootState, string>(accessToken)
   const isPaid: boolean = useSelector<RootState, boolean>(isPaidPurchase)
 
@@ -61,6 +66,14 @@ export const UserSubscriptions = () => {
       })
   }, [allSubscriptions])
 
+  const prolongTheSubscription = useCallback(() => {
+    getProlongSubscription(token)
+      .then((res) => dispatch(setActivePurchase))
+      .catch((err) => {
+        setErrorText(err.response.data.msg)
+      })
+  }, [errorText])
+
   useEffect(() => {
     if (userPurchase.hasPurchase) {
       setLoading(true)
@@ -84,6 +97,9 @@ export const UserSubscriptions = () => {
               showResponse={!!responseModalText}
               setResponseModalText={setResponseModalText}
               isPaid={isPaid}
+              onProlong={prolongTheSubscription}
+              payErrorText={errorText}
+              //update={update}
             />
           </ST.CardContainer>
         ) : (

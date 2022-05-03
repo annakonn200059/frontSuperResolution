@@ -34,6 +34,12 @@ export const purchaseReducer = (
         purchase: { ...state.purchase, is_paid: false },
       }
     }
+    case PurchaseActionTypes.SETPURCHASEACTIVE: {
+      return {
+        ...state,
+        purchase: { ...state.purchase, is_paid: true },
+      }
+    }
     case PurchaseActionTypes.RESETPURCHASE: {
       return {
         ...state,

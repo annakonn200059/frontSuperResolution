@@ -5,6 +5,7 @@ import {
   PurchaseAction,
   PurchaseActionTypes,
   ResetPurchase,
+  SetActivePurchase,
   SetInactivePurchase,
 } from 'types/purchaseSubscription'
 
@@ -59,4 +60,22 @@ export const setInactivePurchase = (): ((
 
 export const setInactive = (): SetInactivePurchase => ({
   type: PurchaseActionTypes.SETPURCHASEINACTIVE,
+})
+
+export const setActivePurchase = (): ((
+  dispatch: Dispatch<SetActivePurchase>
+) => void) => {
+  const jsonPurchaseData = localStorage.getItem('purchase')
+  if (jsonPurchaseData) {
+    const purchaseData: IPurchase = JSON.parse(jsonPurchaseData)
+    const newPurchaseData: IPurchase = { ...purchaseData, is_paid: true }
+    localStorage.setItem('purchase', JSON.stringify(newPurchaseData))
+  }
+  return (dispatch: Dispatch<SetActivePurchase>) => {
+    dispatch(setActive())
+  }
+}
+
+export const setActive = (): SetActivePurchase => ({
+  type: PurchaseActionTypes.SETPURCHASEACTIVE,
 })

@@ -9,6 +9,7 @@ export enum PurchaseActionTypes {
   RESETPURCHASE = 'RESETPURCHASE',
   CHANGEPURCHASE = 'CHANGEPURCHASE',
   SETPURCHASEINACTIVE = 'SETPURCHASEINACTIVE',
+  SETPURCHASEACTIVE = 'SETPURCHASEACTIVE',
 }
 
 export type PurchaseState = {
@@ -33,6 +34,10 @@ export interface SetInactivePurchase {
   type: PurchaseActionTypes.SETPURCHASEINACTIVE
 }
 
+export interface SetActivePurchase {
+  type: PurchaseActionTypes.SETPURCHASEACTIVE
+}
+
 export interface ResetPurchase {
   type: PurchaseActionTypes.RESETPURCHASE
 }
@@ -42,3 +47,4 @@ export type PurchaseAction =
   | ChangePurchase
   | ResetPurchase
   | SetInactivePurchase
+  | SetActivePurchase

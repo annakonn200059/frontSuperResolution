@@ -9,7 +9,9 @@ import {
   ConfirmUnsubscribe,
   ResultUnsubscribe,
 } from './ModalEitSubscription'
-import { ActionsButtonsContainer } from './styled'
+import { Payment } from '../views/payment'
+// @ts-ignore
+import { HunelProvider, HunelCreditCard } from 'reactjs-credit-card'
 
 interface ICard {
   key?: number
@@ -22,6 +24,9 @@ interface ICard {
   showResponse?: boolean
   setResponseModalText?: React.Dispatch<React.SetStateAction<string>>
   isPaid?: boolean
+  onProlong?: () => void
+  payErrorText?: string
+  update?: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const SubscriptionCard = ({
@@ -34,10 +39,15 @@ export const SubscriptionCard = ({
   showResponse,
   setResponseModalText,
   isPaid,
+  onProlong,
+  payErrorText,
+  update,
 }: ICard) => {
+  const hunel = new HunelCreditCard()
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
   const [showEditModal, setShowEditModal] = useState<boolean>(false)
   const [showUnsubscribeModal, setUnsubscribeModal] = useState<boolean>(false)
+  const [showPayModal, setPayModal] = useState<boolean>(false)
   const [showResultModal, setResultModal] = useState<boolean | undefined>(false)
 
   useEffect(() => {
@@ -70,6 +80,10 @@ export const SubscriptionCard = ({
     setUnsubscribeModal(!showUnsubscribeModal)
   }
 
+  const handlePayModal = (): void => {
+    setPayModal(!showPayModal)
+  }
+
   return (
     <>
       <ST.SubscriptionCard>
@@ -98,7 +112,7 @@ export const SubscriptionCard = ({
           </ST.SubscriptionInfoList>
           <ST.ActionsButtonsContainer>
             {!isPaid && (
-              <ST.ProlongButton onClick={() => {}}>
+              <ST.ProlongButton onClick={() => handlePayModal()}>
                 Pay to prolong
               </ST.ProlongButton>
             )}
@@ -160,6 +174,23 @@ export const SubscriptionCard = ({
           }
           show={showResultModal}
           onClose={handleResultModal}
+        />
+      )}
+      {showPayModal && (
+        <DefaultPopup
+          children={
+            <HunelProvider config={hunel}>
+              <Payment
+                closeModal={() => handlePayModal()}
+                cost={props.cost}
+                onSubmitPay={onProlong}
+                payErrorText={payErrorText}
+                //update={update}
+              />
+            </HunelProvider>
+          }
+          show={showPayModal}
+          onClose={handlePayModal}
         />
       )}
     </>
