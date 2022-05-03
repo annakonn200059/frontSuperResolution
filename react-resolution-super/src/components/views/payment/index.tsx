@@ -1,47 +1,35 @@
 import React, { FC, useCallback, useState } from 'react'
 import * as ST from './styled'
-import { PurchaseState } from 'types/purchaseSubscription'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'store/store'
-import { accessToken, purchase } from 'store/selectors'
 // @ts-ignore
 import Card from 'reactjs-credit-card/card'
 // @ts-ignore
 import { useCardForm } from 'reactjs-credit-card'
-import { getProlongSubscription } from '../../../api/userPurchase'
-import { setActivePurchase } from '../../../store/actions/purchase'
+import { ISubscriptionWithId } from '../../../types/subscription'
+import { SubscriptionPaymentInfo } from '../../ProfileTabsContent/SubscriptionPaymentInfo'
 
 interface IPayment {
   closeModal: () => void
   onSubmitPay?: () => void
-  cost?: number
   payErrorText?: string
+  subscriptionInfo?: ISubscriptionWithId
+  setShowSubmitModal?: React.Dispatch<React.SetStateAction<boolean>>
+  showSubmitModal?: boolean
 }
 
 export const Payment: FC<IPayment> = ({
   closeModal,
-  cost,
   onSubmitPay,
   payErrorText,
+  subscriptionInfo,
+  setShowSubmitModal,
+  showSubmitModal,
 }: IPayment) => {
   const getFormData = useCardForm()
   const [numberValid, setNumberValid] = useState(true)
   const [validationError, setValidationError] = useState('')
   const [resultSubmit, setResultSubmit] = useState(true)
-  const token: string = useSelector<RootState, string>(accessToken)
-  const [errorText, setErrorText] = useState<string>('')
-  const dispatch = useDispatch()
 
-  const prolongTheSubscription = async () => {
-    let isError = false
-    await getProlongSubscription(token)
-      .then((res) => dispatch(setActivePurchase))
-      .catch((err) => {
-        setErrorText(err.response.data.msg || 'Error')
-        isError = true
-      })
-    return isError
-  }
+  const [showPaymentData, setShowPaymentData] = useState<boolean>(false)
 
   const handleValidateCardData = async (e: any) => {
     e.preventDefault()
@@ -52,9 +40,9 @@ export const Payment: FC<IPayment> = ({
     if (!data.number.isValid) setNumberValid(false) //we'll set a hook to show a error if card number is invalid
     if (!isValid) setValidationError('Invalid data')
     if (isValid) {
-      const isError = await prolongTheSubscription()
-      if (!isError) {
-        //closeModal()
+      //const isError = await prolongTheSubscription()
+      if (!validationError) {
+        setShowPaymentData(true)
       }
     }
   }
@@ -70,26 +58,46 @@ export const Payment: FC<IPayment> = ({
 
   return (
     <ST.PaymentWrapper>
-      <ST.HeaderPayment>Payment information</ST.HeaderPayment>
-      <ST.CardWrapper>
-        <Card />
-        <ST.CardFieldsForm onSubmit={(event) => handleSubmitCardData(event)}>
-          <ST.StyledCardNumber placeholder="Number" onFocus={handleFocus} />
-          <ST.StyledCardHolder placeholder="Owner" />
-          <ST.DateWrapper>
-            <ST.StyledValidThruMonth />
-            <ST.StyledValidThruYear />
-          </ST.DateWrapper>
-          <ST.StyledCardSecurityCode
-            placeholder="CVV"
-            className="input-text semi"
-          />
-          <ST.SubmitPayButton type="submit">Submit</ST.SubmitPayButton>
-          {(errorText || validationError) && (
-            <ST.ErrorText>{errorText || validationError}</ST.ErrorText>
-          )}
-        </ST.CardFieldsForm>
-      </ST.CardWrapper>
+      {!showPaymentData ? (
+        <>
+          <ST.HeaderPayment>Payment information</ST.HeaderPayment>
+          <ST.CardWrapper>
+            <Card />
+            <ST.CardFieldsForm
+              onSubmit={(event) => handleSubmitCardData(event)}
+            >
+              <ST.StyledCardNumber
+                name="cardnumber"
+                autocomplete="cc-number"
+                placeholder="0000 0000 0000 0000"
+                onFocus={handleFocus}
+              />
+              <ST.StyledCardHolder placeholder="Owner" />
+              <ST.DateWrapper>
+                <ST.StyledValidThruMonth />
+                <ST.StyledValidThruYear />
+              </ST.DateWrapper>
+              <ST.StyledCardSecurityCode
+                placeholder="CVC"
+                className="input-text semi"
+                name="cvc"
+                autocomplete="cc-csc"
+              />
+              <ST.SubmitPayButton type="submit">Submit</ST.SubmitPayButton>
+              {validationError && (
+                <ST.ErrorText>{validationError}</ST.ErrorText>
+              )}
+            </ST.CardFieldsForm>
+          </ST.CardWrapper>
+        </>
+      ) : (
+        <SubscriptionPaymentInfo
+          closeModal={closeModal}
+          subscriptionInfo={subscriptionInfo}
+          setShowSubmitModal={setShowSubmitModal}
+          showSubmitModal={showSubmitModal}
+        />
+      )}
     </ST.PaymentWrapper>
   )
 }

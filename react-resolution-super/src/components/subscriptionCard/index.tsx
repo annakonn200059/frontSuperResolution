@@ -12,6 +12,7 @@ import {
 import { Payment } from '../views/payment'
 // @ts-ignore
 import { HunelProvider, HunelCreditCard } from 'reactjs-credit-card'
+import InformModal from '../ui/Modals/InfromModal'
 
 interface ICard {
   key?: number
@@ -49,6 +50,7 @@ export const SubscriptionCard = ({
   const [showUnsubscribeModal, setUnsubscribeModal] = useState<boolean>(false)
   const [showPayModal, setPayModal] = useState<boolean>(false)
   const [showResultModal, setResultModal] = useState<boolean | undefined>(false)
+  const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false)
 
   useEffect(() => {
     setResultModal(showResponse)
@@ -82,6 +84,10 @@ export const SubscriptionCard = ({
 
   const handlePayModal = (): void => {
     setPayModal(!showPayModal)
+  }
+
+  const handleModal = (): void => {
+    setShowSubmitModal(!showSubmitModal)
   }
 
   return (
@@ -182,9 +188,11 @@ export const SubscriptionCard = ({
             <HunelProvider config={hunel}>
               <Payment
                 closeModal={() => handlePayModal()}
-                cost={props.cost}
+                subscriptionInfo={props}
                 onSubmitPay={onProlong}
                 payErrorText={payErrorText}
+                setShowSubmitModal={setShowSubmitModal}
+                showSubmitModal={showSubmitModal}
                 //update={update}
               />
             </HunelProvider>
@@ -193,6 +201,11 @@ export const SubscriptionCard = ({
           onClose={handlePayModal}
         />
       )}
+      <InformModal
+        text={'Thanks for your payment!'}
+        show={showSubmitModal}
+        onClose={handleModal}
+      />
     </>
   )
 }

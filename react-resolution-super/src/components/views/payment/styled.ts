@@ -17,6 +17,7 @@ export const PaymentWrapper = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   padding: 40px 100px;
+  position: relative;
 `
 
 export const HeaderPayment = styled.h1`
