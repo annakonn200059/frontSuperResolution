@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom'
 import { yupErrorHandler } from 'utils/yupErrorHandler'
 import { auth } from 'store/selectors'
 import { NavLink } from 'react-router-dom'
+import { getPurchase, setActivePurchase } from 'store/actions/purchase'
 
 interface PropsRegisterStep {
   setStep: (stepId: number) => void
@@ -21,6 +22,9 @@ interface PropsRegisterStep {
 export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const dispatchProlong = () => {
+    dispatch(setActivePurchase)
+  }
   const stateUser: AuthState = useSelector<RootState, AuthState>(auth)
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
@@ -38,6 +42,7 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
       loginAuth(values.email, values.password)
         .then((resp) => {
           dispatch(login(resp.token, resp.user))
+          dispatch(getPurchase(resp.token))
           handleIsDisabled()
           navigate('/profile')
         })

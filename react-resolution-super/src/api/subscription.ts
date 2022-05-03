@@ -1,7 +1,6 @@
 import { apiRequest, apiRequestFile } from './request'
 import {
   IPatchSubscription,
-  ISubscriptionWithId,
   ISubscription,
   IGetSubscriptions,
 } from 'types/subscription'
@@ -20,6 +19,7 @@ interface IPostResponse extends IDeleteResponse {
 
 interface ICheckUploadsAmount extends IDeleteResponse {
   availableAmount?: number
+  notPaid?: boolean
 }
 
 export const getCoefficients = async (): Promise<IGetCoeffs> => {

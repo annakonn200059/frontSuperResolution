@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react'
 import * as ST from './styled'
-import { AuthState } from '../../types/authType'
 import DropZoneField from './dropField'
 import BaseSelect from 'components/ui/BaseSelect'
 import { useNavigate } from 'react-router-dom'
@@ -9,14 +8,26 @@ import { API_ENDPOINT } from 'api/request'
 import { checkUploadsAmount, sendImageData } from 'api/subscription'
 import InformModal from '../ui/Modals/InfromModal'
 import { saveAs } from 'file-saver'
+import { useDispatch } from 'react-redux'
+import { setInactivePurchase } from 'store/actions/purchase'
 
 interface IDropBox {
-  stateUser: AuthState
+  token: string
+  isSubscription: boolean
+  isPaidSubscription: boolean
   coefficients: number[]
 }
+
 //TODO вынести dropbox с селектом в отдельную компоненту и использовать тут и в профиле админа
-const DropBox = ({ stateUser, coefficients }: IDropBox) => {
+const DropBox = ({
+  token,
+  coefficients,
+  isSubscription,
+  isPaidSubscription,
+}: IDropBox) => {
+  const dispatch = useDispatch()
   const [files, setFiles] = useState<File[]>([])
+  const [responseText, setResponseText] = useState<string>('')
   const navigate = useNavigate()
   const [showModal, setShowModal] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
@@ -75,17 +86,21 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
       const submit: boolean = checkFilledData()
       if (submit) {
         setErrorText('')
-        checkUploadsAmount(stateUser.accessToken)
+        checkUploadsAmount(token)
           .then((resp) => {
             if (resp.success) {
               handleFormSubmit(files[0])
             } else {
               setAvailableUploads(resp.availableAmount)
+              setResponseText(resp.msg)
               handleModal()
+              if (resp.notPaid) {
+                dispatch(setInactivePurchase())
+              }
             }
           })
           .catch((err) => {
-            setErrorText(err.response.data.msg)
+            setErrorText('Error')
           })
       }
     },
@@ -108,27 +123,21 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
 
   const modalText = (
     <ST.ModalHeader>
-      <ST.LoginLink onClick={redirectLogin}>Login</ST.LoginLink> to access this
-      coefficient
-    </ST.ModalHeader>
-  )
-
-  const uploadsEndedText = (
-    <ST.ModalHeader>
-      Sorry, You have no possible uploads left.{' '}
-      {stateUser.accessToken ? (
-        '\nPurchase the subscription'
+      {token ? (
+        '\nPurchase a subscription'
       ) : (
-        <ST.LoginLink onClick={redirectLogin}> Login</ST.LoginLink>
+        <ST.LoginLink onClick={redirectLogin}>Login</ST.LoginLink>
       )}{' '}
-      to access more than {availableUploads} uploads
+      to access this coefficient
     </ST.ModalHeader>
   )
 
   const activeElements = (): number[] => {
     let allowedCoeffs: number[]
-    if (!stateUser.accessToken) {
+    if (!token) {
       allowedCoeffs = [coefficients[0]]
+    } else if (!isSubscription) {
+      allowedCoeffs = [coefficients[0], coefficients[1]]
     } else {
       allowedCoeffs = coefficients
     }
@@ -136,9 +145,9 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
   }
 
   const resetForm = (): void => {
-    setErrorText('')
-    setDownloadItem('')
     setFiles([])
+    setDownloadItem('')
+    setErrorText('')
   }
   return (
     <ST.DropArea>
@@ -176,11 +185,7 @@ const DropBox = ({ stateUser, coefficients }: IDropBox) => {
         </ST.DownloadPhotoLink>
       )}
       <ST.ErrorText>{errorText ? errorText : ''}</ST.ErrorText>
-      <InformModal
-        text={uploadsEndedText}
-        show={showModal}
-        onClose={handleModal}
-      />
+      <InformModal text={responseText} show={showModal} onClose={handleModal} />
     </ST.DropArea>
   )
 }

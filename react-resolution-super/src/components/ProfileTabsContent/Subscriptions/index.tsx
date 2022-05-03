@@ -6,7 +6,7 @@ import {
   IPatchSubscription,
   ISubscriptionWithId,
 } from 'types/subscription'
-import { SubscriptionCard } from '../../subscriptionCard'
+import SubscriptionCard from '../../subscriptionCard'
 import { AddSubscription } from './AddSubscription'
 import { Preloader } from '../../preloader'
 

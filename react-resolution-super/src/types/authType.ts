@@ -16,7 +16,7 @@ export type AuthState = {
   isAuthorised: boolean
 }
 
-interface Login {
+export interface Login {
   type: AuthActionTypes.LOGIN
   payload: {
     accessToken: string
@@ -24,7 +24,7 @@ interface Login {
   }
 }
 
-interface Logout {
+export interface Logout {
   type: AuthActionTypes.LOGOUT
 }
 

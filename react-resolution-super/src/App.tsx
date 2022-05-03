@@ -7,6 +7,8 @@ import { AuthState, User } from 'types/authType'
 import { Routing } from 'routing'
 import { checkAuth } from './api/auth'
 import { getCoefficients } from './api/subscription'
+import { setUserPurchase } from './store/actions/purchase'
+import { IPurchase, PurchaseState } from './types/purchaseSubscription'
 
 const App: FC = () => {
   const dispatch = useDispatch()
@@ -21,6 +23,8 @@ const App: FC = () => {
 
   useEffect(() => {
     const jsonUserData = localStorage.getItem('auth')
+    const jsonPurchaseData = localStorage.getItem('purchase')
+
     if (jsonUserData) {
       const userData: AuthState = JSON.parse(jsonUserData)
       if (userData.accessToken) {
@@ -31,7 +35,6 @@ const App: FC = () => {
                 if (resp.success) {
                   loginHandler(userData.accessToken, userData.user)
                 } else {
-                  //console.log('logout')
                   dispatch(logout())
                 }
               })
@@ -42,6 +45,10 @@ const App: FC = () => {
           dispatch(logout())
         }
       }
+    }
+    if (jsonPurchaseData) {
+      const purchaseData: IPurchase = JSON.parse(jsonPurchaseData)
+      dispatch(setUserPurchase(purchaseData))
     }
   }, [])
   return (

@@ -21,7 +21,7 @@ export const authReducer = (state = initialState, action: AuthAction) => {
       return {
         ...state,
         accessToken: '',
-        user: {},
+        user: initialState.user,
         isAuthorised: false,
       }
     }

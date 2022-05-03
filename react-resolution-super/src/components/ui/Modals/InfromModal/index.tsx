@@ -22,6 +22,7 @@ const InformModal: FC<ISelectProps> = ({
   const handleClose = (): void => {
     onClose(!show)
   }
+
   return (
     <DefaultPopup show={show} onClose={handleClose}>
       <ST.PopupContent>
