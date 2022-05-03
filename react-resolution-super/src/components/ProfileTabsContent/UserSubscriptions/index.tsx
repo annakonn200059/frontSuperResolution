@@ -11,7 +11,7 @@ import { RootState } from 'store/store'
 import { PurchaseState } from 'types/purchaseSubscription'
 import { accessToken, isPaidPurchase, purchase } from 'store/selectors'
 import { getAllSubscriptions } from 'api/subscription'
-import { SubscriptionCard } from '../../subscriptionCard'
+import SubscriptionCard from '../../subscriptionCard'
 import { SubscriptionOffers } from './SubscriptionOffers'
 import { Preloader } from '../../preloader'
 import { resetPurchase, setActivePurchase } from 'store/actions/purchase'
@@ -35,6 +35,10 @@ export const UserSubscriptions = () => {
   const [, update] = useState('')
   const token: string = useSelector<RootState, string>(accessToken)
   const isPaid: boolean = useSelector<RootState, boolean>(isPaidPurchase)
+
+  const dispatchProlong = () => {
+    dispatch(setActivePurchase())
+  }
 
   const loadSubscription = useCallback(
     (idSubscr, userToken) => {
@@ -99,6 +103,7 @@ export const UserSubscriptions = () => {
               isPaid={isPaid}
               onProlong={prolongTheSubscription}
               payErrorText={errorText}
+              dispatchProlong={dispatchProlong}
               //update={update}
             />
           </ST.CardContainer>

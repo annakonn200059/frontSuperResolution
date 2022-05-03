@@ -13,6 +13,10 @@ import { Payment } from '../views/payment'
 // @ts-ignore
 import { HunelProvider, HunelCreditCard } from 'reactjs-credit-card'
 import InformModal from '../ui/Modals/InfromModal'
+import { setActivePurchase } from '../../store/actions/purchase'
+import { connect, useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../store/store'
+import { isPaidPurchase } from '../../store/selectors'
 
 interface ICard {
   key?: number
@@ -28,9 +32,10 @@ interface ICard {
   onProlong?: () => void
   payErrorText?: string
   update?: React.Dispatch<React.SetStateAction<string>>
+  dispatchProlong?: () => void
 }
 
-export const SubscriptionCard = ({
+const SubscriptionCard = ({
   props,
   isAdmin,
   deleteSubscriptionFromList,
@@ -43,6 +48,7 @@ export const SubscriptionCard = ({
   onProlong,
   payErrorText,
   update,
+  dispatchProlong,
 }: ICard) => {
   const hunel = new HunelCreditCard()
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
@@ -193,6 +199,7 @@ export const SubscriptionCard = ({
                 payErrorText={payErrorText}
                 setShowSubmitModal={setShowSubmitModal}
                 showSubmitModal={showSubmitModal}
+                dispatchFunction={dispatchProlong}
                 //update={update}
               />
             </HunelProvider>
@@ -209,3 +216,5 @@ export const SubscriptionCard = ({
     </>
   )
 }
+
+export default SubscriptionCard

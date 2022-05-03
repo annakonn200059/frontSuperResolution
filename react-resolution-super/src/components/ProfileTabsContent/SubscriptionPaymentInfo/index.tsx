@@ -17,6 +17,7 @@ interface IPayment {
   subscriptionInfo?: ISubscriptionWithId
   setShowSubmitModal?: React.Dispatch<React.SetStateAction<boolean>>
   showSubmitModal?: boolean
+  dispatchFunction?: () => void
 }
 
 export const SubscriptionPaymentInfo: FC<IPayment> = ({
@@ -26,9 +27,9 @@ export const SubscriptionPaymentInfo: FC<IPayment> = ({
   subscriptionInfo,
   setShowSubmitModal,
   showSubmitModal,
+  dispatchFunction,
 }: IPayment) => {
   const [errorText, setErrorText] = useState<string>('')
-  const dispatch = useDispatch()
   const token: string = useSelector<RootState, string>(accessToken)
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const handleIsDisabled = (): void => {
@@ -41,7 +42,9 @@ export const SubscriptionPaymentInfo: FC<IPayment> = ({
       handleIsDisabled()
       await getProlongSubscription(token)
         .then((resp) => {
-          dispatch(setActivePurchase)
+          if (dispatchFunction) {
+            dispatchFunction()
+          }
           handleIsDisabled()
           if (setShowSubmitModal) {
             setShowSubmitModal(!showSubmitModal)

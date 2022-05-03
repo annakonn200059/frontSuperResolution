@@ -71,6 +71,7 @@ export const setActivePurchase = (): ((
     const newPurchaseData: IPurchase = { ...purchaseData, is_paid: true }
     localStorage.setItem('purchase', JSON.stringify(newPurchaseData))
   }
+  console.log('dispatch')
   return (dispatch: Dispatch<SetActivePurchase>) => {
     dispatch(setActive())
   }

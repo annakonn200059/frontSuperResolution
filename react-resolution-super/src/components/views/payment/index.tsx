@@ -14,6 +14,7 @@ interface IPayment {
   subscriptionInfo?: ISubscriptionWithId
   setShowSubmitModal?: React.Dispatch<React.SetStateAction<boolean>>
   showSubmitModal?: boolean
+  dispatchFunction?: () => void
 }
 
 export const Payment: FC<IPayment> = ({
@@ -23,6 +24,7 @@ export const Payment: FC<IPayment> = ({
   subscriptionInfo,
   setShowSubmitModal,
   showSubmitModal,
+  dispatchFunction,
 }: IPayment) => {
   const getFormData = useCardForm()
   const [numberValid, setNumberValid] = useState(true)
@@ -96,6 +98,7 @@ export const Payment: FC<IPayment> = ({
           subscriptionInfo={subscriptionInfo}
           setShowSubmitModal={setShowSubmitModal}
           showSubmitModal={showSubmitModal}
+          dispatchFunction={dispatchFunction}
         />
       )}
     </ST.PaymentWrapper>
