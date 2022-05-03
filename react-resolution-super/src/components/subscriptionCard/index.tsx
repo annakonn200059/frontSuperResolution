@@ -14,9 +14,7 @@ import { Payment } from '../views/payment'
 import { HunelProvider, HunelCreditCard } from 'reactjs-credit-card'
 import InformModal from '../ui/Modals/InfromModal'
 import { setActivePurchase } from '../../store/actions/purchase'
-import { connect, useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../store/store'
-import { isPaidPurchase } from '../../store/selectors'
+import { useDispatch } from 'react-redux'
 
 interface ICard {
   key?: number
@@ -29,10 +27,8 @@ interface ICard {
   showResponse?: boolean
   setResponseModalText?: React.Dispatch<React.SetStateAction<string>>
   isPaid?: boolean
-  onProlong?: () => void
-  payErrorText?: string
+  onProlong?: () => Promise<any>
   update?: React.Dispatch<React.SetStateAction<string>>
-  dispatchProlong?: () => void
 }
 
 const SubscriptionCard = ({
@@ -46,17 +42,19 @@ const SubscriptionCard = ({
   setResponseModalText,
   isPaid,
   onProlong,
-  payErrorText,
-  update,
-  dispatchProlong,
 }: ICard) => {
   const hunel = new HunelCreditCard()
+  const dispatch = useDispatch()
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
   const [showEditModal, setShowEditModal] = useState<boolean>(false)
   const [showUnsubscribeModal, setUnsubscribeModal] = useState<boolean>(false)
   const [showPayModal, setPayModal] = useState<boolean>(false)
   const [showResultModal, setResultModal] = useState<boolean | undefined>(false)
   const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false)
+
+  const dispatchProlong = () => {
+    dispatch(setActivePurchase())
+  }
 
   useEffect(() => {
     setResultModal(showResponse)
@@ -196,11 +194,9 @@ const SubscriptionCard = ({
                 closeModal={() => handlePayModal()}
                 subscriptionInfo={props}
                 onSubmitPay={onProlong}
-                payErrorText={payErrorText}
                 setShowSubmitModal={setShowSubmitModal}
                 showSubmitModal={showSubmitModal}
                 dispatchFunction={dispatchProlong}
-                //update={update}
               />
             </HunelProvider>
           }

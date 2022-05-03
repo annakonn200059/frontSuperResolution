@@ -78,6 +78,9 @@ export const SubmitPayButton = styled.button`
 `
 
 export const ErrorText = styled.div`
+  position: absolute;
+  bottom: 30px;
+  left: 100px;
   font-size: 14px;
   line-height: 140%;
   color: ${COLORS.errorRed};

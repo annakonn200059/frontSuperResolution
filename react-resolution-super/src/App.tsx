@@ -35,7 +35,6 @@ const App: FC = () => {
                 if (resp.success) {
                   loginHandler(userData.accessToken, userData.user)
                 } else {
-                  //console.log('logout')
                   dispatch(logout())
                 }
               })

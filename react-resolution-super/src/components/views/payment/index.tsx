@@ -4,13 +4,12 @@ import * as ST from './styled'
 import Card from 'reactjs-credit-card/card'
 // @ts-ignore
 import { useCardForm } from 'reactjs-credit-card'
-import { ISubscriptionWithId } from '../../../types/subscription'
+import { ISubscriptionWithId } from 'types/subscription'
 import { SubscriptionPaymentInfo } from '../../ProfileTabsContent/SubscriptionPaymentInfo'
 
 interface IPayment {
   closeModal: () => void
-  onSubmitPay?: () => void
-  payErrorText?: string
+  onSubmitPay?: () => Promise<any>
   subscriptionInfo?: ISubscriptionWithId
   setShowSubmitModal?: React.Dispatch<React.SetStateAction<boolean>>
   showSubmitModal?: boolean
@@ -20,7 +19,6 @@ interface IPayment {
 export const Payment: FC<IPayment> = ({
   closeModal,
   onSubmitPay,
-  payErrorText,
   subscriptionInfo,
   setShowSubmitModal,
   showSubmitModal,
@@ -29,20 +27,17 @@ export const Payment: FC<IPayment> = ({
   const getFormData = useCardForm()
   const [numberValid, setNumberValid] = useState(true)
   const [validationError, setValidationError] = useState('')
-  const [resultSubmit, setResultSubmit] = useState(true)
-
   const [showPaymentData, setShowPaymentData] = useState<boolean>(false)
 
   const handleValidateCardData = async (e: any) => {
     e.preventDefault()
     const [data, isValid] = getFormData()
 
-    console.log(data, isValid) //log all form data and verification results
+    //log all form data and verification results
 
     if (!data.number.isValid) setNumberValid(false) //we'll set a hook to show a error if card number is invalid
     if (!isValid) setValidationError('Invalid data')
     if (isValid) {
-      //const isError = await prolongTheSubscription()
       if (!validationError) {
         setShowPaymentData(true)
       }
@@ -51,7 +46,6 @@ export const Payment: FC<IPayment> = ({
 
   const handleSubmitCardData = async (e: React.FormEvent<HTMLFormElement>) => {
     await handleValidateCardData(e)
-    //console.log(resultSubmit)
   }
 
   function handleFocus() {
@@ -99,6 +93,7 @@ export const Payment: FC<IPayment> = ({
           setShowSubmitModal={setShowSubmitModal}
           showSubmitModal={showSubmitModal}
           dispatchFunction={dispatchFunction}
+          onSubmitPay={onSubmitPay}
         />
       )}
     </ST.PaymentWrapper>

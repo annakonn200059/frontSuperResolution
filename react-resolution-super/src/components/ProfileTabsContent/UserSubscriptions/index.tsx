@@ -32,13 +32,8 @@ export const UserSubscriptions = () => {
   const userPurchase: PurchaseState = useSelector<RootState, PurchaseState>(
     purchase
   )
-  const [, update] = useState('')
   const token: string = useSelector<RootState, string>(accessToken)
   const isPaid: boolean = useSelector<RootState, boolean>(isPaidPurchase)
-
-  const dispatchProlong = () => {
-    dispatch(setActivePurchase())
-  }
 
   const loadSubscription = useCallback(
     (idSubscr, userToken) => {
@@ -70,13 +65,9 @@ export const UserSubscriptions = () => {
       })
   }, [allSubscriptions])
 
-  const prolongTheSubscription = useCallback(() => {
-    getProlongSubscription(token)
-      .then((res) => dispatch(setActivePurchase))
-      .catch((err) => {
-        setErrorText(err.response.data.msg)
-      })
-  }, [errorText])
+  const prolongTheSubscription = (): Promise<any> => {
+    return getProlongSubscription(token)
+  }
 
   useEffect(() => {
     if (userPurchase.hasPurchase) {
@@ -102,9 +93,6 @@ export const UserSubscriptions = () => {
               setResponseModalText={setResponseModalText}
               isPaid={isPaid}
               onProlong={prolongTheSubscription}
-              payErrorText={errorText}
-              dispatchProlong={dispatchProlong}
-              //update={update}
             />
           </ST.CardContainer>
         ) : (

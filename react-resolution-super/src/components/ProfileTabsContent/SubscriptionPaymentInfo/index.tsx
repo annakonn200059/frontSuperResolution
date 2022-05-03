@@ -1,18 +1,13 @@
 import React, { FC, useState } from 'react'
 import { ISubscriptionWithId } from 'types/subscription'
 import * as ST from './styled'
-import { getProlongSubscription } from 'api/userPurchase'
-import { setActivePurchase } from 'store/actions/purchase'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'store/store'
-import { accessToken } from 'store/selectors'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { yupErrorHandler } from 'utils/yupErrorHandler'
 
 interface IPayment {
   closeModal: () => void
-  onSubmitPay?: () => void
+  onSubmitPay?: () => Promise<any>
   payErrorText?: string
   subscriptionInfo?: ISubscriptionWithId
   setShowSubmitModal?: React.Dispatch<React.SetStateAction<boolean>>
@@ -30,7 +25,6 @@ export const SubscriptionPaymentInfo: FC<IPayment> = ({
   dispatchFunction,
 }: IPayment) => {
   const [errorText, setErrorText] = useState<string>('')
-  const token: string = useSelector<RootState, string>(accessToken)
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const handleIsDisabled = (): void => {
     setIsDisabled((prevState) => !prevState)
@@ -40,21 +34,23 @@ export const SubscriptionPaymentInfo: FC<IPayment> = ({
     initialValues: { cost: subscriptionInfo?.cost || 0 },
     onSubmit: async () => {
       handleIsDisabled()
-      await getProlongSubscription(token)
-        .then((resp) => {
-          if (dispatchFunction) {
-            dispatchFunction()
-          }
-          handleIsDisabled()
-          if (setShowSubmitModal) {
-            setShowSubmitModal(!showSubmitModal)
-          }
-          closeModal()
-        })
-        .catch((err) => {
-          handleIsDisabled()
-          setErrorText(err.response.data.msg || 'Error')
-        })
+      if (onSubmitPay) {
+        await onSubmitPay()
+          .then((resp) => {
+            if (dispatchFunction) {
+              dispatchFunction()
+            }
+            handleIsDisabled()
+            if (setShowSubmitModal) {
+              setShowSubmitModal(!showSubmitModal)
+            }
+            closeModal()
+          })
+          .catch((err) => {
+            handleIsDisabled()
+            setErrorText(err.response.data.msg || 'Error')
+          })
+      }
     },
     validationSchema: Yup.object().shape({
       cost: Yup.number()
