@@ -29,6 +29,7 @@ interface ICard {
   isPaid?: boolean
   onProlong?: () => Promise<any>
   update?: React.Dispatch<React.SetStateAction<string>>
+  shouldNotTransform?: boolean
 }
 
 const SubscriptionCard = ({
@@ -42,6 +43,7 @@ const SubscriptionCard = ({
   setResponseModalText,
   isPaid,
   onProlong,
+  shouldNotTransform,
 }: ICard) => {
   const hunel = new HunelCreditCard()
   const dispatch = useDispatch()
@@ -96,7 +98,7 @@ const SubscriptionCard = ({
 
   return (
     <>
-      <ST.SubscriptionCard>
+      <ST.SubscriptionCard shouldNotTransform={shouldNotTransform}>
         <ST.CardHeader>
           <ST.SubscriptionName>{props.subscription_name}</ST.SubscriptionName>
           {isAdmin && <ST.EditContact onClick={() => handleEditModal()} />}
