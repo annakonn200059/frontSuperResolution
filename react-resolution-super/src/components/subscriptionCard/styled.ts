@@ -1,9 +1,13 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { COLORS } from 'constants/colors'
 import { ReactComponent as EditButton } from 'assets/icons/subscriptions/subscriptions.svg'
 import { ReactComponent as DeleteButton } from 'assets/icons/subscriptions/delete.svg'
 
-export const SubscriptionCard = styled.div`
+interface ICard {
+  shouldNotTransform?: boolean
+}
+
+export const SubscriptionCard = styled.div<ICard>`
   //padding: 20px;
   box-shadow: 0 5px 15px 0 rgb(0 0 0 / 8%);
   border: 1px solid rgba(0, 0, 0, 0.125);
@@ -16,15 +20,18 @@ export const SubscriptionCard = styled.div`
   width: 295px;
   background-color: white;
   background-opacity: 0.8;
+  ${(props) =>
+    !props.shouldNotTransform &&
+    css`
+      &:hover {
+        transition: all 0.6s ease;
+        transform: scale(1.1);
+      }
 
-  &:hover {
-    transition: transform 0.3s ease;
-    transform: scale(1.1);
-  }
-
-  &:not(:hover) {
-    transition: transform 0.3s ease;
-  }
+      &:not(:hover) {
+        transition: transform 0.6s ease;
+      }
+    `}
 `
 
 export const CardHeader = styled.h4`

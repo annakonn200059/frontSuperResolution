@@ -1,28 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import * as ST from './styled'
-import { getAllSubscriptions } from 'api/subscription'
-import {
-  IGetSubscriptions,
-  IPatchSubscription,
-  ISubscriptionWithId,
-} from 'types/subscription'
+import { IPatchSubscription, ISubscriptionWithId } from 'types/subscription'
 import SubscriptionCard from '../../subscriptionCard'
 import { AddSubscription } from './AddSubscription'
 import { Preloader } from '../../preloader'
+import useGetAllSubscriptions from 'customHooks/useGetAllSubscriptions'
 
 export const Subscriptions = () => {
-  const [allSubscriptions, setAllSubscriptions] = useState<IGetSubscriptions>({
-    subscriptions: [],
-  })
   const [isLoading, setLoading] = useState(false)
-
-  const onChangeSubscriptions = useCallback(() => {
-    getAllSubscriptions()
-      .then((data) => setAllSubscriptions(data))
-      .finally(() => {
-        setLoading(false)
-      })
-  }, [allSubscriptions])
+  const [allSubscriptions, setAllSubscriptions] =
+    useGetAllSubscriptions(setLoading)
 
   const addToSubscriptionList = useCallback(
     (res: ISubscriptionWithId) => {
@@ -59,11 +46,6 @@ export const Subscriptions = () => {
     },
     [allSubscriptions]
   )
-
-  useEffect(() => {
-    setLoading(true)
-    onChangeSubscriptions()
-  }, [])
 
   return (
     <ST.Container>

@@ -25,3 +25,13 @@ export const getProlongSubscription = async (token: string) => {
   const resp = await apiRequest(token).post('/api/prolongSubscription')
   return resp.data
 }
+
+export const buySubscription = async (
+  token: string,
+  idSubscription: number
+) => {
+  const resp = await apiRequest(token).post('/api/buySubscription', {
+    idSubscription: idSubscription,
+  })
+  return resp.data
+}

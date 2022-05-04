@@ -33,8 +33,6 @@ export const Payment: FC<IPayment> = ({
     e.preventDefault()
     const [data, isValid] = getFormData()
 
-    //log all form data and verification results
-
     if (!data.number.isValid) setNumberValid(false) //we'll set a hook to show a error if card number is invalid
     if (!isValid) setValidationError('Invalid data')
     if (isValid) {
@@ -64,7 +62,7 @@ export const Payment: FC<IPayment> = ({
             >
               <ST.StyledCardNumber
                 name="cardnumber"
-                autocomplete="cc-number"
+                autoComplete="cc-number"
                 placeholder="0000 0000 0000 0000"
                 onFocus={handleFocus}
               />
@@ -77,7 +75,7 @@ export const Payment: FC<IPayment> = ({
                 placeholder="CVC"
                 className="input-text semi"
                 name="cvc"
-                autocomplete="cc-csc"
+                autoComplete="cc-csc"
               />
               <ST.SubmitPayButton type="submit">Submit</ST.SubmitPayButton>
               {validationError && (

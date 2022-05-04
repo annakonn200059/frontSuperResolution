@@ -13,7 +13,11 @@ import { Payment } from '../views/payment'
 // @ts-ignore
 import { HunelProvider, HunelCreditCard } from 'reactjs-credit-card'
 import InformModal from '../ui/Modals/InfromModal'
-import { setActivePurchase } from '../../store/actions/purchase'
+import {
+  getPurchase,
+  setActivePurchase,
+  setUserPurchase,
+} from '../../store/actions/purchase'
 import { useDispatch } from 'react-redux'
 
 interface ICard {
@@ -29,6 +33,8 @@ interface ICard {
   isPaid?: boolean
   onProlong?: () => Promise<any>
   update?: React.Dispatch<React.SetStateAction<string>>
+  shouldNotTransform?: boolean
+  onBuySubscription?: () => Promise<any>
 }
 
 const SubscriptionCard = ({
@@ -42,6 +48,8 @@ const SubscriptionCard = ({
   setResponseModalText,
   isPaid,
   onProlong,
+  shouldNotTransform,
+  onBuySubscription,
 }: ICard) => {
   const hunel = new HunelCreditCard()
   const dispatch = useDispatch()
@@ -49,11 +57,23 @@ const SubscriptionCard = ({
   const [showEditModal, setShowEditModal] = useState<boolean>(false)
   const [showUnsubscribeModal, setUnsubscribeModal] = useState<boolean>(false)
   const [showPayModal, setPayModal] = useState<boolean>(false)
+  const [showBuySubscriptionModal, setBuySubscriptionModal] =
+    useState<boolean>(false)
   const [showResultModal, setResultModal] = useState<boolean | undefined>(false)
   const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false)
 
   const dispatchProlong = () => {
     dispatch(setActivePurchase())
+  }
+  const dispatchBuy = () => {
+    dispatch(
+      setUserPurchase({
+        subscription_id: props.id_subscription,
+        is_paid: true,
+        payment_date: new Date().toDateString(),
+      })
+    )
+    console.log(props.id_subscription)
   }
 
   useEffect(() => {
@@ -89,6 +109,9 @@ const SubscriptionCard = ({
   const handlePayModal = (): void => {
     setPayModal(!showPayModal)
   }
+  const handleBuySubscriptionModal = (): void => {
+    setBuySubscriptionModal(!showBuySubscriptionModal)
+  }
 
   const handleModal = (): void => {
     setShowSubmitModal(!showSubmitModal)
@@ -96,7 +119,7 @@ const SubscriptionCard = ({
 
   return (
     <>
-      <ST.SubscriptionCard>
+      <ST.SubscriptionCard shouldNotTransform={shouldNotTransform}>
         <ST.CardHeader>
           <ST.SubscriptionName>{props.subscription_name}</ST.SubscriptionName>
           {isAdmin && <ST.EditContact onClick={() => handleEditModal()} />}
@@ -121,14 +144,21 @@ const SubscriptionCard = ({
             <ST.InfoItem>{props.description}</ST.InfoItem>
           </ST.SubscriptionInfoList>
           <ST.ActionsButtonsContainer>
-            {!isPaid && (
+            {onProlong && !isPaid && (
               <ST.ProlongButton onClick={() => handlePayModal()}>
                 Pay to prolong
               </ST.ProlongButton>
             )}
-            {!isAdmin && (
+            {unsubscribe && !isAdmin && (
               <ST.UnsubscribeButton onClick={() => handleUnsubscribeModal()}>
                 Unsubscribe
+              </ST.UnsubscribeButton>
+            )}
+            {onBuySubscription && !isAdmin && (
+              <ST.UnsubscribeButton
+                onClick={() => handleBuySubscriptionModal()}
+              >
+                Buy
               </ST.UnsubscribeButton>
             )}
           </ST.ActionsButtonsContainer>
@@ -202,6 +232,24 @@ const SubscriptionCard = ({
           }
           show={showPayModal}
           onClose={handlePayModal}
+        />
+      )}
+      {showBuySubscriptionModal && (
+        <DefaultPopup
+          children={
+            <HunelProvider config={hunel}>
+              <Payment
+                closeModal={() => handleBuySubscriptionModal()}
+                subscriptionInfo={props}
+                onSubmitPay={onBuySubscription}
+                setShowSubmitModal={setShowSubmitModal}
+                showSubmitModal={showSubmitModal}
+                dispatchFunction={dispatchBuy}
+              />
+            </HunelProvider>
+          }
+          show={showBuySubscriptionModal}
+          onClose={handleBuySubscriptionModal}
         />
       )}
       <InformModal
