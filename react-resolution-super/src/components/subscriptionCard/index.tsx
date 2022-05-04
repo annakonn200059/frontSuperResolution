@@ -73,6 +73,7 @@ const SubscriptionCard = ({
         payment_date: new Date().toDateString(),
       })
     )
+    console.log(props.id_subscription)
   }
 
   useEffect(() => {
