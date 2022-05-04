@@ -96,7 +96,7 @@ export const UserSubscriptions = () => {
             />
           </ST.CardContainer>
         ) : (
-          <SubscriptionOffers />
+          <SubscriptionOffers token={token} />
         )
       ) : (
         <Preloader />

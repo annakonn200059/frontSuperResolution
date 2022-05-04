@@ -24,12 +24,12 @@ export const SubscriptionCard = styled.div<ICard>`
     !props.shouldNotTransform &&
     css`
       &:hover {
-        transition: transform 0.3s ease;
+        transition: all 0.6s ease;
         transform: scale(1.1);
       }
 
       &:not(:hover) {
-        transition: transform 0.3s ease;
+        transition: transform 0.6s ease;
       }
     `}
 `

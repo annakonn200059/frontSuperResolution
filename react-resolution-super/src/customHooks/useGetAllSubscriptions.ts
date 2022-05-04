@@ -20,8 +20,14 @@ export default function useGetAllSubscriptions(
   }, [allSubscriptions])
 
   useEffect(() => {
-    setLoading(true)
-    onChangeSubscriptions()
+    let isMounted = true
+    if (isMounted) {
+      setLoading(true)
+      onChangeSubscriptions()
+    }
+    return () => {
+      isMounted = false
+    }
   }, [])
 
   const getSubscriptions = (subscriptionList: IGetSubscriptions): void =>

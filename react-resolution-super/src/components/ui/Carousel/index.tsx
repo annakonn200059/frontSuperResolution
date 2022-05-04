@@ -1,4 +1,4 @@
-import React, { ReactNode, Children, useEffect, useMemo } from 'react'
+import React, { ReactNode, Children, useEffect } from 'react'
 import * as ST from './styled'
 
 interface ICarousel {
@@ -15,7 +15,7 @@ export const Carousel = ({
   withIndicator,
 }: ICarousel): JSX.Element => {
   const indicatorContainerRef = React.useRef<HTMLDivElement>(null)
-
+  const mod = Children.toArray(children).length
   const length = React.useMemo(() => Children.count(children), [children])
   const isRepeating = React.useMemo(
     () => infiniteLoop && Children.count(children) > show,
@@ -35,6 +35,7 @@ export const Carousel = ({
       }
     }
   }, [currentIndex, isRepeating, show, length])
+
   useEffect(() => {
     if (withIndicator) {
       const active =
@@ -52,14 +53,15 @@ export const Carousel = ({
   }, [withIndicator, currentIndex])
 
   const nextItem = () => {
-    if (isRepeating || currentIndex < length - show) {
-      setCurrentIndex((prevState) => prevState + 1)
+    if (isRepeating) {
+      setCurrentIndex((prevState) => (prevState + 1) % mod)
     }
   }
 
   const previousItem = () => {
-    if (isRepeating || currentIndex > 0) {
-      setCurrentIndex((prevState) => prevState - 1)
+    if (isRepeating) {
+      if (currentIndex !== 0) setCurrentIndex((prevState) => prevState - 1)
+      else setCurrentIndex(mod - 1)
     }
   }
 
@@ -110,23 +112,6 @@ export const Carousel = ({
     }
   }
 
-  const extraPreviousItems = useMemo(() => {
-    let output = []
-    for (let index = 0; index < show; index++) {
-      output.push(Children.toArray(children)[length - 1 - index])
-    }
-    output.reverse()
-    return output
-  }, [children, length, show])
-
-  const extraNextItems = React.useMemo(() => {
-    let output = []
-    for (let index = 0; index < show; index++) {
-      output.push(Children.toArray(children)[index])
-    }
-    return output
-  }, [children, show])
-
   return (
     <ST.Container>
       <ST.Wrapper>
@@ -139,14 +124,11 @@ export const Carousel = ({
         >
           <ST.Content
             style={{
-              transform: `translateX(-${currentIndex * (100 / show)}%)`,
               transition: !isTransitionEnabled ? 'none' : undefined,
             }}
             onTransitionEnd={() => handleTransitionEnd()}
           >
-            {length > show && isRepeating && extraPreviousItems}
-            {children}
-            {length > show && isRepeating && extraNextItems}
+            {Children.toArray(children)[currentIndex]}
           </ST.Content>
         </ST.ContentWrapper>
         {isRepeating || currentIndex < length - show ? (
