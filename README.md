@@ -1,4 +1,8 @@
-# Getting Started
+# Application for improving image quality with personal cabinet
+
+Python Flask and SQLAlchemy backend located in private repo.
+
+PostgreSQL database
 
 ## Available Scripts
 
