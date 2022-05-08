@@ -19,6 +19,7 @@ export const SubscriptionOffers = ({ token }: ISubscriptionOffers) => {
   const onBuySubscription = (idSubscription: number): Promise<any> => {
     return buySubscription(token, idSubscription)
   }
+  //TODO check another way of displaying preloader
 
   return (
     <>

@@ -18,16 +18,23 @@ export const DropeZone = styled.div`
   cursor: pointer;
 `
 
-interface IDropBox {
+interface ContainerDropBoxProps {
   active: boolean
+  finishedUpload?: boolean
+  isLoading?: boolean
 }
 
-export const ContainerDropBox = styled.div<IDropBox>`
-  padding: 15px 0 50px 0;
+export const ContainerDropBox = styled.div<ContainerDropBoxProps>`
+  padding: ${(props) => (!props.isLoading ? `15px 0 50px 0` : `40px 0 50px 0`)};
   position: relative;
   width: 558px;
   border: 4px dashed
-    ${(props) => (props.active ? `${COLORS.blue}` : `${COLORS.backgroundGrey}`)};
+    ${(props) =>
+      props.finishedUpload
+        ? `${COLORS.green}`
+        : props.active
+        ? `${COLORS.blue}`
+        : `${COLORS.backgroundGrey}`};
   border-radius: 24px;
   display: flex;
   justify-content: flex-start;
@@ -50,15 +57,23 @@ export const FileNamesContainer = styled.div`
   flex-direction: column;
   align-items: center;
 `
-export const FileNameHeader = styled.div`
+
+interface INameFile {
+  finishedUpload?: boolean
+}
+
+export const FileNameHeader = styled.div<INameFile>`
   margin-top: 8px;
   margin-bottom: 8px;
   font-weight: 600;
   font-size: 18px;
-  color: ${COLORS.blue};
+  color: ${(props) =>
+    props.finishedUpload ? `${COLORS.green}` : `${COLORS.blue}`};
 `
 export const FileName = styled.div`
   position: relative;
+  //text-align: center;
+  max-width: 85%;
 `
 export const ModalHeader = styled.div`
   color: ${COLORS.lightGrey};
