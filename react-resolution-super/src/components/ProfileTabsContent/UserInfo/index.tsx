@@ -19,7 +19,7 @@ export const UserInfo = () => {
           <EditUserInfo authState={authState} token={token} />
         </ST.BlockContainer>
         <ST.BlockContainer>
-          <GenerateToken authState={authState} token={token} />
+          <GenerateToken />
         </ST.BlockContainer>
       </ST.BlocksWrapper>
     </ST.Container>
