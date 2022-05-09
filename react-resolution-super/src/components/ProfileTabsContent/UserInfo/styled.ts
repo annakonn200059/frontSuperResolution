@@ -10,8 +10,9 @@ export const Container = styled.div`
 `
 
 export const BlocksWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  column-gap: 100px;
   width: 100%;
   margin-top: 50px;
   //align-items: flex-start;

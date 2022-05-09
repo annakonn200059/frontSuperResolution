@@ -17,6 +17,13 @@ export const authReducer = (state = initialState, action: AuthAction) => {
         isAuthorised: true,
       }
     }
+    case AuthActionTypes.EDITUSER: {
+      const { payload } = action
+      return {
+        ...state,
+        user: payload.user,
+      }
+    }
     case AuthActionTypes.LOGOUT: {
       return {
         ...state,

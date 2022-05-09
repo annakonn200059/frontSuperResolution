@@ -1,7 +1,13 @@
 import { Dispatch } from 'react'
-import { AuthAction, AuthActionTypes, Login, User } from 'types/authType'
+import {
+  AuthAction,
+  AuthActionTypes,
+  AuthState,
+  EditUser,
+  Login,
+  User,
+} from 'types/authType'
 import { resetPurchase } from './purchase'
-import { PurchaseAction } from 'types/purchaseSubscription'
 
 export const login = (
   token: string,
@@ -20,7 +26,26 @@ const setUserInfo = (user: User, token: string): Login => ({
   },
 })
 
-type LogoutAction = AuthAction | PurchaseAction
+export const editUserState = (
+  user: User
+): ((dispatch: Dispatch<EditUser>) => void) => {
+  const jsonAuthData = localStorage.getItem('auth')
+  if (jsonAuthData) {
+    const authData: AuthState = JSON.parse(jsonAuthData)
+    const newAuthData: AuthState = { ...authData, user: user }
+    localStorage.setItem('auth', JSON.stringify(newAuthData))
+  }
+  return (dispatch: Dispatch<EditUser>) => {
+    dispatch(editUserInfo(user))
+  }
+}
+
+const editUserInfo = (user: User): EditUser => ({
+  type: AuthActionTypes.EDITUSER,
+  payload: {
+    user: user,
+  },
+})
 
 export const logout = (): ((dispatch: Dispatch<any>) => void) => {
   localStorage.removeItem('auth')
