@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { COLORS } from 'constants/colors'
+import Copy from 'assets/icons/clipboard.svg'
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -37,8 +38,8 @@ interface InputProps {
 }
 
 export const NewPropertyInput = styled.input<InputProps>`
-  padding: 0 0 3px 20px;
-  width: 200px;
+  padding: 0 20px 3px 20px;
+  width: 180px;
   height: 35px;
   border-radius: 16px;
   background: ${COLORS.white};
@@ -67,11 +68,19 @@ export const ErrorText = styled.div`
 `
 
 export const TokenContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 10px;
   text-align: center;
+  display: flex;
+  column-gap: 20px;
+  align-items: center;
+  justify-content: center;
 `
 
-export const Token = styled.div`
-  width: 100px;
+export const Token = styled.div``
+export const CopyIcon = styled.div`
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  background: url(${Copy}) 100% 100% no-repeat;
+  margin-bottom: 5px;
 `
-export const CopyIcon = styled.p``

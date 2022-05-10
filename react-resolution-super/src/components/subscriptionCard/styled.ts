@@ -10,7 +10,7 @@ interface ICard {
 export const SubscriptionCard = styled.div<ICard>`
   //padding: 20px;
   box-shadow: 0 5px 15px 0 rgb(0 0 0 / 8%);
-  border: 1px solid rgba(0, 0, 0, 0.125);
+  border: 3px solid ${COLORS.yellow};
   border-radius: 8px;
   position: relative;
   display: flex;

@@ -13,6 +13,7 @@ import { resetPurchase } from 'store/actions/purchase'
 import { ISubscriptionWithId } from 'types/subscription'
 import { PurchaseState } from 'types/purchaseSubscription'
 import { Preloader } from '../../../preloader'
+import { COLORS } from 'constants/colors'
 
 interface IExistingSubscription {
   token: string
@@ -64,7 +65,9 @@ export const ExistingSubscription = ({
     <ST.CardContainer>
       {!isLoading ? (
         <>
-          <ST.Header>Your subscription</ST.Header>
+          <ST.Header>
+            <span style={{ color: `${COLORS.yellow}` }}>Your</span> subscription
+          </ST.Header>
           <SubscriptionCard
             props={userSubscription}
             isAdmin={false}

@@ -28,7 +28,6 @@ export const InputTokenCredentials: FC<IProps> = ({
         .then((resp) => {
           if (resp.token) {
             setToken(resp.token)
-            console.log('1in', resp.token)
             setStep(3)
           } else {
             if (resp.msg) setErrorText(resp.msg)
