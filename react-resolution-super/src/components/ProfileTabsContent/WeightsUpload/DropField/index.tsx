@@ -10,6 +10,7 @@ interface IDropZone {
   value: File[]
   setError: React.Dispatch<React.SetStateAction<string>>
   isLoading: boolean
+  finishedUpload: boolean
 }
 
 export const DropField = ({
@@ -19,6 +20,7 @@ export const DropField = ({
   value,
   setError,
   isLoading,
+  finishedUpload,
 }: IDropZone) => {
   const {
     getRootProps,
@@ -48,7 +50,11 @@ export const DropField = ({
   }, [isDragReject])
 
   return (
-    <ST.ContainerDropBox active={fileUploaded}>
+    <ST.ContainerDropBox
+      active={fileUploaded}
+      isLoading={isLoading}
+      finishedUpload={finishedUpload}
+    >
       <ST.DropeZone {...getRootProps({ className: 'dropzone' })}>
         {!isLoading ? (
           <>
@@ -66,7 +72,13 @@ export const DropField = ({
       </ST.DropeZone>
       {fileUploaded && (
         <ST.FileNamesContainer>
-          <ST.FileNameHeader>File was uploaded!</ST.FileNameHeader>
+          <ST.FileNameHeader>
+            {finishedUpload
+              ? 'Finished!'
+              : !isLoading
+              ? 'File was uploaded!'
+              : 'File is processing'}
+          </ST.FileNameHeader>
           <ST.FileName>{filesArr}</ST.FileName>
         </ST.FileNamesContainer>
       )}

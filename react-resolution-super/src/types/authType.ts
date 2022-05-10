@@ -8,6 +8,7 @@ export type User = {
 export enum AuthActionTypes {
   LOGIN = 'LOGIN',
   LOGOUT = 'LOGOUT',
+  EDITUSER = 'EDITUSER',
 }
 
 export type AuthState = {
@@ -28,4 +29,11 @@ export interface Logout {
   type: AuthActionTypes.LOGOUT
 }
 
-export type AuthAction = Login | Logout
+export interface EditUser {
+  type: AuthActionTypes.EDITUSER
+  payload: {
+    user: User
+  }
+}
+
+export type AuthAction = Login | Logout | EditUser

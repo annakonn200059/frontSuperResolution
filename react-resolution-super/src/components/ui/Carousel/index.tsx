@@ -72,31 +72,23 @@ export const Carousel = ({
   }
 
   const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    // Get initial location
     const touchDown = touchPosition
 
-    // Proceed only if the initial position is not null
     if (touchDown === null) {
       return
     }
 
-    // Get current position
     const currentTouch = e.touches[0].clientX
 
-    // Get the difference between previous and current position
     const diff = touchDown - currentTouch
 
-    // Go to next item
     if (diff > 5) {
       nextItem()
     }
-
-    // Go to previous item
     if (diff < -5) {
       previousItem()
     }
 
-    // Reset initial touch position
     setTouchPosition(null)
   }
 

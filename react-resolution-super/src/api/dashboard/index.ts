@@ -15,3 +15,20 @@ export const sendWeightFile = async (fd: any): Promise<any> => {
   const resp = await apiRequestFile().post('/api/uploadWeightFile', fd)
   return resp.data
 }
+
+interface IGetApiToken {
+  msg?: string
+  success: boolean
+  token?: string
+}
+
+export const getApiToken = async (
+  email: string,
+  password: string
+): Promise<IGetApiToken> => {
+  const resp = await apiRequest().post('/api/getApiToken', {
+    email: email,
+    password: password,
+  })
+  return resp.data
+}

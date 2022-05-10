@@ -5,6 +5,7 @@ import SubscriptionCard from '../../../subscriptionCard'
 import { Carousel } from '../../../ui/Carousel'
 import { buySubscription } from 'api/userPurchase'
 import { Preloader } from '../../../preloader'
+import { COLORS } from '../../../../constants/colors'
 
 interface ISubscriptionOffers {
   token: string
@@ -19,6 +20,7 @@ export const SubscriptionOffers = ({ token }: ISubscriptionOffers) => {
   const onBuySubscription = (idSubscription: number): Promise<any> => {
     return buySubscription(token, idSubscription)
   }
+  //TODO check another way of displaying preloader
 
   return (
     <>
@@ -26,7 +28,8 @@ export const SubscriptionOffers = ({ token }: ISubscriptionOffers) => {
         {!isLoading ? (
           <>
             <ST.OffersHeader>
-              You have no subscription
+              You have
+              <span style={{ color: `${COLORS.yellow}` }}>no subscription</span>
               <ST.SubHeader>Choose from ones below</ST.SubHeader>
             </ST.OffersHeader>
             <ST.CarouselWrapper>

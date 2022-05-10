@@ -27,6 +27,7 @@ const DropBox = ({
 }: IDropBox) => {
   const dispatch = useDispatch()
   const [files, setFiles] = useState<File[]>([])
+  const [isLoading, setLoading] = useState<boolean>(false)
   const [responseText, setResponseText] = useState<string>('')
   const navigate = useNavigate()
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -57,6 +58,9 @@ const DropBox = ({
         })
         .catch((e) => {
           setErrorText(e.response.data.msg)
+        })
+        .finally(() => {
+          setLoading(false)
         })
     } catch (err) {
       setErrorText('Error')
@@ -89,6 +93,7 @@ const DropBox = ({
         checkUploadsAmount(token)
           .then((resp) => {
             if (resp.success) {
+              setLoading(true)
               handleFormSubmit(files[0])
             } else {
               setAvailableUploads(resp.availableAmount)
@@ -156,6 +161,8 @@ const DropBox = ({
         files={files}
         resetForm={resetForm}
         value={values.image}
+        isLoading={isLoading}
+        downloadItem={downloadItem}
       />
       <ST.ButtonContainer>
         <BaseSelect

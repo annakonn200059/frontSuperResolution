@@ -5,19 +5,24 @@ import ImagePreview from './imagePreview'
 import Placeholder from './placeholder'
 import ShowError from './showError'
 import BoxContent from './boxContent'
+import { Preloader } from '../preloader'
 
 interface IDropField {
   handleOnDrop: (newImageFile: File[]) => void
   files: File[]
   resetForm: () => void
   value: File[]
+  isLoading: boolean
+  downloadItem: string
 }
 
 const DropZoneField = ({
   handleOnDrop,
   files,
   resetForm,
+  isLoading,
   value,
+  downloadItem,
 }: IDropField) => {
   const {
     getRootProps,
@@ -44,21 +49,35 @@ const DropZoneField = ({
   }, [acceptedFiles])
 
   return (
-    <ST.ContainerDropBox active={fileUploaded}>
-      <ST.DropeZone {...getRootProps({ className: 'dropzone' })}>
-        <input {...getInputProps()} />
-        <ST.ImageBox />
-        <ST.HeaderBox>
-          Drag and drop image here, or click to select from folder
-        </ST.HeaderBox>
-      </ST.DropeZone>
+    <ST.ContainerDropBox
+      active={fileUploaded}
+      finishedUpload={!!downloadItem}
+      isLoading={isLoading}
+    >
+      {!isLoading ? (
+        <ST.DropeZone {...getRootProps({ className: 'dropzone' })}>
+          <input {...getInputProps()} />
+          <ST.ImageBox />
+          <ST.HeaderBox>
+            Drag and drop image here, or click to select from folder
+          </ST.HeaderBox>
+        </ST.DropeZone>
+      ) : (
+        <Preloader />
+      )}
       {fileUploaded && (
         <ST.FileNamesContainer>
-          <ST.FileNameHeader>Image was uploaded!</ST.FileNameHeader>
+          <ST.FileNameHeader finishedUpload={!!downloadItem}>
+            {downloadItem
+              ? 'Finished!'
+              : !isLoading
+              ? 'Image was uploaded!'
+              : 'Image is processing'}
+          </ST.FileNameHeader>
           <ST.FileName>{filesArr}</ST.FileName>
         </ST.FileNamesContainer>
       )}
-      {fileUploaded && <ST.DeleteButton onClick={resetForm} />}
+      {!isLoading && fileUploaded && <ST.DeleteButton onClick={resetForm} />}
     </ST.ContainerDropBox>
   )
 }

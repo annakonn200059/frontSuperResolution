@@ -10,6 +10,7 @@ import { AuthState } from 'types/authType'
 import { yupErrorHandler } from 'utils/yupErrorHandler'
 import { auth } from 'store/selectors'
 import { NavLink } from 'react-router-dom'
+import { onEnterSubmit } from 'utils/onEnterSubmit'
 
 interface PropsRegisterStep {
   setIsAdmin: (isAdmin: boolean) => void
@@ -90,13 +91,7 @@ export const Register = ({ setIsAdmin, setStep }: PropsRegisterStep) => {
           disabled={isDisabled}
           id={'password'}
           name={'password'}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault()
-              e.stopPropagation()
-              handleSubmit()
-            }
-          }}
+          onKeyDown={(e) => onEnterSubmit(e, handleSubmit)}
         />
         <ST.ErrorText>
           {errorText ? errorText : yupErrorHandler(errors)}

@@ -1,6 +1,10 @@
 import { apiRequest } from '../request'
-import { store } from 'store/store'
-import { AuthState } from '../../types/authType'
+import { EditModalType } from '../../components/ProfileTabsContent/UserInfo/EditUserInfo'
+
+interface IResponse {
+  success: boolean
+  msg: string
+}
 
 interface TLoginResponse {
   success: boolean
@@ -52,5 +56,20 @@ export const logoutAuth = async (accessToken?: string) => {
 
 export const checkAuth = async (accessToken: string) => {
   const resp = await apiRequest(accessToken).post('/api/users/checkToken', {})
+  return resp.data
+}
+export const editUserPassword = async (field: string, accessToken: string) => {
+  const resp = await apiRequest(accessToken).post('/api/users/editPassword', {})
+  return resp.data
+}
+
+export const editUser = async (
+  field: string,
+  accessToken: string,
+  mode: EditModalType
+): Promise<IResponse> => {
+  const resp = await apiRequest(accessToken).patch('/api/users/edit', {
+    [mode]: field,
+  })
   return resp.data
 }

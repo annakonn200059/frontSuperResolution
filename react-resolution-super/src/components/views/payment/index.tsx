@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react'
+import React, { FC, useCallback, useEffect, useState } from 'react'
 import * as ST from './styled'
 // @ts-ignore
 import Card from 'reactjs-credit-card/card'
@@ -6,6 +6,7 @@ import Card from 'reactjs-credit-card/card'
 import { useCardForm } from 'reactjs-credit-card'
 import { ISubscriptionWithId } from 'types/subscription'
 import { SubscriptionPaymentInfo } from '../../ProfileTabsContent/SubscriptionPaymentInfo'
+import { useFormik } from 'formik'
 
 interface IPayment {
   closeModal: () => void
@@ -25,22 +26,31 @@ export const Payment: FC<IPayment> = ({
   dispatchFunction,
 }: IPayment) => {
   const getFormData = useCardForm()
+  const [dataForm, setDataForm] = useState<any>('')
   const [numberValid, setNumberValid] = useState(true)
   const [validationError, setValidationError] = useState('')
   const [showPaymentData, setShowPaymentData] = useState<boolean>(false)
 
   const handleValidateCardData = async (e: any) => {
     e.preventDefault()
-    const [data, isValid] = getFormData()
-
-    if (!data.number.isValid) setNumberValid(false) //we'll set a hook to show a error if card number is invalid
-    if (!isValid) setValidationError('Invalid data')
-    if (isValid) {
-      if (!validationError) {
-        setShowPaymentData(true)
-      }
+    if (!validationError) {
+      setShowPaymentData(true)
     }
   }
+
+  const { handleChange, handleSubmit, values, errors } = useFormik({
+    initialValues: { cardnumber: '', owner: '', cvc: '' },
+    onSubmit: async () => {},
+  })
+
+  useEffect(() => {
+    const [data, isValid] = getFormData()
+    setDataForm(data)
+    if (!isValid) setValidationError('Invalid data')
+    else {
+      setValidationError('')
+    }
+  }, [values.cvc, values.owner, values.cardnumber])
 
   const handleSubmitCardData = async (e: React.FormEvent<HTMLFormElement>) => {
     await handleValidateCardData(e)
@@ -64,9 +74,17 @@ export const Payment: FC<IPayment> = ({
                 name="cardnumber"
                 autoComplete="cc-number"
                 placeholder="0000 0000 0000 0000"
+                value={values.cardnumber}
+                onChange={handleChange}
+                id={'cardnumber'}
                 onFocus={handleFocus}
               />
-              <ST.StyledCardHolder placeholder="Owner" />
+              <ST.StyledCardHolder
+                placeholder="Owner"
+                value={values.owner}
+                onChange={handleChange}
+                id={'owner'}
+              />
               <ST.DateWrapper>
                 <ST.StyledValidThruMonth />
                 <ST.StyledValidThruYear />
@@ -76,6 +94,9 @@ export const Payment: FC<IPayment> = ({
                 className="input-text semi"
                 name="cvc"
                 autoComplete="cc-csc"
+                value={values.cvc}
+                onChange={handleChange}
+                id={'cvc'}
               />
               <ST.SubmitPayButton type="submit">Submit</ST.SubmitPayButton>
               {validationError && (

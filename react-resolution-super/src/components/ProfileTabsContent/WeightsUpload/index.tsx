@@ -14,6 +14,7 @@ export const WeightsUpload = () => {
   const [chosenWeight, setChosenWeight] = useState<number>(-1)
   const [errorText, setErrorText] = useState<string>('')
   const [isLoading, setLoading] = useState(false)
+  const [finished, setFinished] = useState(false)
   const availableExtensions = ['pth', 'pt']
 
   const coefficients: CoefficientsState = useSelector<
@@ -56,6 +57,7 @@ export const WeightsUpload = () => {
       sendWeightFile(fd)
         .then((resp) => {
           setErrorText('')
+          setFinished(true)
         })
         .catch((e) => {
           setErrorText(e.response.data.msg)
@@ -105,6 +107,7 @@ export const WeightsUpload = () => {
             value={values.file}
             setError={setErrorText}
             isLoading={isLoading}
+            finishedUpload={finished}
           />
           <ST.ButtonContainer>
             <BaseSelect

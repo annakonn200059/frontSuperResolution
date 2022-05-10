@@ -8,7 +8,7 @@ import { Routing } from 'routing'
 import { checkAuth } from './api/auth'
 import { getCoefficients } from './api/subscription'
 import { setUserPurchase } from './store/actions/purchase'
-import { IPurchase, PurchaseState } from './types/purchaseSubscription'
+import { IPurchase } from './types/purchaseSubscription'
 
 const App: FC = () => {
   const dispatch = useDispatch()
