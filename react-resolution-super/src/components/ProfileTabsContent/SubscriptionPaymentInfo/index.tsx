@@ -2,7 +2,6 @@ import React, { FC, useState } from 'react'
 import { ISubscriptionWithId } from 'types/subscription'
 import * as ST from './styled'
 import { useFormik } from 'formik'
-import * as Yup from 'yup'
 import { yupErrorHandler } from 'utils/yupErrorHandler'
 
 interface IPayment {
@@ -52,11 +51,6 @@ export const SubscriptionPaymentInfo: FC<IPayment> = ({
           })
       }
     },
-    validationSchema: Yup.object().shape({
-      cost: Yup.number()
-        .required('Missed cost field')
-        .test((val) => val === subscriptionInfo?.cost),
-    }),
   })
 
   return (
@@ -74,14 +68,7 @@ export const SubscriptionPaymentInfo: FC<IPayment> = ({
             <ST.InputLabel>
               <label htmlFor="cost">Cost:</label>
             </ST.InputLabel>
-            <ST.Input
-              placeholder={subscriptionInfo?.cost + ''}
-              value={values.cost}
-              onChange={handleChange}
-              disabled={isDisabled}
-              id={'cost'}
-              name={'cost'}
-            />
+            <ST.Cost>{subscriptionInfo?.cost + ''}</ST.Cost>
           </ST.InputsContainer>
         </ST.FieldsWrapper>
         <ST.SubmitPayButton
