@@ -25,9 +25,9 @@ interface IBackGround {
 
 export const BackGround = styled.div<IBackGround>`
   position: absolute;
-  top: ${(props) => (props.rotate === 'right' ? `160px` : `-20px`)};
-  left: ${(props) => (props.rotate === 'right' ? null : `-170px`)};
-  right: ${(props) => (props.rotate === 'right' ? `-170px` : null)};
+  top: ${(props) => (props.rotate === 'right' ? `150px` : `-20px`)};
+  left: ${(props) => (props.rotate === 'right' ? null : `-190px`)};
+  right: ${(props) => (props.rotate === 'right' ? `-190px` : null)};
   width: 70%;
   height: 70%;
   transform: ${(props) =>
@@ -92,6 +92,13 @@ export const InputsContainer = styled.div`
   margin-top: 40px;
   display: flex;
   flex-direction: column;
+`
+
+export const Cost = styled.div`
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: 600;
+  line-height: 1.5;
 `
 
 export const FieldsWrapper = styled.div`

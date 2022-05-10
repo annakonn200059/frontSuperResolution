@@ -1,6 +1,7 @@
 import React, { MutableRefObject, useRef } from 'react'
 import * as ST from './styled'
 import DropBox from 'components/dropbox'
+import { Examples } from './examples'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
 import { CoefficientsState } from 'types/coefficients'
@@ -50,6 +51,9 @@ export const Main = () => {
           isPaidSubscription={isPaidSubscription}
         />
       </ST.DropBoxContainer>
+      <ST.ExamplesContainer>
+        <Examples />
+      </ST.ExamplesContainer>
     </ST.MainWrapper>
   )
 }

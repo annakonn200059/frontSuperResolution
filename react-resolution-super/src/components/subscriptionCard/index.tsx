@@ -119,7 +119,10 @@ const SubscriptionCard = ({
 
   return (
     <>
-      <ST.SubscriptionCard shouldNotTransform={shouldNotTransform}>
+      <ST.SubscriptionCard
+        shouldNotTransform={shouldNotTransform}
+        isAdmin={isAdmin}
+      >
         <ST.CardHeader>
           <ST.SubscriptionName>{props.subscription_name}</ST.SubscriptionName>
           {isAdmin && <ST.EditContact onClick={() => handleEditModal()} />}

@@ -14,6 +14,12 @@ const Main = lazy(() =>
   }))
 )
 
+const AboutApi = lazy(() =>
+  import('pages/aboutApiPage').then((module) => ({
+    default: module.AboutApiPage,
+  }))
+)
+
 const Auth = lazy(() =>
   import('pages/authPage').then((module) => ({ default: module.AuthPage }))
 )
@@ -48,6 +54,14 @@ export const Routing = () => {
         element={<PrivateRouter children={<Layout children={<Profile />} />} />}
       />
 
+      <Route
+        path={'/aboutApiToken'}
+        element={
+          <Suspense fallback={<Preloader />}>
+            <Layout children={<AboutApi />} />
+          </Suspense>
+        }
+      />
       <Route
         path={'*'}
         element={
