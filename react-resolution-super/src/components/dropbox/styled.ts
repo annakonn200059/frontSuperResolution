@@ -54,6 +54,7 @@ export const ImageBox = styled.div`
 
 export const FileNamesContainer = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   align-items: center;
 `
@@ -73,6 +74,7 @@ export const FileNameHeader = styled.div<INameFile>`
 export const FileName = styled.div`
   position: relative;
   //text-align: center;
+  word-break: break-word;
   max-width: 85%;
 `
 export const ModalHeader = styled.div`

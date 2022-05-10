@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { COLORS } from '../../constants/colors'
 import { ReactComponent as LogoImg } from 'assets/logo.svg'
 import { ReactComponent as ChevronDown } from 'assets/images/chevronDown.svg'
-import ImageEmployee from 'assets/images/employee.jpg'
+import ImageEmployee from 'assets/icons/user.svg'
 
 export const HeaderContainer = styled.div`
   display: flex;
@@ -15,6 +15,18 @@ export const HeaderContainer = styled.div`
 export const LogoContainer = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
+`
+
+export const LinksWrapper = styled.div`
+  display: flex;
+  column-gap: 40px;
+  align-items: center;
+`
+
+export const ApiLink = styled.div`
+  color: ${COLORS.blue};
+  text-decoration: underline;
   cursor: pointer;
 `
 
@@ -51,11 +63,9 @@ export interface IIcon {
 
 export const Photo = styled.div<IIcon>`
   background: url(${({ imageSrc }) => (imageSrc ? imageSrc : ImageEmployee)})
-    50% 50% no-repeat;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  background-size: 81px 45px;
+    100% 100% no-repeat;
+  width: 30px;
+  height: 30px;
   margin-right: 15px;
   margin-bottom: 10px;
 `
