@@ -62,12 +62,12 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
     <ST.AuthBlock>
       <ST.Header>
         <ST.LogoText>SIGN IN</ST.LogoText>
-        <ST.LogoWrapper>
-          <ST.Logo />
-          <NavLink to={'/'}>
+        <NavLink to={'/'}>
+          <ST.LogoWrapper>
+            <ST.Logo />
             <ST.LogoText>Super Image</ST.LogoText>
-          </NavLink>
-        </ST.LogoWrapper>
+          </ST.LogoWrapper>
+        </NavLink>
       </ST.Header>
       <ST.DescrBlock>Login now to continue uploading photos!</ST.DescrBlock>
       <ST.InputsContainer>

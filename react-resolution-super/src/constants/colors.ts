@@ -14,4 +14,5 @@ export enum COLORS {
   neutral3 = '#545D69',
   lightGreyBackground = '#E5E5E5',
   green = '#30BF90',
+  lightBlue = '#ddeeff',
 }

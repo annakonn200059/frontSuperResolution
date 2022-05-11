@@ -60,8 +60,14 @@ export const Code = styled.code`
 export const YellowCode = styled.span`
   color: ${COLORS.yellow};
 `
-export const BlueCode = styled.span`
+
+interface IBlueCode {
+  isLink?: boolean
+}
+
+export const BlueCode = styled.span<IBlueCode>`
   color: ${COLORS.blue};
+  ${(props) => (props.isLink ? 'cursor: pointer' : '')}
 `
 export const GreyCode = styled.span`
   color: #848484;

@@ -14,6 +14,6 @@ export const PrivateRouter = ({ children }: RouterContentProps) => {
   return userData && userData.accessToken ? (
     <Suspense fallback={<Preloader />}>{children}</Suspense>
   ) : (
-    <Navigate to={'/'} />
+    <Navigate to={'/auth'} />
   )
 }

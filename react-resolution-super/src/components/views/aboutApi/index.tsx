@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import * as ST from './styled'
+import { NavLink } from 'react-router-dom'
 
 export const AboutApi = () => {
   return (
@@ -12,6 +13,14 @@ export const AboutApi = () => {
           <ST.CodeHeader>Super Resolution cURL Example</ST.CodeHeader>
           <ST.CodeBlock>
             <ST.Code>
+              <ST.GreyCode>
+                # Get apiToken{' '}
+                <NavLink to={'/profile'}>
+                  <ST.BlueCode isLink={true}>here</ST.BlueCode>
+                </NavLink>
+                :
+              </ST.GreyCode>
+              <br />
               <ST.GreyCode>
                 # You can paste img URL or local image file in 'image' field:
               </ST.GreyCode>
@@ -32,6 +41,15 @@ export const AboutApi = () => {
           <ST.CodeHeader>Super Resolution Python Example</ST.CodeHeader>
           <ST.CodeBlock>
             <ST.Code>
+              <ST.GreyCode>
+                # Get apiToken{' '}
+                <NavLink to={'/profile'}>
+                  <ST.BlueCode isLink={true}>here</ST.BlueCode>
+                </NavLink>
+                :
+              </ST.GreyCode>
+              <br />
+              <br />
               import requests
               <br />
               <br />
