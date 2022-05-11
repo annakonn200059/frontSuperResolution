@@ -33,7 +33,7 @@ export const ExamplesContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #ddeeff;
+  background-color: ${COLORS.lightBlue};
 `
 
 export const MainHeader = styled.div`

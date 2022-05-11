@@ -57,12 +57,12 @@ export const Register = ({ setIsAdmin, setStep }: PropsRegisterStep) => {
     <ST.AuthBlock>
       <ST.Header>
         <ST.LogoText>SIGN UP</ST.LogoText>
-        <ST.LogoWrapper>
-          <ST.Logo />
-          <NavLink to={'/'}>
+        <NavLink to={'/'}>
+          <ST.LogoWrapper>
+            <ST.Logo />
             <ST.LogoText>Super Image</ST.LogoText>
-          </NavLink>
-        </ST.LogoWrapper>
+          </ST.LogoWrapper>
+        </NavLink>
       </ST.Header>
       <ST.DescrBlock>
         Create an account to access all the features!
