@@ -11,6 +11,7 @@ import { Subscriptions } from '../../ProfileTabsContent/Subscriptions'
 import { PromoCodes } from '../../ProfileTabsContent/PromoCodes'
 import { UserInfo } from '../../ProfileTabsContent/UserInfo'
 import { UserSubscriptions } from '../../ProfileTabsContent/UserSubscriptions'
+import { Users } from '../../ProfileTabsContent/Users'
 import { auth } from 'store/selectors'
 
 export const Profile = () => {
@@ -36,6 +37,8 @@ export const Profile = () => {
         return <UserInfo />
       case 5:
         return <UserSubscriptions />
+      case 6:
+        return <Users />
       default:
         return <UserInfo />
     }
