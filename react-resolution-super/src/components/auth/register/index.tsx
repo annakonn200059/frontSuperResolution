@@ -60,7 +60,7 @@ export const Register = ({ setIsAdmin, setStep }: PropsRegisterStep) => {
         <ST.LogoWrapper>
           <ST.Logo />
           <NavLink to={'/'}>
-            <ST.LogoText>Logo</ST.LogoText>
+            <ST.LogoText>Super Image</ST.LogoText>
           </NavLink>
         </ST.LogoWrapper>
       </ST.Header>

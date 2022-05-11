@@ -26,7 +26,9 @@ export const LinksWrapper = styled.div`
 
 export const ApiLink = styled.div`
   color: ${COLORS.blue};
-  text-decoration: underline;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 37px;
   cursor: pointer;
 `
 
