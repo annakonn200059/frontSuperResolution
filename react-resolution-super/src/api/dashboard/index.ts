@@ -1,4 +1,5 @@
 import { apiRequest, apiRequestFile } from '../request'
+import { IGetUsers } from 'types/allUsers'
 
 interface IGetCharts {
   loginChart: any[]
@@ -8,6 +9,11 @@ interface IGetCharts {
 
 export const getChartsData = async (): Promise<IGetCharts> => {
   const resp = await apiRequest().get('/api/getChartsData')
+  return resp.data
+}
+
+export const getAllUsers = async (): Promise<IGetUsers> => {
+  const resp = await apiRequest().get('/api/getAllUsers')
   return resp.data
 }
 
