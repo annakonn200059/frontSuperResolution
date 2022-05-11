@@ -76,13 +76,22 @@ interface IPhotoBlock {
   isLeft?: boolean
 }
 
+export const SectionWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
 export const PhotoBlock = styled.div<IPhotoBlock>`
   display: flex;
   justify-content: ${(props) => (props.isLeft ? 'flex-start' : 'flex-start')};
   margin-left: ${(props) => (props.isLeft ? '200px' : '330px')};
 `
 
-const Photo = styled.img``
+const Photo = styled.img`
+  box-shadow: 0 4px 40px rgb(0 0 0 / 30%);
+  border-radius: 8px;
+`
 export const Photo1 = styled(Photo)`
   width: 86px;
   height: 96px;
@@ -100,17 +109,18 @@ export const Photos = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 40px;
-`
-
-export const Description = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-right: 100px;
+  padding-right: 200px;
+  width: 100%;
 `
 
 export const DescriptionText = styled.div`
-  text-align: center;
+  text-align: left;
+  max-width: 380px;
+  white-space: pre-wrap;
+  font-size: 16px;
+  line-height: 28px;
+  color: ${COLORS.lightGrey};
+  text-shadow: 0 4px 20px rgb(0 0 0 / 20%);
 `
 
 const Arrow = styled(ArrowEl)`

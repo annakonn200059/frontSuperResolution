@@ -28,7 +28,7 @@ const Header = () => {
       <ST.HeaderContainer>
         <ST.LogoContainer onClick={() => navigate('/')}>
           <ST.Logo />
-          <ST.LogoText>Logo</ST.LogoText>
+          <ST.LogoText>Super Image</ST.LogoText>
         </ST.LogoContainer>
         <ST.LinksWrapper>
           {location.pathname !== '/aboutApiToken' && (
