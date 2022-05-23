@@ -11,12 +11,14 @@ interface IModalProps {
   show: boolean
   onClose: () => void
   token: string
+  email: string
 }
 
 export const ChangePasswordModal: FC<IModalProps> = ({
   show,
   onClose,
   token,
+  email,
 }: IModalProps) => {
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
@@ -30,11 +32,18 @@ export const ChangePasswordModal: FC<IModalProps> = ({
   }
 
   const { handleChange, handleSubmit, values, errors } = useFormik({
-    initialValues: { oldPassword: '', newPassword: '', newRepeatPassword: '' },
+    initialValues: {
+      oldPassword: '',
+      newPassword: '',
+      newRepeatPassword: '',
+    },
     onSubmit: async () => {
       handleIsDisabled()
-      editUserPassword(values.newPassword, token)
+      editUserPassword(values.oldPassword, values.newPassword, email, token)
         .then((resp) => {
+          values.oldPassword = ''
+          values.newPassword = ''
+          values.newRepeatPassword = ''
           handleIsDisabled()
           handleClose()
         })
@@ -54,7 +63,7 @@ export const ChangePasswordModal: FC<IModalProps> = ({
         .max(16),
       newRepeatPassword: Yup.string()
         .required('Password is missed')
-        .test((val) => values.newPassword.length === val?.length),
+        .test((val) => values.newPassword === val),
     }),
   })
 

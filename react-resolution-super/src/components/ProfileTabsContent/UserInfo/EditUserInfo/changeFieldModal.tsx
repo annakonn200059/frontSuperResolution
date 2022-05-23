@@ -51,6 +51,7 @@ export const ChangeFieldModal: FC<IModalProps> = ({
               ? { ...userState, email: values.field }
               : { ...userState, username: values.field }
           dispatch(editUserState(newState))
+          values.field = ''
           handleIsDisabled()
           handleClose()
         })
