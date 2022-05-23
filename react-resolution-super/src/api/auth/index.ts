@@ -58,8 +58,17 @@ export const checkAuth = async (accessToken: string) => {
   const resp = await apiRequest(accessToken).post('/api/users/checkToken', {})
   return resp.data
 }
-export const editUserPassword = async (field: string, accessToken: string) => {
-  const resp = await apiRequest(accessToken).post('/api/users/editPassword', {})
+export const editUserPassword = async (
+  oldPassword: string,
+  newPassword: string,
+  email: string,
+  accessToken: string
+): Promise<IResponse> => {
+  const resp = await apiRequest(accessToken).patch('/api/users/editPassword', {
+    email: email,
+    oldPassword: oldPassword,
+    newPassword: newPassword,
+  })
   return resp.data
 }
 

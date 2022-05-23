@@ -67,6 +67,7 @@ export const EditUserInfo: FC<IEditUserInfo> = ({
         show={showChangePasswordModal}
         onClose={handleChangeUserPasswordModal}
         token={token}
+        email={authState.user.email}
       />
     </ST.UserFieldsWrapper>
   )
