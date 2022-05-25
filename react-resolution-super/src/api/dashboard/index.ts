@@ -38,3 +38,15 @@ export const getApiToken = async (
   })
   return resp.data
 }
+
+export const postChangeRole = async (
+  role: string,
+  userId: number,
+  token: string
+): Promise<any> => {
+  const resp = await apiRequest(token).post('/api/changeRole', {
+    userId: userId,
+    newRole: role,
+  })
+  return resp.data
+}
