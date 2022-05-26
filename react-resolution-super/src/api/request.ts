@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const API_ENDPOINT = process.env.ENDPOINT
   ? process.env.ENDPOINT
-  : ' http://localhost:5000'
+  : ' http://127.0.0.1:5000'
 
 export function apiRequest(token?: string) {
   let headers
