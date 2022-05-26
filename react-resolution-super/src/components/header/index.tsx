@@ -20,7 +20,7 @@ const Header = () => {
 
   const handleLogout = () => {
     navigate('/')
-    logoutAuth().then(dispatch(logout()))
+    logoutAuth().then(dispatch(logout() as any))
   }
 
   return (

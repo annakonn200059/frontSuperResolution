@@ -100,7 +100,7 @@ const DropBox = ({
               setResponseText(resp.msg)
               handleModal()
               if (resp.notPaid) {
-                dispatch(setInactivePurchase())
+                dispatch(setInactivePurchase() as any)
               }
             }
           })

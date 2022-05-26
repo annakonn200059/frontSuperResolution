@@ -45,7 +45,7 @@ export const ExistingSubscription = ({
     getUnsubscribed(token)
       .then((resp) => {
         setResponseModalText('You have successfully unsubscribed')
-        dispatch(resetPurchase())
+        dispatch(resetPurchase() as any)
       })
       .catch((err) => {
         setResponseModalText(err.response.data.msg)

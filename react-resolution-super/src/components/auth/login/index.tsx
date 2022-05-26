@@ -23,7 +23,7 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const dispatchProlong = () => {
-    dispatch(setActivePurchase)
+    dispatch(setActivePurchase as any)
   }
   const stateUser: AuthState = useSelector<RootState, AuthState>(auth)
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
@@ -41,8 +41,8 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
       handleIsDisabled()
       loginAuth(values.email, values.password)
         .then((resp) => {
-          dispatch(login(resp.token, resp.user))
-          dispatch(getPurchase(resp.token))
+          dispatch(login(resp.token, resp.user) as any)
+          dispatch(getPurchase(resp.token) as any)
           handleIsDisabled()
           navigate('/profile')
         })

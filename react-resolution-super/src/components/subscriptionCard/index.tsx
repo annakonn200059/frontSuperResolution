@@ -63,7 +63,7 @@ const SubscriptionCard = ({
   const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false)
 
   const dispatchProlong = () => {
-    dispatch(setActivePurchase())
+    dispatch(setActivePurchase() as any)
   }
   const dispatchBuy = () => {
     dispatch(
