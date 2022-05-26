@@ -8,8 +8,10 @@ import { CoefficientsState } from 'types/coefficients'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
 import { coeffs } from 'store/selectors'
+import { useTranslation } from 'react-i18next'
 
 export const WeightsUpload = () => {
+  const { t } = useTranslation(['profile'])
   const [files, setFiles] = useState<File[]>([])
   const [chosenWeight, setChosenWeight] = useState<number>(-1)
   const [errorText, setErrorText] = useState<string>('')
@@ -31,11 +33,11 @@ export const WeightsUpload = () => {
 
   const checkFilledFields = (): boolean => {
     if (files.length === 0) {
-      setErrorText('No file was chosen')
+      setErrorText(`${t('noFile')}`)
       return false
     }
     if (chosenWeight === -1) {
-      setErrorText('Chose coefficient value')
+      setErrorText(`${t('choseCoefficient')}`)
       return false
     } else return true
   }

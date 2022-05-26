@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, Suspense } from 'react'
 import './App.css'
 import { useDispatch } from 'react-redux'
 import { login, logout } from 'store/actions/auth'
@@ -13,11 +13,11 @@ import { IPurchase } from './types/purchaseSubscription'
 const App: FC = () => {
   const dispatch = useDispatch()
   const loginHandler = (token: string, user: User) => {
-    dispatch(login(token, user))
+    dispatch(login(token, user) as any)
   }
   useEffect(() => {
     getCoefficients().then((resp) =>
-      dispatch(setCoefficients(resp.coefficients))
+      dispatch(setCoefficients(resp.coefficients) as any)
     )
   }, [])
 
@@ -35,14 +35,14 @@ const App: FC = () => {
                 if (resp.success) {
                   loginHandler(userData.accessToken, userData.user)
                 } else {
-                  dispatch(logout())
+                  dispatch(logout() as any)
                 }
               })
-              .catch((err) => dispatch(logout()))
+              .catch((err) => dispatch(logout() as any))
           }
           fetchMyAPI()
         } catch (err) {
-          dispatch(logout())
+          dispatch(logout() as any)
         }
       }
     }
@@ -52,9 +52,9 @@ const App: FC = () => {
     }
   }, [])
   return (
-    <>
+    <Suspense fallback={null}>
       <Routing />
-    </>
+    </Suspense>
   )
 }
 

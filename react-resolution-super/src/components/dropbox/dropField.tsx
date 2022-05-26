@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import * as ST from './styled'
-import DropZone, { useDropzone } from 'react-dropzone'
+import DropZone, { Accept, useDropzone } from 'react-dropzone'
 import ImagePreview from './imagePreview'
 import Placeholder from './placeholder'
 import ShowError from './showError'
@@ -24,16 +24,14 @@ const DropZoneField = ({
   value,
   downloadItem,
 }: IDropField) => {
-  const {
-    getRootProps,
-    getInputProps,
-    isDragActive,
-    isDragAccept,
-    isDragReject,
-    acceptedFiles,
-  } = useDropzone({
+  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     onDrop: handleOnDrop,
-    accept: 'image/jpeg, image/png, image/gif, image/bmp',
+    accept: {
+      'image/jpeg': ['.jpeg'],
+      'image/png': ['.png'],
+      'image/gif': ['.gif'],
+      'image/bmp': ['.bmp'],
+    },
   })
 
   const fileUploaded: boolean = files.length > 0

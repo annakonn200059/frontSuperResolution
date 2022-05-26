@@ -3,6 +3,7 @@ import * as ST from './styled'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { getApiToken } from 'api/dashboard'
+import { useTranslation } from 'react-i18next'
 
 interface IProps {
   setStep: (stepId: number) => void
@@ -13,6 +14,7 @@ export const InputTokenCredentials: FC<IProps> = ({
   setStep,
   setToken,
 }: IProps) => {
+  const { t } = useTranslation(['profile'])
   const [errorText, setErrorText] = useState<string>('')
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
 
@@ -48,7 +50,7 @@ export const InputTokenCredentials: FC<IProps> = ({
   return (
     <>
       <ST.InputLabel>
-        <label htmlFor="oldPassword">Email:</label>
+        <label htmlFor="email">Email:</label>
       </ST.InputLabel>
       <ST.NewPropertyInput
         placeholder={`Email`}
@@ -60,10 +62,10 @@ export const InputTokenCredentials: FC<IProps> = ({
         error={errors.email}
       />
       <ST.InputLabel>
-        <label htmlFor="newPassword">Password:</label>
+        <label htmlFor="newPassword">{t('password')}:</label>
       </ST.InputLabel>
       <ST.NewPropertyInput
-        placeholder={`Password`}
+        placeholder={`${t('password')}`}
         value={values.password}
         onChange={handleChange}
         disabled={isDisabled}
@@ -78,7 +80,7 @@ export const InputTokenCredentials: FC<IProps> = ({
           handleSubmit()
         }}
       >
-        Get
+        {t('get')}
       </ST.Button>
       <ST.ErrorText>{errorText}</ST.ErrorText>
     </>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import * as ST from './styled'
 import IsAuth from 'utils/checkAuth'
 import { NavLink, useLocation } from 'react-router-dom'
@@ -7,8 +7,12 @@ import { logout } from 'store/actions/auth'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { useOutsideClick } from 'utils/isOutsideClick'
+import { useTranslation } from 'react-i18next'
+import i18next from 'i18next'
 
 const Header = () => {
+  const { i18n, t } = useTranslation(['common'])
+
   const isAuth = IsAuth()
   const [imgUser, setImgUser] = useState<string>('')
   const [menuopen, setMenuOpen] = useState<boolean>(false)
@@ -20,7 +24,17 @@ const Header = () => {
 
   const handleLogout = () => {
     navigate('/')
-    logoutAuth().then(dispatch(logout()))
+    logoutAuth().then(dispatch(logout() as any))
+  }
+  useEffect(() => {
+    const lang = localStorage.getItem('i18nextLng')
+    if (lang?.length && lang?.length > 2) {
+      i18next.changeLanguage('en')
+    }
+  }, [])
+
+  const handleLangChange = (e: any) => {
+    i18n.changeLanguage(e.target.value)
   }
 
   return (
@@ -31,6 +45,17 @@ const Header = () => {
           <ST.LogoText>Super Image</ST.LogoText>
         </ST.LogoContainer>
         <ST.LinksWrapper>
+          <select
+            value={
+              (localStorage.getItem('i18nextLng') as string)
+                ? (localStorage.getItem('i18nextLng') as string)
+                : 'en'
+            }
+            onChange={handleLangChange}
+          >
+            <option value={'en'}>En</option>
+            <option value={'ru'}>Ru</option>
+          </select>
           {location.pathname !== '/aboutApiToken' && (
             <NavLink to={'/aboutApiToken'}>
               <ST.ApiLink>API doc</ST.ApiLink>

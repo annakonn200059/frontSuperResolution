@@ -20,6 +20,7 @@ import { DateTime } from 'luxon'
 import ZoomIn from 'assets/icons/Chart/zoom-in.svg'
 import ZoomOut from 'assets/icons/Chart/zoom-out.svg'
 import { DatePickerCalendar } from '../../../../ui/Input/DatePicker'
+import { useTranslation } from 'react-i18next'
 
 ChartJS.register(zoomPlugin)
 ChartJS.register(...registerablesJS)
@@ -43,6 +44,7 @@ export const ChartModel: FC<IChartModel> = ({
   chartData,
   labelOption,
 }: IChartModel) => {
+  const { t } = useTranslation(['profile'])
   const chartRef = useRef<any | null>(null)
   const [startDate, setStartDate] = useState<Date | null>(() => {
     let date = new Date()
@@ -140,14 +142,14 @@ export const ChartModel: FC<IChartModel> = ({
         display: true,
         title: {
           display: true,
-          text: 'Time period',
+          text: `${t('timePeriod')}`,
         },
       },
       y: {
         display: true,
         title: {
           display: true,
-          text: `Amount of ${labelOption}`,
+          text: `${t('amount')}`,
         },
       },
     },
@@ -181,7 +183,9 @@ export const ChartModel: FC<IChartModel> = ({
         />
       </ST.DatePickerContainer>
       <ST.ButtonContainer>
-        <ST.ResetZoomButton onClick={resetZoom}>Reset Zoom </ST.ResetZoomButton>
+        <ST.ResetZoomButton onClick={resetZoom}>
+          {t('resetZoom')}
+        </ST.ResetZoomButton>
         <ST.ZoomInButton
           src={ZoomIn}
           alt={'zoom in'}

@@ -1,6 +1,7 @@
 import React from 'react'
 import * as ST from './styled'
 import { UserTools, AdminTools } from './data'
+import { useTranslation } from 'react-i18next'
 
 interface ITools {
   isAdmin: boolean
@@ -9,6 +10,7 @@ interface ITools {
 }
 
 export const ToolsContainer = ({ isAdmin, setTool, tool }: ITools) => {
+  const { t } = useTranslation(['profile'])
   const dataToolsItems = isAdmin ? AdminTools : UserTools
   return (
     <ST.Container>
@@ -22,7 +24,7 @@ export const ToolsContainer = ({ isAdmin, setTool, tool }: ITools) => {
             src={require(`assets/icons/${toolEl.img}.svg`)}
             img={toolEl.img}
           />
-          <ST.ItemHeader>{toolEl.toolName}</ST.ItemHeader>
+          <ST.ItemHeader>{t(`${toolEl.toolName}`)}</ST.ItemHeader>
         </ST.ToolItem>
       ))}
     </ST.Container>
