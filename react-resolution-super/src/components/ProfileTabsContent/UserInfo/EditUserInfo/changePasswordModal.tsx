@@ -6,6 +6,7 @@ import * as Yup from 'yup'
 import { editUserPassword } from 'api/auth'
 import { yupErrorHandler } from 'utils/yupErrorHandler'
 import { onEnterSubmit } from 'utils/onEnterSubmit'
+import { useTranslation } from 'react-i18next'
 
 interface IModalProps {
   show: boolean
@@ -20,6 +21,7 @@ export const ChangePasswordModal: FC<IModalProps> = ({
   token,
   email,
 }: IModalProps) => {
+  const { t } = useTranslation(['profile'])
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
 
@@ -31,6 +33,7 @@ export const ChangePasswordModal: FC<IModalProps> = ({
     onClose()
   }
 
+  // @ts-ignore
   const { handleChange, handleSubmit, values, errors } = useFormik({
     initialValues: {
       oldPassword: '',
@@ -70,12 +73,14 @@ export const ChangePasswordModal: FC<IModalProps> = ({
   return (
     <DefaultPopup show={show} onClose={handleClose}>
       <ST.PopupContent>
-        <ST.HeaderText>Change password</ST.HeaderText>
+        <ST.HeaderText>
+          {t('change')} {t('password')}
+        </ST.HeaderText>
         <ST.InputLabel>
-          <label htmlFor="oldPassword">Old password:</label>
+          <label htmlFor="oldPassword">{t('oldPassword')}:</label>
         </ST.InputLabel>
         <ST.NewPropertyInput
-          placeholder={`Old password`}
+          placeholder={`${t('oldPassword')}`}
           value={values.oldPassword}
           onChange={handleChange}
           disabled={isDisabled}
@@ -83,10 +88,10 @@ export const ChangePasswordModal: FC<IModalProps> = ({
           name={'oldPassword'}
         />
         <ST.InputLabel>
-          <label htmlFor="newPassword">New password:</label>
+          <label htmlFor="newPassword">{t('newPassword')}:</label>
         </ST.InputLabel>
         <ST.NewPropertyInput
-          placeholder={`New password`}
+          placeholder={`${t('newPassword')}`}
           value={values.newPassword}
           onChange={handleChange}
           disabled={isDisabled}
@@ -94,10 +99,10 @@ export const ChangePasswordModal: FC<IModalProps> = ({
           name={'newPassword'}
         />
         <ST.InputLabel>
-          <label htmlFor="newRepeatPassword">Repeat new password:</label>
+          <label htmlFor="newRepeatPassword">{t('repeatPassword')}:</label>
         </ST.InputLabel>
         <ST.NewPropertyInput
-          placeholder={`Repeat new password`}
+          placeholder={`${t('repeatPassword')}`}
           value={values.newRepeatPassword}
           onChange={handleChange}
           disabled={isDisabled}
@@ -116,7 +121,7 @@ export const ChangePasswordModal: FC<IModalProps> = ({
             handleSubmit()
           }}
         >
-          Save
+          {t('save')}
         </ST.SubmitButton>
       </ST.PopupContent>
     </DefaultPopup>

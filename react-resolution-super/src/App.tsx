@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, Suspense } from 'react'
 import './App.css'
 import { useDispatch } from 'react-redux'
 import { login, logout } from 'store/actions/auth'
@@ -52,9 +52,9 @@ const App: FC = () => {
     }
   }, [])
   return (
-    <>
+    <Suspense fallback={null}>
       <Routing />
-    </>
+    </Suspense>
   )
 }
 

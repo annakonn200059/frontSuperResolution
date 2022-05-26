@@ -3,6 +3,7 @@ import * as ST from './styled'
 import { AuthState } from 'types/authType'
 import { ChangeFieldModal } from './changeFieldModal'
 import { ChangePasswordModal } from './changePasswordModal'
+import { useTranslation } from 'react-i18next'
 
 interface IEditUserInfo {
   authState: AuthState
@@ -15,6 +16,7 @@ export const EditUserInfo: FC<IEditUserInfo> = ({
   authState,
   token,
 }: IEditUserInfo) => {
+  const { t } = useTranslation(['profile', 'common'])
   const [showChangeInfoModal, setChangeInfoModal] = useState<boolean>(false)
   const [modalMode, setModalMode] = useState<EditModalType>('initial')
   const [showChangePasswordModal, setChangePasswordModal] =
@@ -35,19 +37,19 @@ export const EditUserInfo: FC<IEditUserInfo> = ({
   return (
     <ST.UserFieldsWrapper>
       <ST.FieldWrapper>
-        <ST.FieldHeader>User name</ST.FieldHeader>
+        <ST.FieldHeader>{t('profile:userName')}</ST.FieldHeader>
         <ST.NameField>{authState.user.username}</ST.NameField>
         <ST.EditImage onClick={() => handleChangeUserInfoModal('name')} />
       </ST.FieldWrapper>
 
       <ST.FieldWrapper>
-        <ST.FieldHeader>Email</ST.FieldHeader>
+        <ST.FieldHeader>{t('common:email')}</ST.FieldHeader>
         <ST.EmailField>{makePrivateEmail(authState.user.email)}</ST.EmailField>
         <ST.EditImage onClick={() => handleChangeUserInfoModal('email')} />
       </ST.FieldWrapper>
 
       <ST.FieldWrapper>
-        <ST.FieldHeader>Password</ST.FieldHeader>
+        <ST.FieldHeader>{t('profile:password')}</ST.FieldHeader>
         <ST.PasswordField />
         <ST.EditImage onClick={() => handleChangeUserPasswordModal()} />
       </ST.FieldWrapper>

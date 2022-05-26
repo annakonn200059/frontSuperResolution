@@ -3,6 +3,7 @@ import { getChartsData } from 'api/dashboard'
 import * as ST from './styled'
 import BaseSelect from '../../../ui/BaseSelect'
 import { ChartModel } from './ChartModel'
+import { useTranslation } from 'react-i18next'
 
 interface ICharts {
   loginChart: any[]
@@ -11,13 +12,18 @@ interface ICharts {
 }
 
 export const ChartControl = () => {
+  const { t } = useTranslation(['profile'])
   const [chartData, setChartData] = useState<ICharts>({
     loginChart: [],
     registerChart: [],
     subscriptionsChart: [],
   })
   const [chosenChart, setChosenChart] = useState<number>(0)
-  const labels = ['logins', 'registers', 'subscriptions purchases']
+  const labels = [
+    `${t('logins')}`,
+    `${t('registers')}`,
+    `${t('subscriptionsPurchases')}`,
+  ]
   const chosenChartData = Object.values(chartData)[chosenChart]
 
   const onChangeDashboard = useCallback(() => {

@@ -10,6 +10,7 @@ import { onEnterSubmit } from 'utils/onEnterSubmit'
 import { useDispatch } from 'react-redux'
 import { editUserState } from 'store/actions/auth'
 import { User } from 'types/authType'
+import { useTranslation } from 'react-i18next'
 
 interface IModalProps {
   show: boolean
@@ -28,6 +29,7 @@ export const ChangeFieldModal: FC<IModalProps> = ({
   token,
   userState,
 }: IModalProps) => {
+  const { t } = useTranslation(['profile'])
   const dispatch = useDispatch()
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
@@ -81,10 +83,14 @@ export const ChangeFieldModal: FC<IModalProps> = ({
   return (
     <DefaultPopup show={show} onClose={handleClose}>
       <ST.PopupContent>
-        <ST.HeaderText>{`Change ${mode}`}</ST.HeaderText>
-        <ST.SubHeader>{`Current: ${currentPropertyValue}`}</ST.SubHeader>
+        <ST.HeaderText>{`${t('change')} ${
+          mode === 'name' ? `${t('name')}` : 'email'
+        }`}</ST.HeaderText>
+        <ST.SubHeader>{`${t(
+          'current'
+        )}: ${currentPropertyValue}`}</ST.SubHeader>
         <ST.NewPropertyInput
-          placeholder={`Paste new ${mode}`}
+          placeholder={`${mode === 'name' ? `${t('name')}` : 'email'}`}
           value={values.field}
           onChange={handleChange}
           id={'field'}
@@ -103,7 +109,7 @@ export const ChangeFieldModal: FC<IModalProps> = ({
             handleSubmit()
           }}
         >
-          Save
+          {t('save')}
         </ST.SubmitButton>
       </ST.PopupContent>
     </DefaultPopup>
