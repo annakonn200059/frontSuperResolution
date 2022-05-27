@@ -13,8 +13,8 @@ export const Examples: FC = () => {
       <ST.Photos>
         <ST.BotLinkContainer>
           {t('link')}
-          <ST.BotLink href={'asdasdg'} target="_blank">
-            {'asdasdg'}
+          <ST.BotLink href={'t.me/SuperImageBot'} target="_blank">
+            {'SuperImageBot'}
           </ST.BotLink>
         </ST.BotLinkContainer>
         <ST.SectionWrapper>
