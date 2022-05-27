@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import * as ST from './styled'
 import { ChartControl } from './ChartsControl'
 

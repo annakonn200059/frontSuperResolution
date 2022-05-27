@@ -127,14 +127,16 @@ export const ChartModel: FC<IChartModel> = ({
         },
         pan: {
           enabled: true,
+          threshold: 5,
         },
-        zoom: {
-          wheel: { enabled: true, speed: 0.05, mode: 'xy' },
-          drag: { enabled: true },
+        /*zoom: {
+          wheel: { enabled: true },
+          //drag: { enabled: true },
           onZoomComplete({ chart }: any) {
             chart.update('none')
           },
-        },
+        },*/
+        speed: 0.001,
       },
     },
     scales: {
@@ -159,7 +161,7 @@ export const ChartModel: FC<IChartModel> = ({
     chartRef.current.resetZoom()
   }
   const zoomIn = () => {
-    chartRef.current.zoom(1.3)
+    chartRef.current.zoom(1.1)
   }
   const zoomOut = () => {
     chartRef.current.zoom(0.7)

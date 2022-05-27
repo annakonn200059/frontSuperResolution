@@ -10,6 +10,7 @@ import {
   coeffs,
   isPaidPurchase,
   isPurchase,
+  role,
 } from 'store/selectors'
 import { useTranslation } from 'react-i18next'
 
@@ -20,6 +21,7 @@ export const Main = () => {
   const isPaidSubscription: boolean = useSelector<RootState, boolean>(
     isPaidPurchase
   )
+  const userRole: string = useSelector<RootState, string>(role)
   const chooseRef = useRef<HTMLDivElement | null>(null)
   const coefficients: CoefficientsState = useSelector<
     RootState,
@@ -49,6 +51,7 @@ export const Main = () => {
           isSubscription={isSubscription}
           coefficients={coefficients.coefficients}
           isPaidSubscription={isPaidSubscription}
+          userRole={userRole}
         />
       </ST.DropBoxContainer>
       <ST.ExamplesContainer>

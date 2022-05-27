@@ -17,6 +17,7 @@ interface IDropBox {
   isSubscription: boolean
   isPaidSubscription: boolean
   coefficients: number[]
+  userRole?: string
 }
 
 //TODO вынести dropbox с селектом в отдельную компоненту и использовать тут и в профиле админа
@@ -25,6 +26,7 @@ const DropBox = ({
   coefficients,
   isSubscription,
   isPaidSubscription,
+  userRole,
 }: IDropBox) => {
   const { t } = useTranslation(['main', 'common', 'profile'])
   const dispatch = useDispatch()
@@ -143,6 +145,10 @@ const DropBox = ({
 
   const activeElements = (): number[] => {
     let allowedCoeffs: number[]
+    if (userRole === 'admin') {
+      allowedCoeffs = coefficients
+      return allowedCoeffs
+    }
     if (!token) {
       allowedCoeffs = [coefficients[0]]
     } else if (!isSubscription) {

@@ -11,6 +11,12 @@ export const Examples: FC = () => {
   return (
     <ST.ContainerPhotoBlocks>
       <ST.Photos>
+        <ST.BotLinkContainer>
+          {t('link')}
+          <ST.BotLink href={'asdasdg'} target="_blank">
+            {'asdasdg'}
+          </ST.BotLink>
+        </ST.BotLinkContainer>
         <ST.SectionWrapper>
           <ST.PhotoBlock isLeft={true}>
             <ST.Photo1 src={Img1} />

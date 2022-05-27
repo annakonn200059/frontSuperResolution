@@ -39,7 +39,7 @@
   "errorUploading": "Ошибка загрузки",
   "error": "Ошибка",
   "coefficients": "Коэффициенты",
-  "selectWeight": "Выберите вес и загрузите .pth или .pt файл",
+  "selectWeight": "Выберите коэффициент и загрузите .pth или .pt файл",
   "incorrectFormat": "Выберите верное расширение файла",
   "addSubcr": "ДОБАВИТЬ ПОДПИСКУ",
   "uploadsADay": "загрузок в день",
