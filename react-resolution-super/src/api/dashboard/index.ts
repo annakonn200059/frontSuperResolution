@@ -30,11 +30,13 @@ interface IGetApiToken {
 
 export const getApiToken = async (
   email: string,
-  password: string
+  password: string,
+  curLang: string | null
 ): Promise<IGetApiToken> => {
   const resp = await apiRequest().post('/api/getApiToken', {
     email: email,
     password: password,
+    curLang: curLang,
   })
   return resp.data
 }

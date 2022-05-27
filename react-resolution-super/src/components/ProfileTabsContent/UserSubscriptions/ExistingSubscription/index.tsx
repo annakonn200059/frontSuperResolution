@@ -30,6 +30,7 @@ export const ExistingSubscription = ({
   const [responseModalText, setResponseModalText] = useState<string>('')
   const isPaid: boolean = useSelector<RootState, boolean>(isPaidPurchase)
   const dispatch = useDispatch()
+  const curLang = localStorage.getItem('i18nextLng')
   const [userSubscription, setUserSubscription] = useState<ISubscriptionWithId>(
     {
       id_subscription: -1,
@@ -55,7 +56,7 @@ export const ExistingSubscription = ({
   }, [responseModalText])
 
   const prolongTheSubscription = (): Promise<any> => {
-    return getProlongSubscription(token)
+    return getProlongSubscription(token, curLang)
   }
 
   useEffect(() => {

@@ -39,6 +39,7 @@ const DropBox = ({
   const [availableUploads, setAvailableUploads] = useState<number | undefined>(
     0
   )
+  const curLang = localStorage.getItem('i18nextLng')
 
   const handleModal = (): void => {
     setShowModal(!showModal)
@@ -93,7 +94,7 @@ const DropBox = ({
       const submit: boolean = checkFilledData()
       if (submit) {
         setErrorText('')
-        checkUploadsAmount(token)
+        checkUploadsAmount(token, curLang)
           .then((resp) => {
             if (resp.success) {
               setLoading(true)

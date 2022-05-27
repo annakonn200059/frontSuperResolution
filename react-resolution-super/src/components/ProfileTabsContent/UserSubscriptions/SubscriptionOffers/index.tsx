@@ -16,11 +16,12 @@ interface ISubscriptionOffers {
 export const SubscriptionOffers = ({ token }: ISubscriptionOffers) => {
   const { t } = useTranslation(['profile'])
   const [isLoading, setLoading] = useState<boolean>(false)
+  const curLang = localStorage.getItem('i18nextLng')
   const [allSubscriptions, setAllSubscriptions] =
     useGetAllSubscriptions(setLoading)
 
   const onBuySubscription = (idSubscription: number): Promise<any> => {
-    return buySubscription(token, idSubscription)
+    return buySubscription(token, idSubscription, curLang)
   }
   //TODO check another way of displaying preloader
 

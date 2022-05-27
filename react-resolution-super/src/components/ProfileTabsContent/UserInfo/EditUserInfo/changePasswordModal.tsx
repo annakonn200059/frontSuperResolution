@@ -22,6 +22,7 @@ export const ChangePasswordModal: FC<IModalProps> = ({
   email,
 }: IModalProps) => {
   const { t } = useTranslation(['profile'])
+  const curLang = localStorage.getItem('i18nextLng')
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
 
@@ -42,7 +43,13 @@ export const ChangePasswordModal: FC<IModalProps> = ({
     },
     onSubmit: async () => {
       handleIsDisabled()
-      editUserPassword(values.oldPassword, values.newPassword, email, token)
+      editUserPassword(
+        values.oldPassword,
+        values.newPassword,
+        email,
+        token,
+        curLang
+      )
         .then((resp) => {
           values.oldPassword = ''
           values.newPassword = ''

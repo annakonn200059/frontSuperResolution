@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next'
 
 export const WeightsUpload = () => {
   const { t } = useTranslation(['profile'])
+  const curLang = localStorage.getItem('i18nextLng')
   const [files, setFiles] = useState<File[]>([])
   const [chosenWeight, setChosenWeight] = useState<number>(-1)
   const [errorText, setErrorText] = useState<string>('')
@@ -57,6 +58,7 @@ export const WeightsUpload = () => {
     const fd = new FormData()
     fd.append('weightFile', formProps)
     fd.append('coefficient', '' + chosenWeight)
+    fd.append('curLang', '' + curLang)
     try {
       sendWeightFile(fd)
         .then((resp) => {

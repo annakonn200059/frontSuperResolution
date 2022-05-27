@@ -22,11 +22,9 @@ interface PropsRegisterStep {
 
 export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
   const { t } = useTranslation(['main', 'profile'])
+  const curLang = localStorage.getItem('i18nextLng')
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const dispatchProlong = () => {
-    dispatch(setActivePurchase as any)
-  }
   const stateUser: AuthState = useSelector<RootState, AuthState>(auth)
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
@@ -41,7 +39,7 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
     initialValues: { email: '', password: '' },
     onSubmit: async () => {
       handleIsDisabled()
-      loginAuth(values.email, values.password)
+      loginAuth(values.email, values.password, curLang)
         .then((resp) => {
           dispatch(login(resp.token, resp.user) as any)
           dispatch(getPurchase(resp.token) as any)
