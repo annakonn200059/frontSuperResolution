@@ -206,18 +206,32 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
 
         <ST.InputWrapper>
           <ST.InputLabel>
-            <label htmlFor="description">{t('description')}</label>
+            <label htmlFor="descriptionEng">{t('descriptionEng')}</label>
           </ST.InputLabel>
           <ST.Input
             placeholder={''}
-            value={values.description}
+            value={values.descriptionEng}
             onChange={handleChange}
-            id={'description'}
-            name={'description'}
+            id={'descriptionEng'}
+            name={'descriptionEng'}
+            error={errors.descriptionEng}
+          />
+        </ST.InputWrapper>
+
+        <ST.InputWrapper>
+          <ST.InputLabel>
+            <label htmlFor="descriptionRus">{t('descriptionRus')}</label>
+          </ST.InputLabel>
+          <ST.Input
+            placeholder={''}
+            value={values.descriptionRus}
+            onChange={handleChange}
+            id={'descriptionRus'}
+            name={'descriptionRus'}
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
               onEnterSubmit(e, handleSubmit)
             }
-            error={errors.description}
+            error={errors.descriptionRus}
           />
         </ST.InputWrapper>
         <ST.ErrorText>{errorText}</ST.ErrorText>

@@ -53,6 +53,7 @@ const SubscriptionCard = ({
   onBuySubscription,
 }: ICard) => {
   const { t } = useTranslation(['profile'])
+  const curLang = localStorage.getItem('i18nextLng')
   const hunel = new HunelCreditCard()
   const dispatch = useDispatch()
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
@@ -145,7 +146,9 @@ const SubscriptionCard = ({
               {t('uploadsADay')}
             </ST.InfoItem>
             <ST.InfoItem>{t('firstDescr')}</ST.InfoItem>
-            <ST.InfoItem>{props.description}</ST.InfoItem>
+            <ST.InfoItem>
+              {curLang === 'en' ? props.descriptionEng : props.descriptionRus}
+            </ST.InfoItem>
           </ST.SubscriptionInfoList>
           <ST.ActionsButtonsContainer>
             {onProlong && !isPaid && (

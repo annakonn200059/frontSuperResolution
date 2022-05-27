@@ -32,7 +32,8 @@ const AddContactInputs: FC<IAddSubscriptionsInputs> = ({
       cost: -1,
       subsription_type: 0,
       downloads_amount: -1,
-      description: '',
+      descriptionEng: '',
+      descriptionRus: '',
     },
     onSubmit: async () => {
       const newContact: ISubscription = {
@@ -40,7 +41,8 @@ const AddContactInputs: FC<IAddSubscriptionsInputs> = ({
         cost: values.cost,
         subsription_type: values.subsription_type,
         downloads_amount: values.downloads_amount,
-        description: values.description,
+        descriptionEng: values.descriptionEng,
+        descriptionRus: values.descriptionRus,
       }
       postSubscription({ ...newContact })
         .then(({ id_subscription }) => {
@@ -55,7 +57,8 @@ const AddContactInputs: FC<IAddSubscriptionsInputs> = ({
       subscription_name: Yup.string().required('Name field missed'),
       cost: Yup.number().min(0).required('Cost field missed'),
       downloads_amount: Yup.number().required('Downloads amount field missed'),
-      description: Yup.string().required('Description field missed'),
+      descriptionEng: Yup.string().required('Description field missed'),
+      descriptionRus: Yup.string().required('Description field missed'),
     }),
   })
   //TODO вынести input в ui
@@ -130,18 +133,32 @@ const AddContactInputs: FC<IAddSubscriptionsInputs> = ({
 
         <ST.InputWrapper>
           <ST.InputLabel>
-            <label htmlFor="description">{t('description')}</label>
+            <label htmlFor="descriptionEng">{t('descriptionEng')}</label>
           </ST.InputLabel>
           <ST.Input
             placeholder={''}
-            value={values.description}
+            value={values.descriptionEng}
             onChange={handleChange}
-            id={'description'}
-            name={'description'}
+            id={'descriptionEng'}
+            name={'descriptionEng'}
+            error={errors.descriptionEng}
+          />
+        </ST.InputWrapper>
+
+        <ST.InputWrapper>
+          <ST.InputLabel>
+            <label htmlFor="descriptionRus">{t('descriptionRus')}</label>
+          </ST.InputLabel>
+          <ST.Input
+            placeholder={''}
+            value={values.descriptionRus}
+            onChange={handleChange}
+            id={'descriptionRus'}
+            name={'descriptionRus'}
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
               onEnterSubmit(e, handleSubmit)
             }
-            error={errors.description}
+            error={errors.descriptionRus}
           />
         </ST.InputWrapper>
         <ST.ErrorText>{errorText}</ST.ErrorText>
