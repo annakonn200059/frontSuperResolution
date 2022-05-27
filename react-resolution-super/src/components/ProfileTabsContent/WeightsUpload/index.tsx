@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next'
 
 export const WeightsUpload = () => {
   const { t } = useTranslation(['profile'])
+  const curLang = localStorage.getItem('i18nextLng')
   const [files, setFiles] = useState<File[]>([])
   const [chosenWeight, setChosenWeight] = useState<number>(-1)
   const [errorText, setErrorText] = useState<string>('')
@@ -44,17 +45,20 @@ export const WeightsUpload = () => {
 
   const handleDataSubmit = async (formProps: any) => {
     if (formProps.name.split('.').length > 2) {
-      setErrorText('File name includes more than one dots')
+      setErrorText(`${t('fileWithDots')}`)
+      setLoading(false)
       return false
     }
 
     if (!availableExtensions.includes(formProps.name.split('.')[1])) {
-      setErrorText('File extension must be .pth or .pt')
+      setErrorText(`${t('wrongExtension')}`)
+      setLoading(false)
       return false
     }
     const fd = new FormData()
     fd.append('weightFile', formProps)
     fd.append('coefficient', '' + chosenWeight)
+    fd.append('curLang', '' + curLang)
     try {
       sendWeightFile(fd)
         .then((resp) => {
@@ -68,7 +72,7 @@ export const WeightsUpload = () => {
           setLoading(false)
         })
     } catch (err) {
-      setErrorText('Error')
+      setErrorText(`${t('error')}`)
     }
   }
 
@@ -83,7 +87,7 @@ export const WeightsUpload = () => {
           await handleDataSubmit(files[0])
         } catch (err) {
           setLoading(false)
-          setErrorText('Error in uploading')
+          setErrorText(`${t('errorUploading')}`)
         }
       }
     },
@@ -114,7 +118,7 @@ export const WeightsUpload = () => {
           <ST.ButtonContainer>
             <BaseSelect
               isSmallSelect={true}
-              placeHolder={'Coefficients'}
+              placeHolder={`${t('coefficients')}`}
               listItems={coefficients.coefficients}
               name={'Coefficients'}
               value={values.weightValue}
@@ -127,7 +131,7 @@ export const WeightsUpload = () => {
                 handleSubmit()
               }}
             >
-              Submit
+              {t('submit')}
             </ST.SubmitButton>
           </ST.ButtonContainer>
           <ST.ErrorText>{errorText ? errorText : ''}</ST.ErrorText>

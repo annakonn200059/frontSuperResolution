@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import * as ST from 'components/dropbox/styled'
 import { useDropzone } from 'react-dropzone'
 import { Preloader } from '../../../preloader'
+import { useTranslation } from 'react-i18next'
 
 interface IDropZone {
   handleOnDrop: (newImageFile: File[]) => void
@@ -22,6 +23,7 @@ export const DropField = ({
   isLoading,
   finishedUpload,
 }: IDropZone) => {
+  const { t } = useTranslation(['profile, common'])
   const {
     getRootProps,
     getInputProps,
@@ -46,7 +48,9 @@ export const DropField = ({
   }, [acceptedFiles])
 
   useEffect(() => {
-    if (isDragReject) setError('Choose correct file format')
+    if (isDragReject) {
+      setError(`${t('profile:incorrectFormat')}`)
+    }
   }, [isDragReject])
 
   return (
@@ -60,9 +64,7 @@ export const DropField = ({
           <>
             <input {...getInputProps()} />
             <ST.ImageBox />
-            <ST.HeaderBox>
-              Select weight and upload .pth or .pt file
-            </ST.HeaderBox>
+            <ST.HeaderBox>{t('profile:selectWeight')}</ST.HeaderBox>
           </>
         ) : (
           <ST.LoaderWrapper>
@@ -74,10 +76,10 @@ export const DropField = ({
         <ST.FileNamesContainer>
           <ST.FileNameHeader>
             {finishedUpload
-              ? 'Finished!'
+              ? `${t('common:finished')}`
               : !isLoading
-              ? 'File was uploaded!'
-              : 'File is processing'}
+              ? `${t('common:uploadedFile')}`
+              : `${t('common:processingFile')}`}
           </ST.FileNameHeader>
           <ST.FileName>{filesArr}</ST.FileName>
         </ST.FileNamesContainer>

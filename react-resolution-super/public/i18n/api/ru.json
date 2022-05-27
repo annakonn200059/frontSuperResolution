@@ -1,0 +1,8 @@
+{
+  "apiDoc": "Документация Super Resolution API",
+  "header": "Пример Super Resolution cURL",
+  "getToken": "Получить api токен можно",
+  "here": "здесь",
+  "youCan": "Вы можете поместить ссылку на изображение\n или путь к локальному файлу в поле 'image':",
+  "python": "Пример на Python"
+}

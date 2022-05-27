@@ -5,6 +5,7 @@ import { postChangeRole } from 'api/dashboard'
 import { useSelector } from 'react-redux'
 import { RootState } from 'store/store'
 import { accessToken } from 'store/selectors'
+import { useTranslation } from 'react-i18next'
 
 interface UserRow {
   userData: User
@@ -16,13 +17,14 @@ interface IRadioButton {
 }
 
 const ToggleSwitch = ({ value, onChange }: IRadioButton) => {
+  const { t } = useTranslation(['profile'])
   return (
     <ST.Label>
       <ST.RoundSwitch></ST.RoundSwitch>
       <ST.Input type="checkbox" checked={value} onChange={onChange} />
-      {'user'}
+      {t('user')}
       <ST.Switch />
-      {'admin'}
+      {t('admin')}
     </ST.Label>
   )
 }

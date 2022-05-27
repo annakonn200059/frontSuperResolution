@@ -30,6 +30,7 @@ export const ChangeFieldModal: FC<IModalProps> = ({
   userState,
 }: IModalProps) => {
   const { t } = useTranslation(['profile'])
+  const curLang = localStorage.getItem('i18nextLng')
   const dispatch = useDispatch()
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
@@ -46,7 +47,7 @@ export const ChangeFieldModal: FC<IModalProps> = ({
     initialValues: { field: '' },
     onSubmit: async () => {
       handleIsDisabled()
-      editUser(values.field, token, mode)
+      editUser(values.field, token, mode, curLang)
         .then((resp) => {
           const newState =
             mode === 'email'
@@ -93,14 +94,13 @@ export const ChangeFieldModal: FC<IModalProps> = ({
           placeholder={`${mode === 'name' ? `${t('name')}` : 'email'}`}
           value={values.field}
           onChange={handleChange}
+          error={errors.field}
           id={'field'}
           name={'field'}
           disabled={isDisabled}
           onKeyDown={(e) => onEnterSubmit(e, handleSubmit)}
         />
-        <ST.ErrorText>
-          {errorText ? errorText : yupErrorHandler(errors)}
-        </ST.ErrorText>
+        <ST.ErrorText>{errorText}</ST.ErrorText>
 
         <ST.SubmitButton
           type={'submit'}

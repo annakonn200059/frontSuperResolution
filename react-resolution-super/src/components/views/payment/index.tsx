@@ -7,6 +7,7 @@ import { useCardForm } from 'reactjs-credit-card'
 import { ISubscriptionWithId } from 'types/subscription'
 import { SubscriptionPaymentInfo } from '../../ProfileTabsContent/SubscriptionPaymentInfo'
 import { useFormik } from 'formik'
+import { useTranslation } from 'react-i18next'
 
 interface IPayment {
   closeModal: () => void
@@ -25,6 +26,7 @@ export const Payment: FC<IPayment> = ({
   showSubmitModal,
   dispatchFunction,
 }: IPayment) => {
+  const { t } = useTranslation(['profile'])
   const getFormData = useCardForm()
   const [dataForm, setDataForm] = useState<any>('')
   const [numberValid, setNumberValid] = useState(true)
@@ -46,7 +48,7 @@ export const Payment: FC<IPayment> = ({
   useEffect(() => {
     const [data, isValid] = getFormData()
     setDataForm(data)
-    if (!isValid) setValidationError('Invalid data')
+    if (!isValid) setValidationError(t('invalid'))
     else {
       setValidationError('')
     }
@@ -64,7 +66,7 @@ export const Payment: FC<IPayment> = ({
     <ST.PaymentWrapper>
       {!showPaymentData ? (
         <>
-          <ST.HeaderPayment>Payment information</ST.HeaderPayment>
+          <ST.HeaderPayment>{t('paymentInfo')}</ST.HeaderPayment>
           <ST.CardWrapper>
             <Card />
             <ST.CardFieldsForm
@@ -80,7 +82,7 @@ export const Payment: FC<IPayment> = ({
                 onFocus={handleFocus}
               />
               <ST.StyledCardHolder
-                placeholder="Owner"
+                placeholder={t('owner')}
                 value={values.owner}
                 onChange={handleChange}
                 id={'owner'}
@@ -98,7 +100,9 @@ export const Payment: FC<IPayment> = ({
                 onChange={handleChange}
                 id={'cvc'}
               />
-              <ST.SubmitPayButton type="submit">Submit</ST.SubmitPayButton>
+              <ST.SubmitPayButton type="submit">
+                {t('submitPayment')}
+              </ST.SubmitPayButton>
               {validationError && (
                 <ST.ErrorText>{validationError}</ST.ErrorText>
               )}
@@ -106,14 +110,18 @@ export const Payment: FC<IPayment> = ({
           </ST.CardWrapper>
         </>
       ) : (
-        <SubscriptionPaymentInfo
-          closeModal={closeModal}
-          subscriptionInfo={subscriptionInfo}
-          setShowSubmitModal={setShowSubmitModal}
-          showSubmitModal={showSubmitModal}
-          dispatchFunction={dispatchFunction}
-          onSubmitPay={onSubmitPay}
-        />
+        <>
+          <ST.BackGround rotate={'left'} />
+          <ST.BackGround rotate={'right'} />
+          <SubscriptionPaymentInfo
+            closeModal={closeModal}
+            subscriptionInfo={subscriptionInfo}
+            setShowSubmitModal={setShowSubmitModal}
+            showSubmitModal={showSubmitModal}
+            dispatchFunction={dispatchFunction}
+            onSubmitPay={onSubmitPay}
+          />
+        </>
       )}
     </ST.PaymentWrapper>
   )

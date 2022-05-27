@@ -10,14 +10,18 @@ import {
   coeffs,
   isPaidPurchase,
   isPurchase,
+  role,
 } from 'store/selectors'
+import { useTranslation } from 'react-i18next'
 
 export const Main = () => {
+  const { t } = useTranslation(['main'])
   const token: string = useSelector<RootState, string>(accessToken)
   const isSubscription: boolean = useSelector<RootState, boolean>(isPurchase)
   const isPaidSubscription: boolean = useSelector<RootState, boolean>(
     isPaidPurchase
   )
+  const userRole: string = useSelector<RootState, string>(role)
   const chooseRef = useRef<HTMLDivElement | null>(null)
   const coefficients: CoefficientsState = useSelector<
     RootState,
@@ -35,20 +39,19 @@ export const Main = () => {
   return (
     <ST.MainWrapper>
       <ST.IntroContainer>
-        <ST.MainHeader>
-          Welcome to the place where you can{'\n'} improve image quality{' '}
-        </ST.MainHeader>
+        <ST.MainHeader>{t('welcome')}</ST.MainHeader>
         <ST.ScrollButton onClick={() => onSectionDropBox(chooseRef)}>
-          GET STARTED
+          {t('getStarted')}
         </ST.ScrollButton>
       </ST.IntroContainer>
       <ST.DropBoxContainer ref={chooseRef}>
-        <ST.DropHeader>Upload your image below:</ST.DropHeader>
+        <ST.DropHeader>{t('uploadImage')}</ST.DropHeader>
         <DropBox
           token={token}
           isSubscription={isSubscription}
           coefficients={coefficients.coefficients}
           isPaidSubscription={isPaidSubscription}
+          userRole={userRole}
         />
       </ST.DropBoxContainer>
       <ST.ExamplesContainer>

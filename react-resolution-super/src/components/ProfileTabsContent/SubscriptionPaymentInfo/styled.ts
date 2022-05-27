@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { COLORS } from 'constants/colors'
-import back from 'assets/Vector.svg'
 
 export const HeaderPayment = styled.h1`
   font-size: 30px;
@@ -17,25 +16,6 @@ export const SubscriptionWrapper = styled.div`
   align-items: center;
   column-gap: 70px;
   padding: 60px 0 40px 0;
-`
-
-interface IBackGround {
-  rotate: string
-}
-
-export const BackGround = styled.div<IBackGround>`
-  position: absolute;
-  top: ${(props) => (props.rotate === 'right' ? `150px` : `-20px`)};
-  left: ${(props) => (props.rotate === 'right' ? null : `-190px`)};
-  right: ${(props) => (props.rotate === 'right' ? `-190px` : null)};
-  width: 70%;
-  height: 70%;
-  transform: ${(props) =>
-    props.rotate === 'right' ? `rotate(-90deg)` : `rotate(90deg)`};
-  background-image: url(${back});
-  background-size: 100% 100%;
-  background-position: 0 0;
-  background-repeat: no-repeat;
 `
 
 export const SubscriptionName = styled.div`

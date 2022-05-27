@@ -13,6 +13,7 @@ import { yupErrorHandler } from 'utils/yupErrorHandler'
 import { auth } from 'store/selectors'
 import { NavLink } from 'react-router-dom'
 import { getPurchase, setActivePurchase } from 'store/actions/purchase'
+import { useTranslation } from 'react-i18next'
 
 interface PropsRegisterStep {
   setStep: (stepId: number) => void
@@ -20,11 +21,10 @@ interface PropsRegisterStep {
 }
 
 export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
+  const { t } = useTranslation(['main', 'profile'])
+  const curLang = localStorage.getItem('i18nextLng')
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const dispatchProlong = () => {
-    dispatch(setActivePurchase as any)
-  }
   const stateUser: AuthState = useSelector<RootState, AuthState>(auth)
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
@@ -39,7 +39,7 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
     initialValues: { email: '', password: '' },
     onSubmit: async () => {
       handleIsDisabled()
-      loginAuth(values.email, values.password)
+      loginAuth(values.email, values.password, curLang)
         .then((resp) => {
           dispatch(login(resp.token, resp.user) as any)
           dispatch(getPurchase(resp.token) as any)
@@ -61,7 +61,7 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
   return (
     <ST.AuthBlock>
       <ST.Header>
-        <ST.LogoText>SIGN IN</ST.LogoText>
+        <ST.LogoText>{t('main:signIn')}</ST.LogoText>
         <NavLink to={'/'}>
           <ST.LogoWrapper>
             <ST.Logo />
@@ -69,7 +69,7 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
           </ST.LogoWrapper>
         </NavLink>
       </ST.Header>
-      <ST.DescrBlock>Login now to continue uploading photos!</ST.DescrBlock>
+      <ST.DescrBlock>{t('main:loginNow')}</ST.DescrBlock>
       <ST.InputsContainer>
         <ST.Input
           placeholder={'example@gmail.com'}
@@ -78,13 +78,15 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
           disabled={isDisabled}
           id={'email'}
           name={'email'}
+          error={errors.email}
         />
         <ST.Input
-          placeholder={'password'}
+          placeholder={t('profile:password')}
           value={values.password}
           onChange={handleChange}
           disabled={isDisabled}
           id={'password'}
+          error={errors.password}
           name={'password'}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
@@ -94,9 +96,7 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
             }
           }}
         />
-        <ST.ErrorText>
-          {errorText ? errorText : yupErrorHandler(errors)}
-        </ST.ErrorText>
+        <ST.ErrorText>{errorText}</ST.ErrorText>
       </ST.InputsContainer>
       <ST.SubmitButton
         type={'submit'}
@@ -105,11 +105,13 @@ export const Login = ({ setStep, isAdmin }: PropsRegisterStep) => {
           handleSubmit()
         }}
       >
-        Login
+        {t('main:login')}
       </ST.SubmitButton>
       <ST.LoginText>
-        Don't have an account?{' '}
-        <ST.LoginSpan onClick={() => setStep(1)}>Register</ST.LoginSpan>
+        {t('main:dontHaveAcc')}{' '}
+        <ST.LoginSpan onClick={() => setStep(1)}>
+          {t('main:register')}
+        </ST.LoginSpan>
       </ST.LoginText>
     </ST.AuthBlock>
   )

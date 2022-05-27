@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { COLORS } from 'constants/colors'
-import back from 'assets/blue_background.png'
 // @ts-ignore
 import { CardHolder } from 'reactjs-credit-card/form'
 // @ts-ignore
@@ -11,6 +10,7 @@ import { CardSecurityCode } from 'reactjs-credit-card/form'
 import { ValidThruMonth } from 'reactjs-credit-card/form'
 // @ts-ignore
 import { ValidThruYear } from 'reactjs-credit-card/form'
+import back from 'assets/Vector.svg'
 
 export const PaymentWrapper = styled.div`
   display: flex;
@@ -100,15 +100,14 @@ export const StyledValidThruYear = styled(ValidThruYear)`
 `
 
 export const SubmitPayButton = styled.button`
-  padding: 5px 10px 5px 10px;
+  padding: 5px 10px 8px 10px;
+  text-align: center;
   border-radius: 5px;
   border: 1px solid #ddd;
   background-color: #ddd;
-  text-align: center;
   font-size: 14px;
   color: grey;
   font-weight: 600;
-  width: 100px;
 
   &:hover {
     background-color: rgba(0, 0, 0, 0.03);
@@ -120,4 +119,23 @@ export const ErrorText = styled.div`
   line-height: 140%;
   color: ${COLORS.errorRed};
   text-align: center;
+`
+interface IBackGround {
+  rotate: string
+}
+
+export const BackGround = styled.div<IBackGround>`
+  position: absolute;
+  z-index: -10;
+  top: ${(props) => (props.rotate === 'right' ? `100px` : `40px`)};
+  left: ${(props) => (props.rotate === 'right' ? null : `-170px`)};
+  right: ${(props) => (props.rotate === 'right' ? `-170px` : null)};
+  width: 70%;
+  height: 70%;
+  transform: ${(props) =>
+    props.rotate === 'right' ? `rotate(-90deg)` : `rotate(90deg)`};
+  background-image: url(${back});
+  background-size: 100% 100%;
+  background-position: 0 0;
+  background-repeat: no-repeat;
 `

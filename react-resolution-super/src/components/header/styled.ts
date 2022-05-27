@@ -24,6 +24,28 @@ export const LinksWrapper = styled.div`
   align-items: center;
 `
 
+export const LangContainer = styled.div`
+  display: flex;
+  column-gap: 18px;
+`
+
+interface Ilang {
+  isActive?: boolean
+}
+
+export const LangItem = styled.div<Ilang>`
+  cursor: pointer;
+  color: ${(props) =>
+    props.isActive ? `${COLORS.blue}` : `${COLORS.lightGreyBackground}`};
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 37px;
+
+  &:hover {
+    opacity: 0.5;
+  }
+`
+
 export const ApiLink = styled.div`
   color: ${COLORS.blue};
   font-weight: 600;

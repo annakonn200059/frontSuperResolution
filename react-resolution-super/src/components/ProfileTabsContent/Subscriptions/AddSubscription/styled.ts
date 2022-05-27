@@ -33,7 +33,11 @@ export const InputLabel = styled.div`
   display: inline-block;
 `
 
-export const Input = styled.input`
+interface InputProps {
+  error?: string
+}
+
+export const Input = styled.input<InputProps>`
   padding: 0 20px 3px 20px;
   width: calc(100% - 40px);
   max-width: 480px;
@@ -43,7 +47,9 @@ export const Input = styled.input`
   background: ${COLORS.white};
   font-size: 16px;
   line-height: 140%;
-  border: 1px solid ${COLORS.blue};
+  border: 1px solid
+    ${(props) => (props.error ? `${COLORS.red}` : `${COLORS.blue}`)};
+
   color: ${COLORS.black};
   margin-bottom: 30px;
   &:last-of-type {

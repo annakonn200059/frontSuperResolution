@@ -51,7 +51,11 @@ export const SubHeader = styled.p`
   margin-bottom: 20px;
 `
 
-export const NewPropertyInput = styled.input`
+interface InputProps {
+  error?: string
+}
+
+export const NewPropertyInput = styled.input<InputProps>`
   padding: 0 0 3px 20px;
   width: calc(250px);
   max-width: 480px;
@@ -61,7 +65,8 @@ export const NewPropertyInput = styled.input`
   background: ${COLORS.white};
   font-size: 16px;
   line-height: 140%;
-  border: 1px solid ${COLORS.blue};
+  border: 1px solid
+    ${(props) => (props.error ? `${COLORS.red}` : `${COLORS.blue}`)};
   color: ${COLORS.lightGrey};
   margin-bottom: 30px;
 `

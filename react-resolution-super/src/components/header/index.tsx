@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 import i18next from 'i18next'
 
 const Header = () => {
-  const { i18n, t } = useTranslation(['common'])
+  const { i18n, t } = useTranslation(['profile', 'main'])
 
   const isAuth = IsAuth()
   const [imgUser, setImgUser] = useState<string>('')
@@ -34,7 +34,10 @@ const Header = () => {
   }, [])
 
   const handleLangChange = (e: any) => {
-    i18n.changeLanguage(e.target.value)
+    const pushedLang = e.target.innerText.toLowerCase()
+    if (pushedLang !== localStorage.getItem('i18nextLng')) {
+      i18n.changeLanguage(pushedLang)
+    }
   }
 
   return (
@@ -45,17 +48,20 @@ const Header = () => {
           <ST.LogoText>Super Image</ST.LogoText>
         </ST.LogoContainer>
         <ST.LinksWrapper>
-          <select
-            value={
-              (localStorage.getItem('i18nextLng') as string)
-                ? (localStorage.getItem('i18nextLng') as string)
-                : 'en'
-            }
-            onChange={handleLangChange}
-          >
-            <option value={'en'}>En</option>
-            <option value={'ru'}>Ru</option>
-          </select>
+          <ST.LangContainer>
+            <ST.LangItem
+              isActive={localStorage.getItem('i18nextLng') === 'en'}
+              onClick={handleLangChange}
+            >
+              En
+            </ST.LangItem>
+            <ST.LangItem
+              isActive={localStorage.getItem('i18nextLng') === 'ru'}
+              onClick={handleLangChange}
+            >
+              Ru
+            </ST.LangItem>
+          </ST.LangContainer>
           {location.pathname !== '/aboutApiToken' && (
             <NavLink to={'/aboutApiToken'}>
               <ST.ApiLink>API doc</ST.ApiLink>
@@ -73,9 +79,11 @@ const Header = () => {
                   {menuopen && (
                     <ST.DropdownMenu>
                       <ST.MenuItem onClick={() => navigate('/profile')}>
-                        Profile
+                        {t('profile:profile')}
                       </ST.MenuItem>
-                      <ST.MenuItem onClick={handleLogout}>Logout</ST.MenuItem>
+                      <ST.MenuItem onClick={handleLogout}>
+                        {t('profile:logout')}
+                      </ST.MenuItem>
                     </ST.DropdownMenu>
                   )}
                 </ST.MenuClosed>
@@ -84,7 +92,7 @@ const Header = () => {
           ) : (
             <NavLink to={'/auth'}>
               <ST.SignUpButton>
-                <ST.LoginText>Sign UP</ST.LoginText>
+                <ST.LoginText>{t('main:signUp')}</ST.LoginText>
               </ST.SignUpButton>
             </NavLink>
           )}

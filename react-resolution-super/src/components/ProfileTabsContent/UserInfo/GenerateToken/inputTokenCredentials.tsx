@@ -15,6 +15,7 @@ export const InputTokenCredentials: FC<IProps> = ({
   setToken,
 }: IProps) => {
   const { t } = useTranslation(['profile'])
+  const curLang = localStorage.getItem('i18nextLng')
   const [errorText, setErrorText] = useState<string>('')
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
 
@@ -26,7 +27,7 @@ export const InputTokenCredentials: FC<IProps> = ({
     initialValues: { email: '', password: '' },
     onSubmit: async () => {
       handleIsDisabled()
-      getApiToken(values.email, values.password)
+      getApiToken(values.email, values.password, curLang)
         .then((resp) => {
           if (resp.token) {
             setToken(resp.token)

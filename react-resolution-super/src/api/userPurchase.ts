@@ -21,17 +21,24 @@ export const getUnsubscribed = async (token: string): Promise<IPromise> => {
   return resp.data
 }
 
-export const getProlongSubscription = async (token: string) => {
-  const resp = await apiRequest(token).post('/api/prolongSubscription')
+export const getProlongSubscription = async (
+  token: string,
+  curLang: string | null
+) => {
+  const resp = await apiRequest(token).post('/api/prolongSubscription', {
+    curLang: curLang,
+  })
   return resp.data
 }
 
 export const buySubscription = async (
   token: string,
-  idSubscription: number
+  idSubscription: number,
+  curLang: string | null
 ) => {
   const resp = await apiRequest(token).post('/api/buySubscription', {
     idSubscription: idSubscription,
+    curLang: curLang,
   })
   return resp.data
 }

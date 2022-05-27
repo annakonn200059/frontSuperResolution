@@ -22,6 +22,7 @@ export const ChangePasswordModal: FC<IModalProps> = ({
   email,
 }: IModalProps) => {
   const { t } = useTranslation(['profile'])
+  const curLang = localStorage.getItem('i18nextLng')
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
 
@@ -42,7 +43,13 @@ export const ChangePasswordModal: FC<IModalProps> = ({
     },
     onSubmit: async () => {
       handleIsDisabled()
-      editUserPassword(values.oldPassword, values.newPassword, email, token)
+      editUserPassword(
+        values.oldPassword,
+        values.newPassword,
+        email,
+        token,
+        curLang
+      )
         .then((resp) => {
           values.oldPassword = ''
           values.newPassword = ''
@@ -84,6 +91,7 @@ export const ChangePasswordModal: FC<IModalProps> = ({
           value={values.oldPassword}
           onChange={handleChange}
           disabled={isDisabled}
+          error={errors.oldPassword}
           id={'oldPassword'}
           name={'oldPassword'}
         />
@@ -95,6 +103,7 @@ export const ChangePasswordModal: FC<IModalProps> = ({
           value={values.newPassword}
           onChange={handleChange}
           disabled={isDisabled}
+          error={errors.newPassword}
           id={'newPassword'}
           name={'newPassword'}
         />
@@ -107,12 +116,11 @@ export const ChangePasswordModal: FC<IModalProps> = ({
           onChange={handleChange}
           disabled={isDisabled}
           id={'newRepeatPassword'}
+          error={errors.newRepeatPassword}
           name={'newRepeatPassword'}
           onKeyDown={(e) => onEnterSubmit(e, handleSubmit)}
         />
-        <ST.ErrorText>
-          {errorText ? errorText : yupErrorHandler(errors)}
-        </ST.ErrorText>
+        <ST.ErrorText>{errorText}</ST.ErrorText>
 
         <ST.SubmitButton
           type={'submit'}

@@ -1,29 +1,29 @@
 import React, { useState } from 'react'
 import * as ST from './styled'
 import { NavLink } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 export const AboutApi = () => {
+  const { t } = useTranslation(['api'])
   return (
     <ST.Container>
       <ST.Header>
-        <ST.HeaderText>Super Resolution API Documentation</ST.HeaderText>
+        <ST.HeaderText>{t('apiDoc')}</ST.HeaderText>
       </ST.Header>
       <ST.Wrapper>
         <ST.CodePart>
-          <ST.CodeHeader>Super Resolution cURL Example</ST.CodeHeader>
+          <ST.CodeHeader>{t('header')}</ST.CodeHeader>
           <ST.CodeBlock>
             <ST.Code>
               <ST.GreyCode>
-                # Get apiToken{' '}
+                # {t('getToken')}{' '}
                 <NavLink to={'/profile'}>
-                  <ST.BlueCode isLink={true}>here</ST.BlueCode>
+                  <ST.BlueCode isLink={true}>{t('here')}</ST.BlueCode>
                 </NavLink>
                 :
               </ST.GreyCode>
               <br />
-              <ST.GreyCode>
-                # You can paste img URL or local image file in 'image' field:
-              </ST.GreyCode>
+              <ST.GreyCode># {t('youCan')}</ST.GreyCode>
               <br />
               <br />
               curl --location --request POST 'SITE_LINK/api/uploadFile'
@@ -38,13 +38,13 @@ export const AboutApi = () => {
         </ST.CodePart>
 
         <ST.CodePart>
-          <ST.CodeHeader>Super Resolution Python Example</ST.CodeHeader>
+          <ST.CodeHeader>{t('python')}</ST.CodeHeader>
           <ST.CodeBlock>
             <ST.Code>
               <ST.GreyCode>
-                # Get apiToken{' '}
+                # {t('getToken')}{' '}
                 <NavLink to={'/profile'}>
-                  <ST.BlueCode isLink={true}>here</ST.BlueCode>
+                  <ST.BlueCode isLink={true}>{t('here')}</ST.BlueCode>
                 </NavLink>
                 :
               </ST.GreyCode>

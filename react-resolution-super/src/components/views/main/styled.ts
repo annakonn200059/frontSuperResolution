@@ -82,6 +82,22 @@ export const SectionWrapper = styled.div`
   align-items: center;
 `
 
+export const BotLinkContainer = styled.div`
+  margin-left: 200px;
+  margin-bottom: 50px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 28px;
+  color: ${COLORS.lightGrey};
+  text-shadow: 0 4px 20px rgb(0 0 0 / 20%);
+  white-space: pre-wrap;
+`
+
+export const BotLink = styled.a`
+  color: ${COLORS.blue};
+  cursor: pointer;
+`
+
 export const PhotoBlock = styled.div<IPhotoBlock>`
   display: flex;
   justify-content: ${(props) => (props.isLeft ? 'flex-start' : 'flex-start')};
@@ -114,7 +130,7 @@ export const Photos = styled.div`
 `
 
 export const DescriptionText = styled.div`
-  text-align: left;
+  text-align: justify;
   max-width: 380px;
   white-space: pre-wrap;
   font-size: 16px;

@@ -3,6 +3,7 @@ import { ISubscriptionWithId } from 'types/subscription'
 import * as ST from './styled'
 import { useFormik } from 'formik'
 import { yupErrorHandler } from 'utils/yupErrorHandler'
+import { useTranslation } from 'react-i18next'
 
 interface IPayment {
   closeModal: () => void
@@ -23,6 +24,7 @@ export const SubscriptionPaymentInfo: FC<IPayment> = ({
   showSubmitModal,
   dispatchFunction,
 }: IPayment) => {
+  const { t } = useTranslation(['profile'])
   const [errorText, setErrorText] = useState<string>('')
   const [isDisabled, setIsDisabled] = useState<boolean>(false)
   const handleIsDisabled = (): void => {
@@ -47,7 +49,7 @@ export const SubscriptionPaymentInfo: FC<IPayment> = ({
           })
           .catch((err) => {
             handleIsDisabled()
-            setErrorText(err.response.data.msg || 'Error')
+            setErrorText(err.response.data.msg || t('error'))
           })
       }
     },
@@ -55,18 +57,16 @@ export const SubscriptionPaymentInfo: FC<IPayment> = ({
 
   return (
     <>
-      <ST.HeaderPayment>Review & Confirm</ST.HeaderPayment>
+      <ST.HeaderPayment>{t('review')}</ST.HeaderPayment>
       <ST.SubscriptionWrapper>
-        <ST.BackGround rotate={'left'} />
-        <ST.BackGround rotate={'right'} />
         <ST.FieldsWrapper>
           <ST.SubscriptionName>
-            Subscription name:{`\n`}
+            {t('subscrName')}:{`\n`}
             <ST.Name>{subscriptionInfo?.subscription_name}</ST.Name>
           </ST.SubscriptionName>
           <ST.InputsContainer>
             <ST.InputLabel>
-              <label htmlFor="cost">Cost:</label>
+              <label htmlFor="cost">{t('cost')}:</label>
             </ST.InputLabel>
             <ST.Cost>{subscriptionInfo?.cost + ''}</ST.Cost>
           </ST.InputsContainer>
@@ -78,7 +78,7 @@ export const SubscriptionPaymentInfo: FC<IPayment> = ({
             handleSubmit()
           }}
         >
-          PAY
+          {t('pay')}
         </ST.SubmitPayButton>
         <ST.ErrorText>
           {errorText ? errorText : yupErrorHandler(errors)}

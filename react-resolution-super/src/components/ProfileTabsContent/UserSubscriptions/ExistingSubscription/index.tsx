@@ -14,6 +14,7 @@ import { ISubscriptionWithId } from 'types/subscription'
 import { PurchaseState } from 'types/purchaseSubscription'
 import { Preloader } from '../../../preloader'
 import { COLORS } from 'constants/colors'
+import { useTranslation } from 'react-i18next'
 
 interface IExistingSubscription {
   token: string
@@ -24,10 +25,12 @@ export const ExistingSubscription = ({
   token,
   userPurchase,
 }: IExistingSubscription) => {
+  const { t } = useTranslation(['profile'])
   const [isLoading, setLoading] = useState<boolean>(false)
   const [responseModalText, setResponseModalText] = useState<string>('')
   const isPaid: boolean = useSelector<RootState, boolean>(isPaidPurchase)
   const dispatch = useDispatch()
+  const curLang = localStorage.getItem('i18nextLng')
   const [userSubscription, setUserSubscription] = useState<ISubscriptionWithId>(
     {
       id_subscription: -1,
@@ -44,7 +47,7 @@ export const ExistingSubscription = ({
   const unsubscribeCallback = useCallback((): void => {
     getUnsubscribed(token)
       .then((resp) => {
-        setResponseModalText('You have successfully unsubscribed')
+        setResponseModalText(t('successUnsuscribe'))
         dispatch(resetPurchase() as any)
       })
       .catch((err) => {
@@ -53,7 +56,7 @@ export const ExistingSubscription = ({
   }, [responseModalText])
 
   const prolongTheSubscription = (): Promise<any> => {
-    return getProlongSubscription(token)
+    return getProlongSubscription(token, curLang)
   }
 
   useEffect(() => {
@@ -66,7 +69,8 @@ export const ExistingSubscription = ({
       {!isLoading ? (
         <>
           <ST.Header>
-            <span style={{ color: `${COLORS.yellow}` }}>Your</span> subscription
+            <span style={{ color: `${COLORS.yellow}` }}>{t('your')}</span>{' '}
+            {t('subscription')}
           </ST.Header>
           <SubscriptionCard
             props={userSubscription}

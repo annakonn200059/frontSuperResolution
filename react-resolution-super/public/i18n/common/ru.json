@@ -1,0 +1,12 @@
+{
+  "coefficients": "Коэффициенты",
+  "submit": "Подтвердить",
+  "yes": "Да",
+  "no": "Нет",
+  "name": "Имя",
+  "email": "Email",
+  "role": "Роль",
+  "finished": "Завершено!",
+  "uploadedFile": "Файл был загружен!",
+  "processingFile": "Файл в процессе загрузки"
+}
