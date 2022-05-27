@@ -9,6 +9,7 @@
   "users": "Users",
   "userName": "User name",
   "name": "name",
+  "role": "Role",
   "password": "Password",
   "current": "Current",
   "change": "Change",

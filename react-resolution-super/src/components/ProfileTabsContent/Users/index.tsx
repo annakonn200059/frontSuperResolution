@@ -38,7 +38,7 @@ export const Users: FC = () => {
             <ST.Field>{t('profile:userName')}</ST.Field>
             <ST.Field>Email</ST.Field>
             <ST.Field>{t('profile:dateJoined')}</ST.Field>
-            <ST.Field>{t('common:role')}</ST.Field>
+            <ST.Field>{t('profile:role')}</ST.Field>
             <ST.Field>{t('profile:editRole')}</ST.Field>
           </ST.Row>
           {users.map((user) => (

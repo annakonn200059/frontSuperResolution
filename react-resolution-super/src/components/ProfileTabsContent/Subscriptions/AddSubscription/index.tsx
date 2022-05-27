@@ -73,6 +73,7 @@ const AddContactInputs: FC<IAddSubscriptionsInputs> = ({
             onChange={handleChange}
             id={'subscription_name'}
             name={'subscription_name'}
+            error={errors.subscription_name}
           />
         </ST.InputWrapper>
 
@@ -86,6 +87,7 @@ const AddContactInputs: FC<IAddSubscriptionsInputs> = ({
             onChange={handleChange}
             id={'cost'}
             name={'cost'}
+            error={errors.cost}
           />
         </ST.InputWrapper>
 
@@ -122,6 +124,7 @@ const AddContactInputs: FC<IAddSubscriptionsInputs> = ({
             onChange={handleChange}
             id={'downloads_amount'}
             name={'downloads_amount'}
+            error={errors.downloads_amount}
           />
         </ST.InputWrapper>
 
@@ -138,11 +141,10 @@ const AddContactInputs: FC<IAddSubscriptionsInputs> = ({
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
               onEnterSubmit(e, handleSubmit)
             }
+            error={errors.description}
           />
         </ST.InputWrapper>
-        <ST.ErrorText>
-          {errorText ? errorText : yupErrorHandler(errors)}
-        </ST.ErrorText>
+        <ST.ErrorText>{errorText}</ST.ErrorText>
       </ST.InputsContainer>
       <ST.SubmitButton
         type={'submit'}

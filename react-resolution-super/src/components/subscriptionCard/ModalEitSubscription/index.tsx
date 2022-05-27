@@ -98,7 +98,7 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
   const [, setInfiniteType] = useState(false)
   const isFiniteDownloadsAmountList = [`${t('finite')}`, `${t('infinite')}`]
 
-  const { handleChange, handleSubmit, values } = useFormik({
+  const { handleChange, handleSubmit, values, errors } = useFormik({
     initialValues: { ...subscriptionInfo },
     onSubmit: async () => {
       const changedFields: ISubscription = {}
@@ -145,6 +145,7 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
             onChange={handleChange}
             id={'subscription_name'}
             name={'subscription_name'}
+            error={errors.subscription_name}
           />
         </ST.InputWrapper>
 
@@ -158,6 +159,7 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
             onChange={handleChange}
             id={'cost'}
             name={'cost'}
+            error={errors.cost}
           />
         </ST.InputWrapper>
 
@@ -198,6 +200,7 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
             onChange={handleChange}
             id={'downloads_amount'}
             name={'downloads_amount'}
+            error={errors.downloads_amount}
           />
         </ST.InputWrapper>
 
@@ -214,9 +217,10 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
             onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
               onEnterSubmit(e, handleSubmit)
             }
+            error={errors.description}
           />
         </ST.InputWrapper>
-        <ST.ErrorText>{errorText ? errorText : ''}</ST.ErrorText>
+        <ST.ErrorText>{errorText}</ST.ErrorText>
       </ST.InputsContainer>
       <ST.SubmitButton
         type={'submit'}

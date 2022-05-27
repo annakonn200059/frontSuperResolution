@@ -12,5 +12,12 @@
   "toAccess": "to access this coefficient",
   "coefficients": "Coefficients",
   "submit": "Submit",
-  "download": "DOWNLOAD YOUR SUPER IMAGE"
+  "download": "DOWNLOAD YOUR SUPER IMAGE",
+  "signUp": "SIGN UP",
+  "signIn": "SIGN IN",
+  "createAcc": "Create an account to access all the features!",
+  "register": "Register",
+  "alreadyHave": "Already have an account?",
+  "loginNow": "Login now to continue uploading photos!",
+  "dontHaveAcc": "Don't have an account?",
 }

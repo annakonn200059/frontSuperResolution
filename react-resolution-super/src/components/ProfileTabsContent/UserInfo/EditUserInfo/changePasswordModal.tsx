@@ -84,6 +84,7 @@ export const ChangePasswordModal: FC<IModalProps> = ({
           value={values.oldPassword}
           onChange={handleChange}
           disabled={isDisabled}
+          error={errors.oldPassword}
           id={'oldPassword'}
           name={'oldPassword'}
         />
@@ -95,6 +96,7 @@ export const ChangePasswordModal: FC<IModalProps> = ({
           value={values.newPassword}
           onChange={handleChange}
           disabled={isDisabled}
+          error={errors.newPassword}
           id={'newPassword'}
           name={'newPassword'}
         />
@@ -107,12 +109,11 @@ export const ChangePasswordModal: FC<IModalProps> = ({
           onChange={handleChange}
           disabled={isDisabled}
           id={'newRepeatPassword'}
+          error={errors.newRepeatPassword}
           name={'newRepeatPassword'}
           onKeyDown={(e) => onEnterSubmit(e, handleSubmit)}
         />
-        <ST.ErrorText>
-          {errorText ? errorText : yupErrorHandler(errors)}
-        </ST.ErrorText>
+        <ST.ErrorText>{errorText}</ST.ErrorText>
 
         <ST.SubmitButton
           type={'submit'}

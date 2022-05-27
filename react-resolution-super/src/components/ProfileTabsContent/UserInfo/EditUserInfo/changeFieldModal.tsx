@@ -93,14 +93,13 @@ export const ChangeFieldModal: FC<IModalProps> = ({
           placeholder={`${mode === 'name' ? `${t('name')}` : 'email'}`}
           value={values.field}
           onChange={handleChange}
+          error={errors.field}
           id={'field'}
           name={'field'}
           disabled={isDisabled}
           onKeyDown={(e) => onEnterSubmit(e, handleSubmit)}
         />
-        <ST.ErrorText>
-          {errorText ? errorText : yupErrorHandler(errors)}
-        </ST.ErrorText>
+        <ST.ErrorText>{errorText}</ST.ErrorText>
 
         <ST.SubmitButton
           type={'submit'}

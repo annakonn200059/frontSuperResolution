@@ -19,7 +19,11 @@ export const InputsContainer = styled.div`
   flex-direction: column;
 `
 
-export const Input = styled.input`
+interface InputProps {
+  error?: string
+}
+
+export const Input = styled.input<InputProps>`
   padding: 0 20px 3px 20px;
   width: calc(100% - 40px);
   max-width: 480px;
