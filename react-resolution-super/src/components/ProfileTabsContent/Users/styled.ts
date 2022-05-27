@@ -20,7 +20,7 @@ interface IField {
 
 export const Row = styled.div<IField>`
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr 1.2fr 0.4fr;
+  grid-template-columns: 1fr 2fr 1.2fr 1fr 1.1fr;
   padding: 20px;
   background-color: ${(props) => (props.header ? 'rgba(0,0,0,0.03)' : '')};
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);

@@ -114,7 +114,7 @@ export const Photos = styled.div`
 `
 
 export const DescriptionText = styled.div`
-  text-align: left;
+  text-align: justify;
   max-width: 380px;
   white-space: pre-wrap;
   font-size: 16px;

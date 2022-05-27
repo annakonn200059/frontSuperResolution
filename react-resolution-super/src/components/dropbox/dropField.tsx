@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react'
 import * as ST from './styled'
-import DropZone, { Accept, useDropzone } from 'react-dropzone'
-import ImagePreview from './imagePreview'
-import Placeholder from './placeholder'
-import ShowError from './showError'
-import BoxContent from './boxContent'
+import { useDropzone } from 'react-dropzone'
 import { Preloader } from '../preloader'
+import { useTranslation } from 'react-i18next'
 
 interface IDropField {
   handleOnDrop: (newImageFile: File[]) => void
@@ -21,9 +18,9 @@ const DropZoneField = ({
   files,
   resetForm,
   isLoading,
-  value,
   downloadItem,
 }: IDropField) => {
+  const { t } = useTranslation(['main', 'common'])
   const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
     onDrop: handleOnDrop,
     accept: {
@@ -56,9 +53,7 @@ const DropZoneField = ({
         <ST.DropeZone {...getRootProps({ className: 'dropzone' })}>
           <input {...getInputProps()} />
           <ST.ImageBox />
-          <ST.HeaderBox>
-            Drag and drop image here, or click to select from folder
-          </ST.HeaderBox>
+          <ST.HeaderBox>{t('drag')}</ST.HeaderBox>
         </ST.DropeZone>
       ) : (
         <Preloader />
@@ -67,10 +62,10 @@ const DropZoneField = ({
         <ST.FileNamesContainer>
           <ST.FileNameHeader finishedUpload={!!downloadItem}>
             {downloadItem
-              ? 'Finished!'
+              ? `${t('common:finished')}`
               : !isLoading
-              ? 'Image was uploaded!'
-              : 'Image is processing'}
+              ? `${t('common:uploadedFile')}`
+              : `${t('common:processingFile')}`}
           </ST.FileNameHeader>
           <ST.FileName>{filesArr}</ST.FileName>
         </ST.FileNamesContainer>

@@ -6,6 +6,7 @@ import { Carousel } from '../../../ui/Carousel'
 import { buySubscription } from 'api/userPurchase'
 import { Preloader } from '../../../preloader'
 import { COLORS } from '../../../../constants/colors'
+import { useTranslation } from 'react-i18next'
 
 interface ISubscriptionOffers {
   token: string
@@ -13,6 +14,7 @@ interface ISubscriptionOffers {
 }
 
 export const SubscriptionOffers = ({ token }: ISubscriptionOffers) => {
+  const { t } = useTranslation(['profile'])
   const [isLoading, setLoading] = useState<boolean>(false)
   const [allSubscriptions, setAllSubscriptions] =
     useGetAllSubscriptions(setLoading)
@@ -28,9 +30,11 @@ export const SubscriptionOffers = ({ token }: ISubscriptionOffers) => {
         {!isLoading ? (
           <>
             <ST.OffersHeader>
-              You have
-              <span style={{ color: `${COLORS.yellow}` }}>no subscription</span>
-              <ST.SubHeader>Choose from ones below</ST.SubHeader>
+              {t('youHave')}
+              <span style={{ color: `${COLORS.yellow}` }}>
+                {t('noSubscription')}
+              </span>
+              <ST.SubHeader> {t('choose')}</ST.SubHeader>
             </ST.OffersHeader>
             <ST.CarouselWrapper>
               <Carousel show={1} infiniteLoop={true}>

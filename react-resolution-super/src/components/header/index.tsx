@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 import i18next from 'i18next'
 
 const Header = () => {
-  const { i18n, t } = useTranslation(['common'])
+  const { i18n, t } = useTranslation(['profile'])
 
   const isAuth = IsAuth()
   const [imgUser, setImgUser] = useState<string>('')
@@ -73,9 +73,11 @@ const Header = () => {
                   {menuopen && (
                     <ST.DropdownMenu>
                       <ST.MenuItem onClick={() => navigate('/profile')}>
-                        Profile
+                        {t('profile')}
                       </ST.MenuItem>
-                      <ST.MenuItem onClick={handleLogout}>Logout</ST.MenuItem>
+                      <ST.MenuItem onClick={handleLogout}>
+                        {t('logout')}
+                      </ST.MenuItem>
                     </ST.DropdownMenu>
                   )}
                 </ST.MenuClosed>

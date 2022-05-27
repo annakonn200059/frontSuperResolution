@@ -5,5 +5,8 @@
   "no": "No",
   "name": "Name",
   "email": "Email",
-  "role": "Role"
+  "role": "Role",
+  "finished": "Finished!",
+  "uploadedFile": "File was uploaded!",
+  "processingFile": "File is processing"
 }

@@ -1,0 +1,8 @@
+{
+  "apiDoc": "Super Resolution API Documentation",
+  "header": "Super Resolution cURL Example",
+  "getToken": "Get apiToken ",
+  "here": "here",
+  "youCan": "You can paste img URL or local image file in 'image' field:",
+  "python": "Super Resolution Python Example"
+}

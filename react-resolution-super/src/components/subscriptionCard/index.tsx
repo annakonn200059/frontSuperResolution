@@ -19,6 +19,7 @@ import {
   setUserPurchase,
 } from '../../store/actions/purchase'
 import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 
 interface ICard {
   key?: number
@@ -51,6 +52,7 @@ const SubscriptionCard = ({
   shouldNotTransform,
   onBuySubscription,
 }: ICard) => {
+  const { t } = useTranslation(['profile'])
   const hunel = new HunelCreditCard()
   const dispatch = useDispatch()
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
@@ -73,7 +75,6 @@ const SubscriptionCard = ({
         payment_date: new Date().toDateString(),
       })
     )
-    console.log(props.id_subscription)
   }
 
   useEffect(() => {
@@ -132,36 +133,36 @@ const SubscriptionCard = ({
           <ST.Price>
             {props.cost}
             {'₽'}
-            <span style={{ color: '#6c757d' }}>/mo</span>
+            <span style={{ color: '#6c757d' }}>/m</span>
           </ST.Price>
           <ST.SubscriptionInfoList>
             <ST.InfoItem>
               <ST.AmountSpan>
                 {props.subsription_type === 0
-                  ? props.downloads_amount
-                  : 'Infinite'}
+                  ? props.downloads_amount + ' '
+                  : `${t('infinite')} `}
               </ST.AmountSpan>
-              {' uploads a day'}
+              {t('uploadsADay')}
             </ST.InfoItem>
-            <ST.InfoItem>{'All coefficients are available'}</ST.InfoItem>
+            <ST.InfoItem>{t('firstDescr')}</ST.InfoItem>
             <ST.InfoItem>{props.description}</ST.InfoItem>
           </ST.SubscriptionInfoList>
           <ST.ActionsButtonsContainer>
             {onProlong && !isPaid && (
               <ST.ProlongButton onClick={() => handlePayModal()}>
-                Pay to prolong
+                {t('payProlong')}
               </ST.ProlongButton>
             )}
             {unsubscribe && !isAdmin && (
               <ST.UnsubscribeButton onClick={() => handleUnsubscribeModal()}>
-                Unsubscribe
+                {t('unsubscribe')}
               </ST.UnsubscribeButton>
             )}
             {onBuySubscription && !isAdmin && (
               <ST.UnsubscribeButton
                 onClick={() => handleBuySubscriptionModal()}
               >
-                Buy
+                {t('buy')}
               </ST.UnsubscribeButton>
             )}
           </ST.ActionsButtonsContainer>

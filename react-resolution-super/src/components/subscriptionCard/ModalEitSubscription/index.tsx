@@ -5,6 +5,7 @@ import { patchSubscription } from 'api/subscription'
 import { onEnterSubmit } from 'utils/onEnterSubmit'
 import { IPatchSubscription, ISubscription } from 'types/subscription'
 import BaseSelect from '../../ui/BaseSelect'
+import { useTranslation } from 'react-i18next'
 
 interface IConfirmDelete {
   onDelete: () => void
@@ -32,18 +33,17 @@ export const ConfirmDelete: FC<IConfirmDelete> = ({
   onDelete,
   closeModal,
 }: IConfirmDelete) => {
+  const { t } = useTranslation(['profile,common'])
   return (
     <>
-      <ST.ModalText>
-        Do you really want to delete this subscription?
-      </ST.ModalText>
+      <ST.ModalText>{t('profile:agreeDelete')}</ST.ModalText>
       <ST.ConfirmButton
         onClick={() => {
           onDelete()
           closeModal()
         }}
       >
-        Yes
+        {t('common:yes')}
       </ST.ConfirmButton>
     </>
   )
@@ -53,16 +53,17 @@ export const ConfirmUnsubscribe: FC<IConfirmUnsubscribe> = ({
   onUnsubscribe,
   closeModal,
 }: IConfirmUnsubscribe) => {
+  const { t } = useTranslation(['profile, common'])
   return (
     <>
-      <ST.ModalText>Do you really want to unsubscribe?</ST.ModalText>
+      <ST.ModalText>{t('profile:confirmUnsubscribe')}</ST.ModalText>
       <ST.ConfirmButton
         onClick={() => {
           onUnsubscribe()
           closeModal()
         }}
       >
-        Yes
+        {t('common:yes')}
       </ST.ConfirmButton>
     </>
   )
@@ -92,9 +93,10 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
   subscriptionInfo,
   updateSubscriptionList,
 }: IEditSubscription) => {
+  const { t } = useTranslation(['profile'])
   const [errorText, setErrorText] = useState<string>('')
   const [, setInfiniteType] = useState(false)
-  const isFiniteDownloadsAmountList = ['Finite', 'Infinite']
+  const isFiniteDownloadsAmountList = [`${t('finite')}`, `${t('infinite')}`]
 
   const { handleChange, handleSubmit, values } = useFormik({
     initialValues: { ...subscriptionInfo },
@@ -131,11 +133,11 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
 
   return (
     <>
-      <ST.ModalText>Edit this subscription</ST.ModalText>
+      <ST.ModalText>{t('editSubscr')}</ST.ModalText>
       <ST.InputsContainer>
         <ST.InputWrapper>
           <ST.InputLabel>
-            <label htmlFor="subscription_name">Subscription name</label>
+            <label htmlFor="subscription_name">{t('subscrName')}</label>
           </ST.InputLabel>
           <ST.Input
             placeholder={''}
@@ -148,7 +150,7 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
 
         <ST.InputWrapper>
           <ST.InputLabel>
-            <label htmlFor="cost">Cost</label>
+            <label htmlFor="cost">{t('cost')}</label>
           </ST.InputLabel>
           <ST.Input
             placeholder={''}
@@ -162,9 +164,7 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
         <ST.InputWrapper>
           <ST.SelectWrapper>
             <ST.InputLabel>
-              <label htmlFor="subsription_type">
-                Is infinite downloads amount
-              </label>
+              <label htmlFor="subsription_type">{t('isInfinite')}</label>
             </ST.InputLabel>
             <BaseSelect
               isSmallSelect={true}
@@ -189,7 +189,7 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
 
         <ST.InputWrapper>
           <ST.InputLabel>
-            <label htmlFor="downloads_amount">Downloads amount</label>
+            <label htmlFor="downloads_amount">{t('downloads')}</label>
           </ST.InputLabel>
           <ST.Input
             placeholder={''}
@@ -203,7 +203,7 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
 
         <ST.InputWrapper>
           <ST.InputLabel>
-            <label htmlFor="description">Description</label>
+            <label htmlFor="description">{t('description')}</label>
           </ST.InputLabel>
           <ST.Input
             placeholder={''}
@@ -225,7 +225,7 @@ export const ModalEditSubscription: FC<IEditSubscription> = ({
           handleSubmit()
         }}
       >
-        Edit
+        {t('editSubscr')}
       </ST.SubmitButton>
     </>
   )

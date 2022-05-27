@@ -10,6 +10,7 @@ import InformModal from '../ui/Modals/InfromModal'
 import { saveAs } from 'file-saver'
 import { useDispatch } from 'react-redux'
 import { setInactivePurchase } from 'store/actions/purchase'
+import { useTranslation } from 'react-i18next'
 
 interface IDropBox {
   token: string
@@ -25,6 +26,7 @@ const DropBox = ({
   isSubscription,
   isPaidSubscription,
 }: IDropBox) => {
+  const { t } = useTranslation(['main', 'common', 'profile'])
   const dispatch = useDispatch()
   const [files, setFiles] = useState<File[]>([])
   const [isLoading, setLoading] = useState<boolean>(false)
@@ -44,7 +46,7 @@ const DropBox = ({
 
   const handleFormSubmit = async (formProps: any) => {
     if (formProps.name.split('.').length > 2) {
-      setErrorText('File name includes more than one dots')
+      setErrorText(t('profile:fileWithDots'))
       return false
     }
     const fd = new FormData()
@@ -63,11 +65,12 @@ const DropBox = ({
           setLoading(false)
         })
     } catch (err) {
-      setErrorText('Error')
+      setErrorText(t('profile:error'))
     }
   }
   const handleOnDrop = useCallback(
     (newImageFile: File[]) => {
+      setDownloadItem('')
       setFiles(newImageFile)
     },
     [files]
@@ -105,7 +108,7 @@ const DropBox = ({
             }
           })
           .catch((err) => {
-            setErrorText('Error')
+            setErrorText(t('profile:error'))
           })
       }
     },
@@ -113,11 +116,11 @@ const DropBox = ({
 
   const checkFilledData = (): boolean => {
     if (files.length === 0) {
-      setErrorText('No image was chosen')
+      setErrorText(t('main:noImage'))
       return false
     }
     if (chosenCoefficient === -1) {
-      setErrorText('Chose coefficient')
+      setErrorText(t('profile:choseCoefficient'))
       return false
     } else return true
   }
@@ -129,11 +132,11 @@ const DropBox = ({
   const modalText = (
     <ST.ModalHeader>
       {token ? (
-        '\nPurchase a subscription'
+        `\n${t('main:purchaseSubscr')}`
       ) : (
-        <ST.LoginLink onClick={redirectLogin}>Login</ST.LoginLink>
+        <ST.LoginLink onClick={redirectLogin}>{t('main:login')}</ST.LoginLink>
       )}{' '}
-      to access this coefficient
+      {t('main:toAccess')}
     </ST.ModalHeader>
   )
 
@@ -167,7 +170,7 @@ const DropBox = ({
       <ST.ButtonContainer>
         <BaseSelect
           isSmallSelect={true}
-          placeHolder={'Coefficients'}
+          placeHolder={`${t('main:coefficients')}`}
           listItems={coefficients}
           name={'departmentHead'}
           value={values.coefficientValue}
@@ -182,13 +185,12 @@ const DropBox = ({
             handleSubmit()
           }}
         >
-          Submit
+          {t('main:submit')}
         </ST.SubmitButton>
       </ST.ButtonContainer>
       {downloadItem && (
         <ST.DownloadPhotoLink onClick={downloadFile}>
-          {' '}
-          DOWNLOAD YOUR SUPER IMAGE
+          {t('main:download')}
         </ST.DownloadPhotoLink>
       )}
       <ST.ErrorText>{errorText ? errorText : ''}</ST.ErrorText>
