@@ -120,7 +120,7 @@ export const SubmitButton = styled.button`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 10px 20px;
+  padding: 20px 20px 23px 20px;
   width: 140px;
   height: 40px;
   background: ${COLORS.blue};

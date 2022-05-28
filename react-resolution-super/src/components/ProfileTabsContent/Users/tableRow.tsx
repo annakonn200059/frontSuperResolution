@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 
 interface UserRow {
   userData: User
+  amountAdmin: number
 }
 
 interface IRadioButton {
@@ -29,12 +30,13 @@ const ToggleSwitch = ({ value, onChange }: IRadioButton) => {
   )
 }
 
-export const TableRow = ({ userData }: UserRow) => {
+export const TableRow = ({ userData, amountAdmin }: UserRow) => {
   const [radioButtonIsVisible, setRadioButtonIsVisible] = useState(false)
   const [value, setValue] = useState(userData.role === 'admin')
   const [hasChanged, setHasChanged] = useState(false)
   const token: string = useSelector<RootState, string>(accessToken)
   const [role, setRole] = useState<string>(userData.role)
+  const hideToggle = userData.role === 'admin' && amountAdmin < 2
 
   const handleChange = () => {
     setValue((prevState) => !prevState)
@@ -56,7 +58,7 @@ export const TableRow = ({ userData }: UserRow) => {
       <ST.Field>{userData.username}</ST.Field>
       <ST.Field>{userData.email}</ST.Field>
       <ST.Field>{userData.dateJoined}</ST.Field>
-      {radioButtonIsVisible ? (
+      {radioButtonIsVisible && !hideToggle ? (
         <ToggleSwitch value={value} onChange={handleChange} />
       ) : (
         <ST.Field>{role}</ST.Field>
@@ -64,7 +66,9 @@ export const TableRow = ({ userData }: UserRow) => {
       {!radioButtonIsVisible ? (
         <ST.EditImage
           onClick={() => {
-            setRadioButtonIsVisible(true)
+            if (!hideToggle) {
+              setRadioButtonIsVisible(true)
+            }
           }}
         />
       ) : (
