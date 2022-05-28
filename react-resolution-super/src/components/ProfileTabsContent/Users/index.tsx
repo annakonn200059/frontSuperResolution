@@ -5,15 +5,32 @@ import { User } from 'types/allUsers'
 import { Preloader } from '../../preloader'
 import { TableRow } from './tableRow'
 import { useTranslation } from 'react-i18next'
+import { AuthState } from 'types/authType'
+import { useSelector } from 'react-redux'
+import { RootState } from 'store/store'
+import { auth } from 'store/selectors'
 
 export const Users: FC = () => {
   const { t } = useTranslation(['profile', 'common'])
+  const authState: AuthState = useSelector<RootState, AuthState>(auth)
   const [users, setUsers] = useState<User[]>([])
   const [isLoading, setLoading] = useState(false)
+  const [amountAdmin, setAmountAdmin] = useState(0)
+
+  const filterUsers = (usersList: User[]): User[] => {
+    let filteredUserList: User[] = []
+    //user list without current admin
+    //count admins
+    usersList.forEach((user) => {
+      if (user.id !== authState.user._id) filteredUserList.push(user)
+      if (user.role === 'admin') setAmountAdmin((prevState) => prevState + 1)
+    })
+    return filteredUserList
+  }
 
   const onGetAllUsers = useCallback(() => {
     getAllUsers()
-      .then((resp) => setUsers(resp.users))
+      .then((resp) => setUsers(filterUsers(resp.users)))
       .finally(() => {
         setLoading(false)
       })
@@ -42,7 +59,7 @@ export const Users: FC = () => {
             <ST.Field>{t('profile:editRole')}</ST.Field>
           </ST.Row>
           {users.map((user) => (
-            <TableRow key={user.id} userData={user} />
+            <TableRow key={user.id} userData={user} amountAdmin={amountAdmin} />
           ))}
         </ST.Table>
       ) : (
