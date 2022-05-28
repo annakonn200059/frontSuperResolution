@@ -23,7 +23,13 @@ export const EditUserInfo: FC<IEditUserInfo> = ({
     useState<boolean>(false)
 
   const makePrivateEmail = (str: string): string => {
-    return str[0] + str[1] + '***@' + str.split('@')[1]
+    const splitedEmail = str.split('@')
+    const firstPartEmail = splitedEmail[0].length
+    if (firstPartEmail > 4) {
+      return str[0] + str[1] + '***@' + str.split('@')[1]
+    } else {
+      return Array(firstPartEmail + 1).join('*') + '@' + splitedEmail[1]
+    }
   }
 
   const handleChangeUserInfoModal = (mode: EditModalType): void => {

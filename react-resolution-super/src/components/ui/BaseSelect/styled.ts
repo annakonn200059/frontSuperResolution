@@ -15,7 +15,7 @@ export const SelectBlock = styled.div`
 
 export const DropDownList = styled.div<ISelect>`
   display: ${(props) => (props.isOpen ? 'flex' : 'none')};
-  width: ${(props) => (props.isSmallSelect ? '120px' : 'calc(100% - 40px)')};
+  width: ${(props) => (props.isSmallSelect ? '148px' : 'calc(100% - 40px)')};
   background: ${COLORS.white};
   box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
   border-radius: 0 0 10px 10px;
@@ -66,12 +66,12 @@ export const Select = styled.input<ISelect>`
     95% 50% no-repeat;
   box-shadow: ${(props) =>
     props.isOpen ? '0 -1px 8px rgba(0, 0, 0, 0.1)' : 'null'};
-  padding: 10px 30px 10px 20px;
+  padding: 10px 30px 15px 20px;
   height: 20px;
   font-weight: 400;
   font-size: 16px;
   line-height: 110%;
-  width: ${(props) => (props.isSmallSelect ? '90px' : 'calc(100% - 40px)')};
+  width: ${(props) => (props.isSmallSelect ? '118px' : 'calc(100% - 40px)')};
   color: ${COLORS.lightGrey};
 
   ::placeholder {
