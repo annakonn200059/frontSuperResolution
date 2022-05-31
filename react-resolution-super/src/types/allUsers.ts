@@ -1,4 +1,5 @@
 export interface User {
+  [key: string]: any
   id: number
   username: string
   email: string

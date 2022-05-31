@@ -35,6 +35,7 @@ export const Row = styled.div<IField>`
 
 export const Field = styled.div<IField>`
   margin: auto;
+  cursor: pointer;
 `
 
 export const EditImage = styled.div`
